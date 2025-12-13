@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光的干涉及繞射互動實驗 - Light Interference & Diffraction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="main-header">
+            <div class="header-content">
+                <h1>光的干涉及繞射</h1>
+                <p class="subtitle">選修物理：惠更斯原理與波的疊加</p>
+            </div>
+            <nav class="theory-nav">
+                <a href="#theory">原理說明</a>
+                <a href="#simulation" class="active">互動實驗</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <section id="simulation" class="simulation-section">
+                <div class="simulation-container">
+                    <canvas id="waveCanvas"></canvas>
+                    <div class="overlay-ui">
+                        <div class="status-indicator">
+                            <span class="dot"></span> 模擬運行中 realtime simulation
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label>
+                            <span class="label-text">光源模式 Light Source</span>
+                            <select id="modeSelect">
+                                <option value="double">雙狹縫干涉 (Double Slit)</option>
+                                <option value="single">單狹縫繞射 (Single Slit)</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <span class="label-text">波長 Wavelength ($\lambda$)</span>
+                            <input type="range" id="wavelengthSlider" min="10" max="60" value="30">
+                            <span class="value-display" id="wavelengthValue">30 units</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" id="slitDistGroup">
+                        <label>
+                            <span class="label-text">狹縫間距 Slit Distance ($d$)</span>
+                            <input type="range" id="slitDistanceSlider" min="20" max="150" value="60">
+                            <span class="value-display" id="slitDistanceValue">60 units</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <span class="label-text">模擬速度 Speed</span>
+                            <input type="range" id="speedSlider" min="0" max="5" step="0.1" value="2">
+                            <span class="value-display" id="speedValue">2.0x</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section id="theory" class="theory-section">
+                <div class="theory-card">
+                    <h2>惠更斯原理 (Huygens' Principle)</h2>
+                    <p>波前的每一點都可以視為產生球面子波的新波源。這些子波以原本的波速向外傳播，而新的波前則是這些子波的包絡面。</p>
+                </div>
+                <div class="theory-card">
+                    <h2>波的疊加原理 (Superposition Principle)</h2>
+                    <p>當兩列或多列波在同一介質中傳播並相遇時，介質中任一點的位移向量等於各列波單獨存在時該點位移向量的向量和。</p>
+                    <div class="formula-box">
+                        $$ y_{total} = y_1 + y_2 $$
+                    </div>
+                </div>
+                <div class="theory-card">
+                    <h2>干涉與繞射 (Interference & Diffraction)</h2>
+                    <p><strong>干涉：</strong>來自兩個（或多個）相干光源的波相遇時，產生強弱相間的條紋現象。</p>
+                    <p><strong>繞射：</strong>波在傳播過程中遇到障礙物或狹縫時，偏離直線傳播路徑而繞過障礙物邊緣的現象。</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>互動物理實驗室 &copy; 2025 | Designed for High School Physics</p>
+        </footer>
+    </div>
+
+    <!-- MathJax for rendering formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

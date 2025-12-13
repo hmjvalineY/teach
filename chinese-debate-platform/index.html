@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思辨與閱讀：國文專題研究平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="logo">思辨<span class="highlight">Mind</span></div>
+        <nav>
+            <ul>
+                <li><a href="#reading-section">專題閱讀</a></li>
+                <li><a href="#debate-section">議題辯論</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>深入文本，<br>辯證真理。</h1>
+                <p>結合當代議題閱讀與系統化辯論模擬，培養獨立思考與邏輯論證能力。</p>
+                <a href="#reading-section" class="btn primary-btn">開始探索</a>
+            </div>
+            <div class="hero-visual">
+                <!-- Abstract visual representation -->
+                <div class="circle c1"></div>
+                <div class="circle c2"></div>
+            </div>
+        </section>
+
+        <!-- Reading & Research Section -->
+        <section id="reading-section" class="section-container">
+            <div class="section-header">
+                <h2>專題閱讀與研究</h2>
+                <p>探討當代關鍵議題，透過深度閱讀建構知識體系。</p>
+            </div>
+
+            <div class="topics-grid">
+                <!-- Topic Card: Gender -->
+                <div class="topic-card" data-topic="gender">
+                    <div class="card-icon">⚧</div>
+                    <h3>性別議題</h3>
+                    <p>探討性別平权、多元性別認同及社會刻板印象的解構。</p>
+                </div>
+                <!-- Topic Card: Human Rights -->
+                <div class="topic-card" data-topic="human-rights">
+                    <div class="card-icon">⚖️</div>
+                    <h3>人權議題</h3>
+                    <p>關注基本人權、難民問題及社會正義的實踐。</p>
+                </div>
+                <!-- Topic Card: Ocean -->
+                <div class="topic-card" data-topic="ocean">
+                    <div class="card-icon">🌊</div>
+                    <h3>海洋議題</h3>
+                    <p>海洋生態保育、塑膠污染及藍色經濟的永續發展。</p>
+                </div>
+                <!-- Topic Card: Environment -->
+                <div class="topic-card" data-topic="environment">
+                    <div class="card-icon">🌱</div>
+                    <h3>環境議題</h3>
+                    <p>氣候變遷、能源轉型及人類與自然的共生之道。</p>
+                </div>
+            </div>
+
+            <!-- Expanded Content Area (Hidden by default) -->
+            <div id="reading-content" class="reading-content hidden">
+                <button class="close-btn" onclick="closeReading()">×</button>
+                <h3 id="content-title"></h3>
+                <div id="content-body" class="article-body"></div>
+
+                <div class="research-form">
+                    <h4>研究報告撰寫</h4>
+                    <form id="report-form">
+                        <div class="form-group">
+                            <label>研究動機</label>
+                            <textarea placeholder="為何選擇此議題？"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>文獻摘要與觀點</label>
+                            <textarea placeholder="重點整理與分析..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>結論與反思</label>
+                            <textarea placeholder="你的發現與想法..."></textarea>
+                        </div>
+                        <button type="submit" class="btn secondary-btn">提交報告</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Debate Simulator Section -->
+        <section id="debate-section" class="section-container dark-theme">
+            <div class="section-header">
+                <h2>議題辯論模擬平台</h2>
+                <p>運用邏輯與證據，進行正反方深度論證。</p>
+            </div>
+
+            <div class="debate-setup">
+                <input type="text" id="debate-topic-input" placeholder="輸入辯論題目 (例如：台灣應全面廢除死刑)" value="台灣應全面廢除死刑">
+            </div>
+
+            <div class="debate-arena">
+                <!-- Pro Side -->
+                <div class="side pro-side">
+                    <div class="side-header">
+                        <h3>正方 (Affirmative)</h3>
+                        <span class="score" id="pro-score">0</span>
+                    </div>
+                    <div class="arguments-list" id="pro-arguments">
+                        <!-- Arguments will be added here -->
+                    </div>
+                    <div class="input-area">
+                        <select id="pro-type">
+                            <option value="data">數據資料 (Data)</option>
+                            <option value="expert">專家意見 (Expert)</option>
+                            <option value="example">實例佐證 (Example)</option>
+                        </select>
+                        <input type="text" id="pro-input" placeholder="輸入正方論點...">
+                        <button onclick="addArgument('pro')">發言</button>
+                    </div>
+                </div>
+
+                <!-- Center Gauge -->
+                <div class="center-gauge">
+                    <div class="gauge-container">
+                        <div class="gauge-needle" id="gauge-needle"></div>
+                        <div class="gauge-label">戰況優勢</div>
+                    </div>
+                </div>
+
+                <!-- Con Side -->
+                <div class="side con-side">
+                    <div class="side-header">
+                        <h3>反方 (Negative)</h3>
+                        <span class="score" id="con-score">0</span>
+                    </div>
+                    <div class="arguments-list" id="con-arguments">
+                        <!-- Arguments will be added here -->
+                    </div>
+                    <div class="input-area">
+                        <select id="con-type">
+                            <option value="data">數據資料 (Data)</option>
+                            <option value="expert">專家意見 (Expert)</option>
+                            <option value="example">實例佐證 (Example)</option>
+                        </select>
+                        <input type="text" id="con-input" placeholder="輸入反方論點...">
+                        <button onclick="addArgument('con')">發言</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 國文專題互動平台 by Antigravity</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

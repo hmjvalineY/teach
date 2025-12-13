@@ -1,0 +1,323 @@
+:root {
+    --bg-dark: #0f111a;
+    --bg-panel: #1a1d2b;
+    --text-main: #e0e6ed;
+    --text-dim: #94a3b8;
+    --accent-primary: #00f2ff;
+    /* Neon Cyan */
+    --accent-secondary: #ffb700;
+    /* Amber */
+    --accent-danger: #ff3366;
+    --border-color: #2d3748;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.main-header {
+    background-color: var(--bg-panel);
+    border-bottom: 2px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main-header h1 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--accent-primary);
+    letter-spacing: 1px;
+}
+
+.main-header .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.btn.primary {
+    background: var(--accent-primary);
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+}
+
+.btn.primary:hover {
+    background: #4dffff;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+}
+
+.btn.secondary {
+    background: transparent;
+    border: 1px solid var(--accent-secondary);
+    color: var(--accent-secondary);
+}
+
+.btn.secondary:hover {
+    background: rgba(255, 183, 0, 0.1);
+}
+
+/* Workspace Grid */
+.workspace {
+    flex: 1;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.panel {
+    background-color: var(--bg-panel);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--text-dim);
+}
+
+/* Code Panel */
+.code-panel {
+    width: 400px;
+    min-width: 300px;
+}
+
+.tabs {
+    display: flex;
+    gap: 5px;
+}
+
+.tab {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+}
+
+.tab.active {
+    color: var(--accent-primary);
+    border-bottom: 2px solid var(--accent-primary);
+}
+
+.code-editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+
+.command-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    overflow-y: auto;
+    max-height: 150px;
+}
+
+.block-category h3 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+}
+
+.code-block {
+    background: #2d3748;
+    color: var(--text-main);
+    border: 1px solid #4a5568;
+    padding: 4px 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.code-block:hover {
+    background: #4a5568;
+    border-color: var(--accent-primary);
+}
+
+#code-input {
+    flex: 1;
+    background-color: #0f111a;
+    border: 1px solid var(--border-color);
+    color: var(--accent-primary);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+}
+
+#code-input::selection {
+    background: rgba(0, 242, 255, 0.3);
+}
+
+.console-output {
+    height: 120px;
+    background: #000;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 8px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-color);
+}
+
+.log-line {
+    margin-bottom: 2px;
+    color: #ccc;
+}
+
+.log-line.system {
+    color: #888;
+    font-style: italic;
+}
+
+.log-line.error {
+    color: var(--accent-danger);
+}
+
+/* Simulation Panel */
+.sim-panel {
+    flex: 1;
+}
+
+.sim-stats {
+    display: flex;
+    gap: 15px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+}
+
+.canvas-wrapper {
+    flex: 1;
+    background-color: #111;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sim-canvas {
+    background-color: #eee;
+    /* Light floor for contrast usually, or dark grid */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.sim-controls {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+select {
+    background: #2d3748;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f111a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2d3748;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4a5568;
+}
+
+@media (max-width: 768px) {
+    .workspace {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .code-panel {
+        width: 100%;
+        height: 40%;
+    }
+
+    .sim-panel {
+        height: 60%;
+    }
+}

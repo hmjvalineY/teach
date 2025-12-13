@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高中萬有引力互動教學</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- 加入 MathJax 支援數學公式 -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <header class="glass-panel">
+        <h1>萬有引力定律 <span class="subtitle">Universal Gravitation</span></h1>
+        <p class="intro">探索宇宙中物體間的神秘吸引力</p>
+    </header>
+
+    <main class="container">
+        <!-- 教學區塊 -->
+        <section id="theory" class="glass-panel section-card">
+            <h2><i class="icon">📚</i> 理論基礎</h2>
+            <div class="content">
+                <p>牛頓萬有引力定律指出，宇宙中任何兩個物體都會互相吸引。這個力的大小與它們的質量乘積成正比，與它們距離的平方成反比。</p>
+                <div class="formula-box">
+                    $$ F = G \frac{m_1 m_2}{r^2} $$
+                </div>
+                <ul class="variable-list">
+                    <li><strong>F</strong>：萬有引力 (N)</li>
+                    <li><strong>G</strong>：萬有引力常數 ($6.67 \times 10^{-11} \ N \cdot m^2/kg^2$)</li>
+                    <li><strong>m₁, m₂</strong>：兩物體的質量 (kg)</li>
+                    <li><strong>r</strong>：兩物體質心間的距離 (m)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 互動模擬區塊 -->
+        <section id="simulation" class="glass-panel section-card">
+            <h2><i class="icon">🧪</i> 互動實驗室</h2>
+            <div class="simulation-container">
+                <div class="canvas-wrapper">
+                    <canvas id="gravityCanvas"></canvas>
+                    <div class="force-display">
+                        <span id="forceValue">0</span> N
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label>質量 1 ($m_1$)</label>
+                        <input type="range" id="m1" min="10" max="100" value="50" step="1">
+                        <span class="value-display"><span id="m1-val">50</span> kg</span>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>質量 2 ($m_2$)</label>
+                        <input type="range" id="m2" min="10" max="100" value="50" step="1">
+                        <span class="value-display"><span id="m2-val">50</span> kg</span>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>距離 ($r$)</label>
+                        <input type="range" id="distance" min="50" max="400" value="200" step="10">
+                        <span class="value-display"><span id="dist-val">2.0</span> m</span>
+                    </div>
+                </div>
+            </div>
+            <p class="hint"><i class="icon">💡</i> 試著改變質量與距離，觀察引力大小與箭頭長度的變化！</p>
+        </section>
+
+        <!-- 測驗區塊 -->
+        <section id="quiz" class="glass-panel section-card">
+            <h2><i class="icon">📝</i> 隨堂測驗</h2>
+            <form id="quizForm">
+                <div class="student-info">
+                    <div class="input-group">
+                        <label for="studentName">姓名 / 學號</label>
+                        <input type="text" id="studentName" required placeholder="請輸入您的姓名">
+                    </div>
+                </div>
+
+                <div class="quiz-questions">
+                    <!-- 問題會由 JS 動態生成，或直接寫死在這裡 -->
+                    <div class="question" data-id="q1">
+                        <p class="q-text">1. 若兩物體的距離變為原本的 2 倍，萬有引力會變為原本的幾倍？</p>
+                        <div class="options">
+                            <label><input type="radio" name="q1" value="2"> 2 倍</label>
+                            <label><input type="radio" name="q1" value="4"> 4 倍</label>
+                            <label><input type="radio" name="q1" value="0.5"> 1/2 倍</label>
+                            <label><input type="radio" name="q1" value="0.25"> 1/4 倍</label>
+                        </div>
+                    </div>
+
+                    <div class="question" data-id="q2">
+                        <p class="q-text">2. 若其中一個物體的質量變為 3 倍，另一個不變，距離也不變，萬有引力變為幾倍？</p>
+                        <div class="options">
+                            <label><input type="radio" name="q2" value="3"> 3 倍</label>
+                            <label><input type="radio" name="q2" value="9"> 9 倍</label>
+                            <label><input type="radio" name="q2" value="0.33"> 1/3 倍</label>
+                            <label><input type="radio" name="q2" value="1"> 不變</label>
+                        </div>
+                    </div>
+
+                    <div class="question" data-id="q3">
+                        <p class="q-text">3. 萬有引力常數 G 的數值是？</p>
+                        <div class="options">
+                            <label><input type="radio" name="q3" value="9.8"> 9.8</label>
+                            <label><input type="radio" name="q3" value="6.67e-11"> 6.67 × 10⁻¹¹</label>
+                            <label><input type="radio" name="q3" value="3e8"> 3 × 10⁸</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submitBtn" class="btn-primary">送出答案</button>
+                    <div id="loadingSpinner" class="spinner hidden"></div>
+                </div>
+                <div id="resultMessage" class="hidden"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 高中物理互動教學網. Designed with gravity.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

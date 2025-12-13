@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多媒體故事工坊 - Multimedia Story Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Using Remix Icon for UI elements -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-wrapper">
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="ri-quill-pen-fill"></i>
+                <span>故事工坊</span>
+            </div>
+            <nav class="main-nav">
+                <button class="nav-btn active" data-target="script-architect">
+                    <i class="ri-file-list-3-line"></i> 劇本建築師
+                </button>
+                <button class="nav-btn" data-target="poetic-resonance">
+                    <i class="ri-landscape-line"></i> 詩詞共鳴
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Designed for Chinese Literature</p>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <!-- Module 1: Script Architect -->
+            <section id="script-architect" class="module active">
+                <header class="module-header">
+                    <h2>Script Architect</h2>
+                    <p>輸入核心元素，AI 助手將為您搭建劇本骨架。</p>
+                </header>
+
+                <div class="workspace-grid">
+                    <div class="input-panel card">
+                        <h3><i class="ri-settings-3-line"></i> 參數設定</h3>
+                        <form id="scriptForm">
+                            <div class="form-group">
+                                <label>劇本類型 (Genre)</label>
+                                <select id="genreSelect">
+                                    <option value="campus">青春校園 (Youth Campus)</option>
+                                    <option value="scifi">近未來科幻 (Sci-Fi)</option>
+                                    <option value="wuxia">新派武俠 (Wuxia)</option>
+                                    <option value="suspense">懸疑推理 (Suspense)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>主角特質 (Protagonist)</label>
+                                <input type="text" id="protagonistInput" placeholder="例如：性格內向的天才駭客...">
+                            </div>
+                            <div class="form-group">
+                                <label>關鍵衝突 (Conflict)</label>
+                                <input type="text" id="conflictInput" placeholder="例如：發現了學校隱藏的秘密...">
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <i class="ri-magic-line"></i> 生成大綱
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="output-panel card">
+                        <h3><i class="ri-article-line"></i> 劇本大綱 (Outline)</h3>
+                        <div id="scriptOutput" class="empty-state">
+                            <p>尚未生成劇本...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 2: Poetic Resonance -->
+            <section id="poetic-resonance" class="module">
+                <header class="module-header">
+                    <h2>Poetic Resonance</h2>
+                    <p>為經典詩詞選擇合適的視聽氛圍，體驗多媒體的情感傳遞。</p>
+                </header>
+
+                <div class="resonance-container" id="resonanceContainer">
+                    <div class="poem-display">
+                        <h2 id="poemTitle" class="poem-title">靜夜思</h2>
+                        <h4 id="poemAuthor" class="poem-author">李白</h4>
+                        <div id="poemContent" class="poem-content">
+                            <p>床前明月光，</p>
+                            <p>疑是地上霜。</p>
+                            <p>舉頭望明月，</p>
+                            <p>低頭思故鄉。</p>
+                        </div>
+                    </div>
+
+                    <div class="director-console">
+                        <div class="console-group">
+                            <span>選擇作品</span>
+                            <div class="option-buttons">
+                                <button class="chip active" onclick="loadPoem('jingyesi')">靜夜思</button>
+                                <button class="chip" onclick="loadPoem('chibi')">念奴嬌·赤壁懷古</button>
+                                <button class="chip" onclick="loadPoem('shuidiao')">水調歌頭</button>
+                            </div>
+                        </div>
+
+                        <div class="console-group">
+                            <span>氛圍濾鏡 (Mood)</span>
+                            <div class="mood-toggles">
+                                <button class="mood-btn" data-mood="nostalgic">
+                                    <i class="ri-moon-line"></i> 思鄉/靜謐
+                                </button>
+                                <button class="mood-btn" data-mood="heroic">
+                                    <i class="ri-sword-line"></i> 豪放/壯烈
+                                </button>
+                                <button class="mood-btn" data-mood="melancholy">
+                                    <i class="ri-cloud-windy-line"></i> 婉約/愁緒
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生物分子遺傳學中心法則互動實驗室</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for a scientific look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="app-container">
+        <header>
+            <h1>Bio-Lab: 分子遺傳學中心法則</h1>
+            <nav>
+                <button id="btn-replication" class="nav-btn active">DNA 複製</button>
+                <button id="btn-transcription" class="nav-btn">轉錄 (Transcription)</button>
+                <button id="btn-translation" class="nav-btn">轉譯 (Translation)</button>
+            </nav>
+        </header>
+
+        <main id="lab-bench">
+            <div id="simulation-area">
+                <!-- The dynamic simulation happens here -->
+                <div id="workspace">
+                    <div class="placeholder-text">選擇上方實驗階段以開始</div>
+                </div>
+            </div>
+
+            <aside id="sidebar">
+                <div id="info-panel">
+                    <h2>當前任務</h2>
+                    <p id="instruction-text">歡迎來到 Bio-Lab。請從上方選擇一個實驗階段來探索中心法則。</p>
+                </div>
+
+                <div id="toolbox">
+                    <h3>工具箱</h3>
+                    <div class="tool-grid">
+                        <!-- Tools will be injected here via JS -->
+                    </div>
+                </div>
+
+                <div id="controls">
+                    <button id="btn-start">開始模擬</button>
+                    <button id="btn-reset">重置</button>
+                    <div class="speed-control">
+                        <label for="speed-range">速度:</label>
+                        <input type="range" id="speed-range" min="1" max="5" value="3">
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <footer>
+            <div id="status-bar">就緒</div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

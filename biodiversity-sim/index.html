@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生物多樣性與保育 | 互動學習平台</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Ecology Levels */
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .level-card {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .level-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Diversity Types */
+        .diversity-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .diversity-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>🌿</span> BioLife
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">知識探索</a>
+                <a href="simulation.html">棲地模擬室</a>
+            </div>
+            <a href="simulation.html" class="btn-primary">開始遊戲</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>探索生命的奧秘</h1>
+            <p>從微觀基因到宏觀生態系，了解生物多樣性如何維持地球的運作，並學習我們能為保育做些什麼。</p>
+            <a href="#learn-more" class="btn-primary">深入了解</a>
+        </section>
+
+        <section id="learn-more">
+            <h2 class="section-title">生態學研究層級</h2>
+            <!-- Interactive Levels Graphic will go here -->
+            <div class="levels-container">
+                <div class="card level-card">
+                    <span class="level-icon">🧬</span>
+                    <h3>個體 (Individual)</h3>
+                    <p>單一生物體，是生態學研究的最基本單位。</p>
+                </div>
+                <div class="card level-card">
+                    <span class="level-icon">👥</span>
+                    <h3>族群 (Population)</h3>
+                    <p>同一時間、同一地點的所有同種個體集合。</p>
+                </div>
+                <div class="card level-card">
+                    <span class="level-icon">🌳</span>
+                    <h3>群集 (Community)</h3>
+                    <p>生活在特定區域內的所有生物族群。</p>
+                </div>
+                <div class="card level-card">
+                    <span class="level-icon">🌍</span>
+                    <h3>生態系 (Ecosystem)</h3>
+                    <p>群集與其所在的非生物環境交互作用的系統。</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">生物多樣性的三個面向</h2>
+            <div class="diversity-types">
+                <div class="card">
+                    <h3>遺傳多樣性</h3>
+                    <p>Genetic Diversity</p>
+                    <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
+                    <p>指同種個體間基因組成的差異。遺傳變異越高，族群適應環境變化的能力越強。</p>
+                </div>
+                <div class="card">
+                    <h3>物種多樣性</h3>
+                    <p>Species Diversity</p>
+                    <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
+                    <p>指特定區域內物種的豐富度（種類數）與均勻度（數量比例）。</p>
+                </div>
+                <div class="card">
+                    <h3>生態系多樣性</h3>
+                    <p>Ecosystem Diversity</p>
+                    <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
+                    <p>指生物圈中各種棲地、生物群集及生態過程的豐富程度。</p>
+                </div>
+            </div>
+        </section>
+
+        <section
+            style="text-align: center; margin-top: 6rem; background: var(--primary-color); color: white; padding: 4rem; border-radius: 20px;">
+            <h2 style="color: white; margin-bottom: 2rem;">準備好面對挑戰了嗎？</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">進入棲地模擬實驗室，親自體驗人類開發對生態系造成的影響，並嘗試你的保育策略。</p>
+            <a href="simulation.html"
+                style="background: white; color: var(--primary-color); padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">進入模擬實驗室</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 BioLife 生物多樣性互動平台 | Educational Purpose Only</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

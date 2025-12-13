@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設計思考：校園綠色改造挑戰 Design Thinking Challenge</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Outfit:wght@300;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe g1"></div>
+        <div class="globe g2"></div>
+        <div class="globe g3"></div>
+    </div>
+
+    <header class="main-header glass-panel">
+        <div class="logo">
+            <i class="fa-solid fa-leaf"></i> Design Thinking Sim
+        </div>
+        <nav>
+            <div class="step-indicator active" data-step="0">簡介</div>
+            <div class="line"></div>
+            <div class="step-indicator" data-step="1">1.同理 Empathize</div>
+            <div class="line"></div>
+            <div class="step-indicator" data-step="2">2.定義 Define</div>
+            <div class="line"></div>
+            <div class="step-indicator" data-step="3">3.發想 Ideate</div>
+            <div class="line"></div>
+            <div class="step-indicator" data-step="4">4.原型 Prototype</div>
+            <div class="line"></div>
+            <div class="step-indicator" data-step="5">5.測試 Test</div>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        <!-- 0. Intro Section -->
+        <section id="section-intro" class="active-section">
+            <div class="hero-content vidro-card">
+                <h1>設計思考與生活應用：<br><span class="highlight">校園永續改造挑戰</span></h1>
+                <p>運用設計思考的五個步驟，為我們的校園打造一個更環保、更舒適的學習空間。</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-people-group"></i>
+                        <h3>以人為本</h3>
+                        <p>從使用者的需求出發</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h3>創新解方</h3>
+                        <p>跳脫框架的思考</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-tools"></i>
+                        <h3>動手實作</h3>
+                        <p>快速製作原型測試</p>
+                    </div>
+                </div>
+                <button class="btn-primary btn-lg" onclick="goToStep(1)">開始挑戰 <i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 1. Empathize Section -->
+        <section id="section-empathize">
+            <div class="content-wrapper glass-panel">
+                <h2><span class="step-num">01</span> 同理心 Empathize</h2>
+                <p class="subtitle">觀察並了解使用者的真實痛點</p>
+
+                <div class="scenario-container">
+                    <div class="scenario-visual">
+                        <i class="fa-solid fa-school-flag fa-5x"></i>
+                        <div class="weather-overlay sun"></div>
+                    </div>
+                    <div class="scenario-text">
+                        <h3>任務情境：炎熱的空地</h3>
+                        <p>學校中庭有一塊閒置的水泥空地。這裡是連接教學大樓的必經之路。</p>
+                        <div class="interview-cards">
+                            <div class="card user-voice">
+                                <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                                <div class="bubble">
+                                    "夏天走過這裡像是在烤箱一樣，完全沒有遮蔽物！"
+                                </div>
+                            </div>
+                            <div class="card user-voice">
+                                <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                                <div class="bubble">
+                                    "我想在這裡看書，但只有水泥地，感覺很生硬且不舒服。"
+                                </div>
+                            </div>
+                            <div class="card user-voice">
+                                <div class="avatar"><i class="fa-solid fa-chalkboard-user"></i></div>
+                                <div class="bubble">
+                                    "下大雨時這裡會積水，鞋子都會濕掉，很不方便。"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-area">
+                    <p class="instruction">你觀察到了什麼？請勾選使用者的核心需求（可複選）：</p>
+                    <div class="options-grid">
+                        <label class="check-btn"><input type="checkbox" value="heat"> 🥵 降溫與遮蔭</label>
+                        <label class="check-btn"><input type="checkbox" value="seat"> 🪑 休憩空間</label>
+                        <label class="check-btn"><input type="checkbox" value="drain"> 💧 排水改善</label>
+                        <label class="check-btn"><input type="checkbox" value="fun"> 🎢 更多遊樂設施</label>
+                    </div>
+                    <button class="btn-primary disabled" id="btn-empathize-next"
+                        onclick="checkEmpathize()">確認需求</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Define Section -->
+        <section id="section-define">
+            <div class="content-wrapper glass-panel">
+                <h2><span class="step-num">02</span> 定義問題 Define</h2>
+                <p class="subtitle">聚焦問題，擬定設計觀點 (Point of View)</p>
+
+                <div class="pov-statement-builder">
+                    <h3>完成你的設計觀點宣言：</h3>
+                    <div class="pov-box">
+                        <span class="pov-text">使用者是</span>
+                        <span class="highlight-tag">全校師生</span>
+                        <span class="pov-text">，他們需要</span>
+                        <select id="pov-need" class="glass-select">
+                            <option value="">(選擇需求)</option>
+                            <option value="cool">一個涼爽且舒適的綠色空間</option>
+                            <option value="shop">一個可以買零食的商店</option>
+                            <option value="gym">一個封閉的健身房</option>
+                        </select>
+                        <span class="pov-text">，因為</span>
+                        <select id="pov-insight" class="glass-select">
+                            <option value="">(選擇洞見)</option>
+                            <option value="boring">他們覺得學校很無聊</option>
+                            <option value="hot">目前的中庭過於炎熱且缺乏生態機能</option>
+                            <option value="lazy">他們不想走路</option>
+                        </select>
+                        <span class="pov-text">。</span>
+                    </div>
+                </div>
+                <div class="action-area">
+                    <button class="btn-primary" onclick="checkDefine()">確立目標</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Ideate Section -->
+        <section id="section-ideate">
+            <div class="content-wrapper glass-panel">
+                <h2><span class="step-num">03</span> 發想方案 Ideate</h2>
+                <p class="subtitle">腦力激盪，不設限的提出解方</p>
+
+                <div class="brainstorming-area">
+                    <p>針對「涼爽、舒適、生態」，我們可以有哪些設計元素？(點擊收集靈感)</p>
+                    <div class="idea-cloud" id="idea-cloud">
+                        <!-- Items generated by JS -->
+                    </div>
+                </div>
+
+                <div class="collected-ideas">
+                    <h4>已收集的靈感：</h4>
+                    <div id="inventory-list" class="inventory-row">
+                        <span class="empty-msg">尚未收集靈感...</span>
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button class="btn-primary disabled" id="btn-ideate-next" onclick="goToStep(4)">進入原型製作</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Prototype Section (The core game) -->
+        <section id="section-prototype">
+            <div class="workspace-container">
+                <div class="sidebar glass-panel">
+                    <h3><i class="fa-solid fa-shapes"></i> 建材庫</h3>
+                    <p class="sm-text">拖曳或點擊新增至畫面</p>
+                    <div class="tools-grid" id="tools-grid">
+                        <!-- Tools injected by JS based on Ideate choices -->
+                    </div>
+                    <div class="stats-panel">
+                        <div class="stat-row">
+                            <span>🌿 永續性</span>
+                            <div class="progress-bar">
+                                <div class="fill" id="bar-eco" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-row">
+                            <span>😊 舒適度</span>
+                            <div class="progress-bar">
+                                <div class="fill" id="bar-comfort" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-row">
+                            <span>💰 預算</span>
+                            <div class="progress-bar">
+                                <div class="fill" id="bar-budget" style="width: 100%; background: #e74c3c;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-warning" onclick="resetCanvas()"><i class="fa-solid fa-rotate-right"></i>
+                        重置</button>
+                </div>
+
+                <div class="canvas-area glass-panel">
+                    <div class="canvas-header">
+                        <h3>校園中庭預覽</h3>
+                        <div class="canvas-controls">
+                            <!-- Zoom/Pan controls could go here -->
+                        </div>
+                    </div>
+                    <div id="design-canvas" class="design-canvas">
+                        <div class="bg-layer"></div>
+                        <div class="grid-layer"></div>
+                        <!-- Elements placed here -->
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-action-bar glass-panel">
+                <p>完成設計了嗎？</p>
+                <button class="btn-primary btn-lg" onclick="goToStep(5)">提交設計與測試 <i
+                        class="fa-solid fa-check"></i></button>
+            </div>
+        </section>
+
+        <!-- 5. Test Section -->
+        <section id="section-test">
+            <div class="content-wrapper glass-panel result-card">
+                <h2><span class="step-num">05</span> 測試與驗收 Test</h2>
+
+                <div class="result-visualization">
+                    <div class="before-after">
+                        <div class="view-box">
+                            <h4>原始樣貌</h4>
+                            <div class="mini-view original"></div>
+                        </div>
+                        <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="view-box">
+                            <h4>你的設計</h4>
+                            <div class="mini-view" id="final-snapshot">
+                                <!-- Clone of canvas -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feedback-report">
+                    <h3>使用者回饋報告</h3>
+                    <div id="feedback-content" class="feedback-text">
+                        <!-- Generated feedback -->
+                    </div>
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <svg viewBox="0 0 36 36" class="circular-chart green">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" id="final-score-circle" stroke-dasharray="0, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage" id="final-score-text">0%</text>
+                            </svg>
+                            <span>綜合評分</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button class="btn-secondary" onclick="goToStep(3)">修改設計 (迭代)</button>
+                    <button class="btn-primary" onclick="downloadCertificate()">領取設計師證書 <i
+                            class="fa-solid fa-certificate"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="notification-area"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

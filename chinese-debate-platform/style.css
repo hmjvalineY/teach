@@ -1,0 +1,482 @@
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --secondary-accent: #3498db;
+    --bg-color: #f8f9fa;
+    --text-color: #333;
+    --card-bg: #fff;
+    --transition: all 0.3s ease;
+    --font-heading: 'Noto Sans TC', sans-serif;
+    /* Fallback */
+    --font-body: 'Noto Sans TC', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.highlight {
+    color: var(--accent-color);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+nav a:hover {
+    color: var(--accent-color);
+}
+
+/* Hero Section */
+.hero {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    position: relative;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    overflow: hidden;
+}
+
+.hero-content {
+    z-index: 2;
+    max-width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(44, 62, 80, 0.4);
+}
+
+.secondary-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+/* Abstract Visuals */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+.c1 {
+    width: 400px;
+    height: 400px;
+    background: var(--secondary-accent);
+    top: -50px;
+    right: -50px;
+}
+
+.c2 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent-color);
+    bottom: 50px;
+    right: 20%;
+}
+
+/* Section Common */
+.section-container {
+    padding: 6rem 10%;
+    min-height: 100vh;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Topics Grid */
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.topic-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.topic-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--secondary-accent);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Reading Content */
+.reading-content {
+    background: #fff;
+    margin-top: 3rem;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: fadeIn 0.5s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+}
+
+.article-body {
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.research-form {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-family: inherit;
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Debate Simulator */
+.dark-theme {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.dark-theme .section-header h2 {
+    color: #fff;
+}
+
+.debate-setup {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+#debate-topic-input {
+    width: 60%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    border: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.debate-arena {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+}
+
+.side {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+}
+
+.pro-side {
+    border-top: 5px solid var(--secondary-accent);
+}
+
+.con-side {
+    border-top: 5px solid var(--accent-color);
+}
+
+.side-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.arguments-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    padding-right: 10px;
+}
+
+.argument-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    animation: slideIn 0.3s ease;
+}
+
+.argument-type {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.input-area {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.input-area select,
+.input-area input {
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: none;
+    background: #333;
+    color: #fff;
+}
+
+.input-area input {
+    flex-grow: 1;
+}
+
+.input-area button {
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.pro-side button {
+    background: var(--secondary-accent);
+    color: white;
+}
+
+.con-side button {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* Center Gauge */
+.center-gauge {
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gauge-container {
+    width: 20px;
+    height: 300px;
+    background: #333;
+    border-radius: 10px;
+    position: relative;
+}
+
+.gauge-needle {
+    width: 40px;
+    height: 10px;
+    background: #fff;
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    /* Start at center */
+    transform: translateY(-50%);
+    border-radius: 5px;
+    transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.gauge-label {
+    position: absolute;
+    width: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px;
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .debate-arena {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .side {
+        height: 400px;
+    }
+
+    .center-gauge {
+        width: 100%;
+        height: 40px;
+        margin: 1rem 0;
+    }
+
+    .gauge-container {
+        width: 100%;
+        height: 10px;
+    }
+
+    .gauge-needle {
+        width: 10px;
+        height: 20px;
+        top: -5px;
+        left: 50%;
+        /* Needs JS adjustment for horizontal */
+    }
+}

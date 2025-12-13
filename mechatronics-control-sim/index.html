@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechatronics & Control Sim</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <h1><span class="icon">🤖</span> Mechatronics System Control <span class="subtitle">// 機電整合與控制</span></h1>
+            <div class="controls">
+                <button id="run-btn" class="btn primary">▶ RUN PROGRAM</button>
+                <button id="reset-btn" class="btn secondary">↺ RESET</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="workspace">
+            <!-- Left Panel: Programming Interface -->
+            <section class="panel code-panel">
+                <div class="panel-header">
+                    <h2>CONTROL LOGIC</h2>
+                    <div class="tabs">
+                        <button class="tab active" data-mode="blocks">Blocks</button>
+                        <button class="tab" data-mode="text">Script</button>
+                    </div>
+                </div>
+
+                <div class="code-editor-container">
+                    <div class="command-palette">
+                        <!-- Quick Insert Buttons for Block Mode -->
+                        <div class="block-category">
+                            <h3>Motors</h3>
+                            <button class="code-block" onclick="insertCode('motor(100, 100);')">Move Forward</button>
+                            <button class="code-block" onclick="insertCode('motor(-100, -100);')">Move Backward</button>
+                            <button class="code-block" onclick="insertCode('motor(0, 50);')">Turn Left</button>
+                            <button class="code-block" onclick="insertCode('motor(50, 0);')">Turn Right</button>
+                            <button class="code-block" onclick="insertCode('motor(0, 0);')">Stop</button>
+                        </div>
+                        <div class="block-category">
+                            <h3>Control</h3>
+                            <button class="code-block" onclick="insertCode('wait(1000);')">Wait 1s</button>
+                            <button class="code-block" onclick="insertCode('if (sensor.L < 50) {\n  \n}')">If Line
+                                Detected</button>
+                        </div>
+                    </div>
+                    <textarea id="code-input" spellcheck="false" placeholder="// Write your control code here...
+// Example:
+// motor(100, 100);
+// wait(1000);
+// motor(0, 0);">
+motor(100, 100);
+wait(1000);
+motor(0, 0);
+</textarea>
+                </div>
+
+                <div class="console-output" id="console">
+                    <div class="log-line system">> System Initialized...</div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Simulation -->
+            <section class="panel sim-panel">
+                <div class="panel-header">
+                    <h2>SIMULATION ARENA</h2>
+                    <div class="sim-stats">
+                        <span id="sensor-l-disp">L-Sensor: 0</span>
+                        <span id="sensor-r-disp">R-Sensor: 0</span>
+                    </div>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="sim-canvas" width="800" height="600"></canvas>
+                </div>
+                <div class="sim-controls">
+                    <label>Map:
+                        <select id="map-select">
+                            <option value="empty">Empty Arena</option>
+                            <option value="line-follow">Line Follower Track</option>
+                            <option value="maze">Simple Maze</option>
+                        </select>
+                    </label>
+                    <label>Show Sensors <input type="checkbox" id="show-sensors" checked></label>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Intro Modal (Optional) -->
+    <div id="intro-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Welcome to Mechatronics Sim</h2>
+            <p>Learn to control a robot using code!</p>
+            <button onclick="closeModal()">Start</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

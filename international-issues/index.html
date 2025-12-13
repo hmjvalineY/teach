@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Lens: Global Perspectives | Interactive Learning</title>
+    <meta name="description"
+        content="An interactive platform to develop critical reading skills through analysis of global issues like Climate Change and AI.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="logo">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Critical Lens</span>
+            </div>
+            <div class="nav-links">
+                <a href="#mission-hub" class="active">Mission Hub</a>
+                <a href="#about">About</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero-section">
+            <div class="hero-content">
+                <h1 class="glitch-text" data-text="Decode the World">Decode the World</h1>
+                <p class="subtitle">Master critical reading through the lens of global challenges.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="scrollToSection('mission-hub')">Start
+                        Investigation</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="globe-grid"></div>
+            </div>
+        </header>
+
+        <!-- Mission Hub (Topic Selection) -->
+        <section id="mission-hub" class="mission-hub">
+            <h2 class="section-title">Select Your Mission</h2>
+            <div class="mission-grid">
+                <!-- Mission 1: Global Warming -->
+                <div class="mission-card" onclick="app.loadMission('climate')">
+                    <div class="card-icon"><i class="fa-solid fa-temperature-arrow-up"></i></div>
+                    <h3>Climate Crisis</h3>
+                    <p>Analyze conflicting reports on global temperature rise.</p>
+                    <div class="tags">
+                        <span class="tag">Environment</span>
+                        <span class="tag">Data Analysis</span>
+                    </div>
+                </div>
+
+                <!-- Mission 2: AI Impact -->
+                <div class="mission-card" onclick="app.loadMission('ai')">
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3>The AI Age</h3>
+                    <p>Evaluate the ethical implications of Artificial Intelligence.</p>
+                    <div class="tags">
+                        <span class="tag">Technology</span>
+                        <span class="tag">Ethics</span>
+                    </div>
+                </div>
+
+                <!-- Mission 3: Globalization (Locked) -->
+                <div class="mission-card locked">
+                    <div class="card-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                    <h3>Globalization</h3>
+                    <p>Coming Soon</p>
+                    <div class="lock-overlay"><i class="fa-solid fa-lock"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Workspace (Hidden by default, shown when mission starts) -->
+        <main id="workspace" class="workspace hidden">
+            <div class="workspace-header">
+                <button class="btn btn-icon" onclick="app.returnToHub()"><i class="fa-solid fa-arrow-left"></i>
+                    Hub</button>
+                <h2 id="current-mission-title">Mission Title</h2>
+                <div class="progress-indicator">
+                    <div class="step active" data-step="1">1. Compare</div>
+                    <div class="step" data-step="2">2. Sort</div>
+                    <div class="step" data-step="3">3. Analyze</div>
+                </div>
+            </div>
+
+            <!-- Module 1: Perspective Detective -->
+            <section id="module-compare" class="module active">
+                <div class="instructions-bar">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p><strong>Perspective Detective:</strong> Read the two excerpts below. Highlight <em>emotive
+                            language</em> in Red and <em>factual data</em> in Green. <span
+                            class="lang-zh">(閱讀下方摘要，用紅色標示情感用語，綠色標示事實數據。)</span></p>
+                </div>
+                <div class="comparison-container">
+                    <div class="source-column source-a">
+                        <div class="source-header">
+                            <span class="badge">Source A</span>
+                            <h4 id="source-a-title">Eco-Watch Daily</h4>
+                        </div>
+                        <div class="text-content" id="text-a">
+                            <!-- Content injected via JS -->
+                        </div>
+                    </div>
+                    <div class="source-column source-b">
+                        <div class="source-header">
+                            <span class="badge">Source B</span>
+                            <h4 id="source-b-title">Industrial Times</h4>
+                        </div>
+                        <div class="text-content" id="text-b">
+                            <!-- Content injected via JS -->
+                        </div>
+                    </div>
+                </div>
+                <div class="module-footer">
+                    <div class="tools">
+                        <button class="tool-btn active" data-color="red" title="Highlight Bias"><i
+                                class="fa-solid fa-highlighter"></i> Bias</button>
+                        <button class="tool-btn" data-color="green" title="Highlight Facts"><i
+                                class="fa-solid fa-check"></i> Fact</button>
+                    </div>
+                    <button class="btn btn-next" onclick="app.nextStep()">Next Phase <i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- Module 2: Data Sorter -->
+            <section id="module-sort" class="module hidden">
+                <div class="instructions-bar">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p><strong>Data Sorter:</strong> Drag and drop the data cards into the correct chronological order
+                        or category. <span class="lang-zh">(拖曳數據卡片進行正確的排序或分類。)</span></p>
+                </div>
+                <div class="game-area">
+                    <div class="card-pool" id="card-pool">
+                        <!-- Cards injected via JS -->
+                    </div>
+                    <div class="drop-zones" id="drop-zones">
+                        <!-- Drop zones injected via JS -->
+                    </div>
+                </div>
+                <div class="module-footer">
+                    <button class="btn btn-check" onclick="app.checkSort()">Verify Order</button>
+                    <button class="btn btn-next" onclick="app.nextStep()" disabled id="btn-next-sort">Next Phase <i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- Module 3: Editor's Desk -->
+            <section id="module-analyze" class="module hidden">
+                <div class="instructions-bar">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p><strong>The Editor's Desk:</strong> Synthesize your findings. Choose the most objective headline
+                        and summary. <span class="lang-zh">(綜合分析：選擇最客觀的標題與摘要。)</span></p>
+                </div>
+                <div class="editor-interface">
+                    <div class="question-block">
+                        <h3>1. Which headline best represents the factual consensus?</h3>
+                        <div class="options-grid" id="q1-options">
+                            <!-- Options injected -->
+                        </div>
+                    </div>
+                    <div class="question-block">
+                        <h3>2. Identify the primary conflict between Source A and Source B.</h3>
+                        <textarea class="analysis-input" placeholder="Type your analysis here..."></textarea>
+                    </div>
+                </div>
+                <div class="module-footer">
+                    <button class="btn btn-primary" onclick="app.finishMission()">Submit Report</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

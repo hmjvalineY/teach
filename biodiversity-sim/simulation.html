@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>棲地破壞模擬 | BioLife</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            height: calc(100vh - var(--header-height));
+        }
+
+        .map-container {
+            background: #e0e0e0;
+            /* Placeholder for canvas bg */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #gameCanvas {
+            box-shadow: var(--shadow-md);
+            background: white;
+            cursor: crosshair;
+        }
+
+        .sidebar {
+            background: white;
+            border-left: var(--glass-border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-panel {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-bar-bg {
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 80%;
+            /* Demo width */
+            transition: width 0.3s ease;
+        }
+
+        .tools-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            padding: 15px;
+            border: 2px solid #eee;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tool-btn.active {
+            border-color: var(--primary-color);
+            background: rgba(46, 125, 50, 0.05);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .tool-btn:hover {
+            border-color: var(--primary-light);
+        }
+
+        .action-panel {
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>🌿</span> BioLife
+            </a>
+            <div class="nav-links">
+                <a href="index.html">知識探索</a>
+                <a href="simulation.html" class="active">棲地模擬室</a>
+            </div>
+            <button id="resetBtn" class="btn-primary" style="background: var(--secondary-color);">重置模擬</button>
+        </nav>
+    </header>
+
+    <div class="game-layout">
+        <div class="map-container">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+            <!-- Overlay Info -->
+            <div
+                style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 8px; pointer-events: none;">
+                <h4>目前模式: <span id="modeDisplay" style="color: var(--primary-color);">觀察中</span></h4>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="stats-panel">
+                <h3 style="margin-bottom: 15px;">生態指標</h3>
+
+                <div class="stat-item">
+                    <div class="stat-label">
+                        <span>物種數量 (Species)</span>
+                        <span id="speciesCount">100</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                        <div id="speciesBar" class="stat-bar-fill" style="width: 100%; background: #4CAF50;"></div>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-label">
+                        <span>棲地完整性 (Integrity)</span>
+                        <span id="integrityScore">100%</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                        <div id="integrityBar" class="stat-bar-fill" style="width: 100%; background: #2196F3;"></div>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-label">
+                        <span>零碎化指數 (Fragmentation)</span>
+                        <span id="fragIndex">Low</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                        <div id="fragBar" class="stat-bar-fill" style="width: 10%; background: #FF5722;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="margin-bottom: 15px;">工具箱</h3>
+                <div class="tools-panel">
+                    <button class="tool-btn active" data-tool="inspect">
+                        🔍<br>觀察
+                    </button>
+                    <button class="tool-btn" data-tool="road">
+                        🛣️<br>建設道路
+                    </button>
+                    <button class="tool-btn" data-tool="city">
+                        🏙️<br>城市開發
+                    </button>
+                    <button class="tool-btn" data-tool="corridor">
+                        🌉<br>生態廊道
+                    </button>
+                </div>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">
+                    <span style="color:red">*</span> 道路與城市會造成棲地零碎化<br>
+                    <span style="color:green">*</span> 生態廊道可連結破碎棲地
+                </p>
+            </div>
+
+            <div class="action-panel">
+                <h3>保育行動</h3>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">觀察目前生態狀況，提出你的改善策略。</p>
+                <textarea placeholder="寫下你的觀察與建議..."
+                    style="width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; resize: none; margin-bottom: 10px;"></textarea>
+                <button class="btn-primary" style="width: 100%;">提交方案</button>
+            </div>
+        </aside>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

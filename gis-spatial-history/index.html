@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時空地圖實驗室：地理空間資訊與歷史記憶</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-panel">
+        <div class="logo">
+            <i class="fa-solid fa-layer-group"></i> 時空地圖實驗室
+        </div>
+        <ul class="nav-links">
+            <li><a href="#concepts" class="active">空間科技</a></li>
+            <li><a href="#map-lab">地圖疊圖</a></li>
+            <li><a href="#detective">時空偵探</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content glass-panel">
+            <h1>探索地名變遷與社會記憶</h1>
+            <p>運用 GIS 地理資訊科技，穿越時空，看見地圖背後的故事。</p>
+            <a href="#concepts" class="cta-btn">開始探索 <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </header>
+
+    <!-- Section 1: Spatial Concepts -->
+    <section id="concepts" class="section">
+        <h2 class="section-title">空間資訊科技核心概念</h2>
+        <div class="cards-container">
+            <div class="card glass-panel" data-tilt>
+                <div class="card-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3>GIS 地理資訊系統</h3>
+                <p>Geographic Information System</p>
+                <div class="card-content">
+                    <p>整合、儲存、編輯、分析、分享和顯示地理參考資訊的系統。</p>
+                </div>
+            </div>
+            <div class="card glass-panel" data-tilt>
+                <div class="card-icon"><i class="fa-solid fa-satellite"></i></div>
+                <h3>Remote Sensing 遙測</h3>
+                <p>從遠距離獲取地球表面資訊</p>
+                <div class="card-content">
+                    <p>利用衛星或飛機感測器，不接觸物體而收集數據的技術。</p>
+                </div>
+            </div>
+            <div class="card glass-panel" data-tilt>
+                <div class="card-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                <h3>GPS 全球定位系統</h3>
+                <p>Global Positioning System</p>
+                <div class="card-content">
+                    <p>利用衛星定位，精確測定地表上任何一點的地理位置。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Historical Map Overlay (GIS Tool) -->
+    <section id="map-lab" class="section">
+        <h2 class="section-title">百年歷史地圖疊圖分析</h2>
+        <div class="map-interface glass-panel">
+            <div class="map-controls">
+                <div class="control-group">
+                    <label><i class="fa-solid fa-layer-group"></i> 現代底圖</label>
+                    <select id="base-layer-select">
+                        <option value="osm">OpenStreetMap (標準)</option>
+                        <option value="satellite">衛星影像 (模擬)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label><i class="fa-solid fa-scroll"></i> 歷史疊圖</label>
+                    <select id="overlay-layer-select">
+                        <option value="none">無</option>
+                        <option value="history_1904">1904 台灣堡圖 (模擬疊加)</option>
+                        <option value="history_1921">1921 地形圖 (模擬疊加)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label><i class="fa-solid fa-eye"></i> 疊圖透明度</label>
+                    <input type="range" id="opacity-slider" min="0" max="1" step="0.1" value="0.7">
+                </div>
+            </div>
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <!-- Section 3: Time Detective Game -->
+    <section id="detective" class="section">
+        <h2 class="section-title">時空偵探：地名變遷挑戰</h2>
+        <div class="game-container glass-panel">
+            <div class="game-sidebar">
+                <div class="score-board">
+                    <span><i class="fa-solid fa-star"></i> 分數: <b id="score">0</b></span>
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> 任務: <b id="task-count">1/5</b></span>
+                </div>
+                <div class="current-mission">
+                    <h3><i class="fa-solid fa-circle-question"></i> 當前任務</h3>
+                    <p id="mission-text">點擊「開始遊戲」來領取你的第一個偵探任務！</p>
+                    <button id="start-game-btn" class="game-btn">開始遊戲</button>
+                    <div id="feedback-area" class="hidden"></div>
+                </div>
+                <div class="inventory">
+                    <h4><i class="fa-solid fa-book-journal-whills"></i> 搜查筆記</h4>
+                    <ul id="clue-list">
+                        <!-- Clues will appear here -->
+                    </ul>
+                </div>
+            </div>
+            <div class="game-visual">
+                <!-- Mini map or visual clue area -->
+                <div id="game-map-highlight">
+                    <div class="placeholder-text">
+                        <i class="fa-solid fa-magnifying-glass-location"></i>
+                        <p>請對照上方「地圖疊圖」尋找線索</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 時空地圖實驗室 | 結合社會、空間與歷史的深度探究</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

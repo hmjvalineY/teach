@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高中物理：量子現象實驗室</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <header class="main-header">
+            <h1 class="glow-text">量子現象實驗室 <span class="subtitle">高中物理虛擬實驗</span></h1>
+            <nav class="gamified-nav">
+                <button class="nav-btn active" data-target="intro">任務大廳</button>
+                <button class="nav-btn" data-target="spectrum">原子光譜儀</button>
+                <button class="nav-btn" data-target="transitions">能階躍遷</button>
+                <button class="nav-btn" data-target="photoelectric">光電效應</button>
+                <button class="nav-btn" data-target="duality">波粒二象性</button>
+            </nav>
+            <div class="user-status">
+                <span id="level-display">Level 1: 觀察員</span>
+                <div class="xp-bar-container">
+                    <div class="xp-bar" id="xp-bar" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Welcome / Intro Section -->
+            <section id="intro" class="sub-page active">
+                <div class="intro-card">
+                    <h2>歡迎來到量子世界</h2>
+                    <p>在這裡，你將探索微觀世界的奇妙規則。完成實驗與模擬，收集「量子數據 (XP)」，解鎖更深入的知識！</p>
+                    <div class="mission-list">
+                        <h3>當前任務目標：</h3>
+                        <ul>
+                            <li><span class="checkbox">☐</span> 探索原子光譜的奧秘</li>
+                            <li><span class="checkbox">☐</span> 觀察電子的能階躍遷</li>
+                            <li><span class="checkbox">☐</span> 理解光電效應的基本條件</li>
+                            <li><span class="checkbox">☐</span> 見證波粒二象性的雙狹縫干涉</li>
+                        </ul>
+                    </div>
+                    <button class="start-btn" onclick="navigateTo('spectrum')">開始實驗 👉</button>
+                </div>
+            </section>
+
+            <!-- Atomic Spectrum Simulator -->
+            <section id="spectrum" class="sub-page">
+                <div class="lab-container">
+                    <div class="lab-controls">
+                        <h3>原子光譜儀 (Atomic Spectrometer)</h3>
+                        <p>選擇一種元素，觀察其發射光譜。注意不同元素擁有獨特的「指紋」。</p>
+                        <select id="element-selector">
+                            <option value="hydrogen">氫 (Hydrogen)</option>
+                            <option value="helium">氦 (Helium)</option>
+                            <option value="neon">氖 (Neon)</option>
+                            <option value="mercury">汞 (Mercury)</option>
+                        </select>
+                        <button id="analyze-btn" class="action-btn">啟動光譜分析</button>
+                    </div>
+                    <div class="lab-display">
+                        <canvas id="spectrum-canvas" width="800" height="200"></canvas>
+                        <div id="spectrum-readout">請選擇元素並啟動分析...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Energy Level Transitions -->
+            <section id="transitions" class="sub-page">
+                <div class="lab-container">
+                    <div class="lab-controls">
+                        <h3>波爾原子模型 - 能階躍遷</h3>
+                        <p>控制光子能量，觀察電子如何吸收能量躍遷，以及不穩定時如何釋放光子。</p>
+                        <div class="control-group">
+                            <button class="photon-btn" data-energy="10.2">發射紫外光 (n=1 to 2)</button>
+                            <button class="photon-btn" data-energy="12.1">發射紫外光 (n=1 to 3)</button>
+                            <button class="photon-btn" data-energy="1.9">發射紅光 (n=2 to 3)</button>
+                        </div>
+                        <p class="hint">提示：電子只能吸收特定能量的光子！</p>
+                    </div>
+                    <div class="lab-display">
+                        <canvas id="atom-canvas" width="600" height="400"></canvas>
+                        <div id="transition-log">準備就緒</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Photoelectric Effect -->
+            <section id="photoelectric" class="sub-page">
+                <div class="lab-container">
+                    <div class="lab-controls">
+                        <h3>光電效應實驗室</h3>
+                        <p>調整入射光的「頻率 (顏色)」與「強度」，觀察光電子何時會被擊出。</p>
+
+                        <div class="slider-group">
+                            <label>光波長 (頻率): <span id="wavelength-display">500 nm</span></label>
+                            <input type="range" id="pe-wavelength" min="200" max="800" value="500" step="10">
+                            <div class="spectrum-bar"></div>
+                        </div>
+
+                        <div class="slider-group">
+                            <label>光強度: <span id="intensity-display">50%</span></label>
+                            <input type="range" id="pe-intensity" min="0" max="100" value="50">
+                        </div>
+
+                        <div class="slider-group">
+                            <label>金屬功函數 (Work Function): <span id="work-function-display">2.0 eV (鉀)</span></label>
+                            <select id="metal-selector">
+                                <option value="2.0">鉀 (2.0 eV)</option>
+                                <option value="2.3">鈉 (2.3 eV)</option>
+                                <option value="4.5">銅 (4.5 eV)</option>
+                                <option value="5.1">金 (5.1 eV)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="lab-display">
+                        <canvas id="pe-canvas" width="600" height="300"></canvas>
+                        <div class="data-readout">
+                            <p>光子能量: <span id="photon-energy">2.48</span> eV</p>
+                            <p>最大動能: <span id="kinetic-energy">0.48</span> eV</p>
+                            <p>電流狀態: <span id="current-status" style="color: #58a6ff">有電流 (光電子逸出)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wave-Particle Duality -->
+            <section id="duality" class="sub-page">
+                <div class="lab-container">
+                    <div class="lab-controls">
+                        <h3>波粒二象性 - 雙狹縫干涉</h3>
+                        <p>切換「粒子」與「波動」模式，觀察其在雙狹縫實驗中的不同表現。</p>
+                        <div class="toggle-group">
+                            <button class="mode-btn active" data-mode="particle">粒子模式 (巨觀)</button>
+                            <button class="mode-btn" data-mode="wave">波動模式 (微觀量子)</button>
+                        </div>
+                    </div>
+                    <div class="lab-display">
+                        <canvas id="dual-canvas" width="600" height="350"></canvas>
+                        <p id="duality-explanation" class="explanation-text">粒子模式：子彈穿過狹縫，在牆上形成兩條明顯的堆積帶。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>高中物理輔助教材 - 量子現象篇</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
