@@ -100,11 +100,16 @@ nav {
 
 .placeholder-text {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--text-muted);
-    font-size: 1.2rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: rgba(22, 33, 62, 0.9);
+    color: var(--dna-backbone);
+    font-size: 1rem;
+    text-align: center;
+    z-index: 100;
+    border-bottom: 1px solid var(--accent-blue);
 }
 
 /* Sidebar */
@@ -314,4 +319,100 @@ footer {
     pointer-events: none;
     position: fixed;
     z-index: 1000;
+}
+
+/* Tool Styling */
+.tool-item {
+    position: relative;
+    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.tool-helicase {
+    background-color: #ff9f43;
+    /* Orange */
+}
+
+.tool-helicase::before {
+    content: '✂️';
+    margin-right: 5px;
+}
+
+.tool-dna-polymerase {
+    background-color: #54a0ff;
+    /* Blue */
+}
+
+.tool-dna-polymerase::before {
+    content: '🧬';
+    margin-right: 5px;
+}
+
+.tool-nucleotides,
+.tool-rna-nucleotides {
+    background-color: #5f27cd;
+    /* Purple */
+}
+
+.tool-nucleotides::before,
+.tool-rna-nucleotides::before {
+    content: '🧱';
+    margin-right: 5px;
+}
+
+.tool-rna-polymerase {
+    background-color: #ee5253;
+    /* Red */
+}
+
+.tool-rna-polymerase::before {
+    content: '📝';
+    margin-right: 5px;
+}
+
+.tool-ribosome {
+    background-color: #10ac84;
+    /* Green */
+}
+
+.tool-ribosome::before {
+    content: '🏭';
+    margin-right: 5px;
+}
+
+.tool-trna {
+    background-color: #f368e0;
+    /* Pink */
+}
+
+.tool-trna::before {
+    content: '🚚';
+    margin-right: 5px;
+}
+
+.tool-amino-acids {
+    background-color: #ff9f43;
+}
+
+.tool-amino-acids::before {
+    content: '🔴';
+    margin-right: 5px;
+}
+
+/* tRNA drop animation */
+@keyframes trnaDrop {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
