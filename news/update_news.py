@@ -70,7 +70,6 @@ if __name__ == "__main__":
     print(f"共獲取 {len(news)} 則新聞，正在生成網頁...")
     html_content = generate_html(news)
     
-    with open("index.html", "w", encoding="utf-8") as f:
+    with open("news/index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
-    print("網頁更新完成！(index.html)")
-"""
+    print("網頁更新完成！(位置：news/index.html)")
