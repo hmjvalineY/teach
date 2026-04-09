@@ -1,6 +1,7 @@
 import urllib.request
 import xml.etree.ElementTree as ET
 import datetime
+import os
 
 # Google News RSS 網址 (搜尋 "楊梅高中" OR "楊梅高級中等學校")
 RSS_URL = "https://news.google.com/rss/search?q=%22%E6%A5%8A%E6%A2%85%E9%AB%98%E4%B8%AD%22+OR+%22%E6%A5%8A%E6%A2%85%E9%AB%98%E7%B4%9A%E4%B8%AD%E7%AD%89%E5%AD%B8%E6%A0%A1%22&hl=zh-TW&gl=TW&ceid=TW:zh-Hant"
@@ -70,6 +71,11 @@ if __name__ == "__main__":
     print(f"共獲取 {len(news)} 則新聞，正在生成網頁...")
     html_content = generate_html(news)
     
-    with open("news/index.html", "w", encoding="utf-8") as f:
+    # 取得目前這個 python 檔案所在的資料夾路徑 (也就是 news 資料夾)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # 把 news.html 確實綁定在這個資料夾底下
+    output_path = os.path.join(current_dir, "news.html")
+    
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print("網頁更新完成！(位置：news/index.html)")
+    print(f"網頁更新完成！(存放位置：{output_path})")

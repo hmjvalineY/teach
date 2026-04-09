@@ -36,5 +36,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           # 這裡預設你的腳本還是將 index.html 寫在根目錄
-          git add index.html
+          git add news/
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update news page" && git push)
