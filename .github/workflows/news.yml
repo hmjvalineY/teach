@@ -1,33 +1,40 @@
-# 劇本名稱
+#Action的WorkFlows名稱
 name: 每日新聞自動剪報
-
-# 什麼時候觸發？
+#觸發條件
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天早上 8 點執行 (UTC 時間 0 點)
-  workflow_dispatch:     # 允許我隨時手動點擊按鈕執行
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest # 跟 GitHub 免費借一台 Linux 電腦
+  update-news:
+    runs-on: ubuntu-latest
+    # 也可以加入環境變數強制使用 Node.js 24，但升級套件版本通常就足夠了
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      
     steps:
-      - name: 把我的資料夾下載到這台電腦
-        uses: actions/checkout@v3
+      - name: 取得程式碼 (Checkout)
+        # 升級至 v4 以解決 Node.js 20 棄用警告
+        uses: actions/checkout@v4
 
-      - name: 安裝 Python 環境
-        uses: actions/setup-python@v4
+      - name: 設定 Python 環境
+        # 升級至 v5 以解決 Node.js 20 棄用警告
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: 執行我的新聞抓取腳本
-        run: |
-          pip install feedparser  # 安裝讀取 RSS 的工具
-          python main.py          # 執行抓新聞並產生 md 檔
+      - name: 執行 Python 腳本產生網頁
+        # 指定執行 news 目錄下的 python 檔案
+        run: python news/update_news.py
 
-      - name: 把產生的新聞檔案「自動存檔」回 GitHub
+      - name: 提交變更並推播 (Commit and Push)
         run: |
-          git config user.name "GitHub 機器人"
-          git config user.email "bot@github.com"
-          git add .
-          git commit -m "📝 更新今日新聞匯整"
-          git push
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          # 這裡預設你的腳本還是將 index.html 寫在根目錄
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update news page" && git push)
