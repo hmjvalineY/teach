@@ -1,0 +1,34 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.5644, 25.0339]
+      },
+      "properties": {
+        "name": "Taipei 101",
+        "category": "Landmark",
+        "height": "508m",
+        "marker-color": "#ff0000",
+        "marker-size": "large",
+        "marker-symbol": "building"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.6238, 24.1374]
+      },
+      "properties": {
+        "name": "Taroko National Park",
+        "category": "Nature",
+        "marker-color": "#008000",
+        "marker-size": "medium",
+        "marker-symbol": "park"
+      }
+    }
+  ]
+}

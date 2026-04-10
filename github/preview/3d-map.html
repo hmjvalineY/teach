@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D 模型與地圖</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>3D 模型與地圖預覽平台</h1>
+    <div class="demo-box">
+        <h2>🛠 免安裝檢視 STL 與 GeoJSON</h2>
+        <p>GitHub 原生搭載了 WebGL 渲染引擎與 Mapbox 服務，讓你直接在網頁上閱覽實體模型與地理圖資。</p>
+        
+        <h3>1. 3D 模型 (.stl 檔)</h3>
+        <p>對於喜歡 3D 列印或從事機構設計的人，將 <code>.stl</code> 檔案傳上 GitHub 打開後，可以直接拖曳與旋轉。我們已經為您準備了一個真實的模型！</p>
+        <div style="background: #e1f5fe; padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <p><strong>🎯 實作任務 1：</strong></p>
+            <p>我已經在這個網頁同一個資料夾底下放入了一份 <code>example_model.stl</code> (這是一個小四面體模型)。您可以先在 VS Code 安裝 STL 擴充套件預覽，或是：</p>
+            <ol>
+                <li>透過 GitHub Desktop 將這個 <code>example_model.stl</code> 檔案上傳 (Push) 至您的 GitHub Repo。</li>
+                <li>來到 GitHub 網站，點開您的 Repo，進入 <code>github/preview/example_model.stl</code>。</li>
+                <li>網頁會出現可用滑鼠拖曳旋轉的 3D 模型！您還可以在右上方切換成 <strong>Wireframe (網格線框)</strong> 模式來檢查多邊形。</li>
+            </ol>
+        </div>
+
+        <h3>2. 地理資訊地圖 (.geojson 檔)</h3>
+        <p>上傳包含經緯度與點位描述的 <code>.geojson</code> 檔，GitHub 將直接在一張美麗的世界地圖上為你打上圖釘。這使得分享活動足跡非常直觀。</p>
+        <div style="background: #e1f5fe; padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <p><strong>🎯 實作任務 2：</strong></p>
+            <p>我同樣也在這個目錄下幫您放了一個名為 <code>example_map.geojson</code> 的真實檔案。裡面標記了「台北 101」以及「太魯閣國家公園」的精確座標。</p>
+            <ol>
+                <li>一樣將 <code>example_map.geojson</code> Commit 並 Push 上去。</li>
+                <li>在 GitHub 這個點開檔案，原本一大串無聊的 JSON 陣列，會瞬間被原生的 Mapbox 即時解析出一張地圖！你可以用滑鼠滾輪放大縮小，並且會看到一紅一綠的地標圖釘。</li>
+            </ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>

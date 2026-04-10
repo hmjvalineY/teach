@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日新聞剪報</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>每日定時爬蟲與資料擷取</h1>
+    <div class="demo-box">
+        <h2>🛠 Actions Cron 排程實戰</h2>
+        <p>GitHub Actions 就像免費的伺服器，只要你定義了排程設定檔，即使你的電腦處於關機狀態，GitHub 伺服器依舊會在指定時間為你執行任務。</p>
+        
+        <h3>YAML 範例檔：每天早上執行 Python</h3>
+        <p>此腳本位於 <code>.github/workflows/daily.yml</code>：</p>
+<pre><code>name: 🤖 每日新聞自動剪報
+on:
+  schedule:
+    # 此處時間為 UTC，如果你住在台灣，時間要加 8 小時
+    # 這是指 UTC 的凌晨 4 點鐘執行 (即台灣中午 12 點)
+    - cron: '0 4 * * *'
+
+jobs:
+  spider:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: 啟動 Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: 開始抓取新聞
+        run: |
+          pip install requests
+          python fetch_news.py
+          
+      - name: 將整理好的新聞 Markdown 存回 GitHub
+        run: |
+          git config --global user.name "Actions Bot"
+          git config --global user.email "bot@example.com"
+          git add report-today.md
+          git commit -m "update news"
+          git push</code></pre>
+        <p>透過這樣的方法，不需花費一毛錢，即可完成無伺服器化的長期追蹤爬蟲機器人。</p>
+    </div>
+</div>
+</body>
+</html>

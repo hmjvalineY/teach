@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免費網站保全</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>免費網站保全 (自動 Ping 與警報)</h1>
+    <div class="demo-box">
+        <h2>🛠 不花錢的 Uptime Monitor</h2>
+        <p>如果自己或學校架設了網站，最怕的就是半夜當機而無人知曉。我們可以使用 Actions 每 15 分鐘去戳一次你的網站，掛掉時發送 LINE 或 Email 警報。</p>
+        
+        <h3>如何實作網站存活檢查</h3>
+<pre><code>name: 網站自動保全系統
+on:
+  schedule:
+    - cron: '*/15 * * * *' # 每 15 分鐘執行一次
+
+jobs:
+  check_site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 檢查我的學校網站
+        uses: jcmartins/uptime-monitor@v1
+        with:
+          url: "https://my-school-website.edu"
+          timeout: 5000
+          
+      - name: 網站死掉時發出警告
+        if: failure()
+        run: |
+          # 呼叫你設定好的 LINE Notify Webhook
+          curl -X POST -H "Authorization: Bearer ${{ secrets.LINE_TOKEN }}" \
+               -F "message=警報：伺服器沒有回應了！" \
+               https://notify-api.line.me/api/notify</code></pre>
+    </div>
+</div>
+</body>
+</html>

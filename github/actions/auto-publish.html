@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雲端數位出版</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>雲端數位出版與電子書轉譯</h1>
+    <div class="demo-box">
+        <h2>🛠 將 Markdown 點石成金</h2>
+        <p>很多文字工作者現在都習慣使用 Markdown 寫稿，但要出版時，常面臨轉成精美 PDF 或 EPUB 電子書格式極度困難的窘境。</p>
+        
+        <h3>使用 Pandoc 與 GitHub Actions 組合</h3>
+        <p>你只要將文章推送上 GitHub，伺服器就會自動幫你產出格式完美的電子書儲存包：</p>
+<pre><code>name: 產生電子書
+
+on: [push]
+
+jobs:
+  build_pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 編譯 PDF
+        # 利用強大的 Pandoc 套件庫
+        uses: docker://pandoc/latex:2.9
+        with:
+          args: my_book.md -o output.pdf --pdf-engine=xelatex
+      
+      - name: 存放至 GitHub Artifacts 供下載
+        uses: actions/upload-artifact@v3
+        with:
+          name: Book-PDF
+          path: output.pdf</code></pre>
+    </div>
+</div>
+</body>
+</html>

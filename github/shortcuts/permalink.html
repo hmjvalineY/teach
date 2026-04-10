@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凍結時間的網址</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>凍結時間的網址（按下 <span class="key">y</span>）</h1>
+    <div class="demo-box">
+        <h2>🛠 實際操作示範</h2>
+        <p>傳送程式碼連結給別人時，最怕的就是「連結失效」或是「行號錯置」。</p>
+        <ol>
+            <li>在 GitHub 點開一份程式碼檔案，目前網址列通常顯示 <code>.../blob/main/檔案.js</code>。</li>
+            <li>在該網頁按下鍵盤的 <span class="key">y</span> 鍵。</li>
+            <li>觀察網址列，<code>main</code> 字眼瞬間被轉換成一長串 <strong>Commit Hash 隨機碼</strong>。</li>
+            <li>此時再複製網址並傳送給朋友。</li>
+        </ol>
+        <h3>💡 為什麼要這樣做？</h3>
+        <p><code>main</code> 是浮動的分支名稱。如果你傳送第 45 行的連結給別人，明天其他工程師修改了檔案新增了 10 行，別人點進去看到的第 45 行就完全不是你當初想分享的東西了！而按下 <code>y</code> 產生的 Permalink 會永遠死守在產生的那一秒鐘的版本。</p>
+    </div>
+</div>
+</body>
+</html>

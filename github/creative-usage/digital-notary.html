@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數位公證人</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>數位公證人 (Commit Hash 鐵證)</h1>
+    <div class="demo-box">
+        <h2>🛠 最不可能被竄改的點子合約機制</h2>
+        <p>很多作家、發明家或企劃人員害怕自己的原創新點子被人偷走。如果只用 Word 存檔，檔案修改時間可以輕易被人為造假。因此，你該把點子放到 GitHub 進行版本控制。</p>
+        
+        <h3>為何 Git 具有法律公信性質？</h3>
+        <p>Git 的底層架構其實就類似區塊鏈的概念。</p>
+        <ul>
+            <li>每當你提交 (Commit) 一份文件修改，Git 都會對文件內容使用 <strong>SHA-1</strong> 密碼學演算法計算，並跟上一次的修改鏈接在一起。</li>
+            <li>最終產出的 Hash 碼（例如：<code>1a2b3c4...</code>）是完全伴隨你當下檔案狀態生成的。</li>
+            <li><strong>防竄改：</strong>歷史紀錄一旦推上 GitHub 伺服器，若有人試圖偷偷改掉你三年前存的文字的任何一個逗號，都會導致整個 Hash 鏈條崩壞出錯。</li>
+        </ul>
+        <p>所以下一次有非常機密的小說劇本或創意專利要留存時間戳記，不要放本機硬碟了，把它 Commit 進 GitHub Private 專案中，就是最完美的法庭鐵證。</p>
+    </div>
+</div>
+</body>
+</html>

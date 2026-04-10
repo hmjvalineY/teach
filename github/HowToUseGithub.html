@@ -95,6 +95,22 @@
             font-size: 0.9em;
             border-top: 1px solid var(--border-color);
         }
+        .btn-more {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: var(--link-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+            width: fit-content;
+        }
+        .btn-more:hover {
+            background-color: #0349a6;
+        }
     </style>
 </head>
 <body>
@@ -109,69 +125,69 @@
     <div class="card">
         <div class="tag">快捷操作</div>
         <h2>⌨️ 駭客級魔法快捷鍵</h2>
-        <ul>
-            <li><strong>一秒變編輯器：</strong> 在任何 Repo 按下 <code>.</code>（句號），瞬間開啟網頁版 VS Code 雲端編輯器。</li>
-            <li><strong>凍結時間的網址：</strong> 按下 <code>y</code>，產生永久不變的歷史快照連結（Permalink）。</li>
-            <li><strong>透視眼搜尋：</strong> 按下 <code>t</code>，清空畫面，瞬間模糊搜尋專案內的幾千個檔案。</li>
-            <li><strong>召喚駭客面板：</strong> 按下 <code>Ctrl + K</code>，啟動全局指令面板（Command Palette）。</li>
-            <li><strong>魔法小抄：</strong> 按下 <code>?</code>，隨時呼叫當前頁面的快捷鍵說明書。</li>
+        <ul style="line-height: 1.8;">
+            <li><strong><a href="shortcuts/vscode-editor.html">一秒變編輯器</a>：</strong> 在任何 Repo 按下 <code>.</code>（句號），瞬間開啟網頁版 VS Code 雲端編輯器。</li>
+            <li><strong><a href="shortcuts/permalink.html">凍結時間的網址</a>：</strong> 按下 <code>y</code>，產生永久不變的歷史快照連結（Permalink）。</li>
+            <li><strong><a href="shortcuts/fuzzy-search.html">透視眼搜尋</a>：</strong> 按下 <code>t</code>，清空畫面，瞬間模糊搜尋專案內的幾千個檔案。</li>
+            <li><strong><a href="shortcuts/command-palette.html">召喚駭客面板</a>：</strong> 按下 <code>Ctrl + K</code>，啟動全局指令面板（Command Palette）。</li>
+            <li><strong><a href="shortcuts/help-menu.html">魔法小抄</a>：</strong> 按下 <code>?</code>，隨時呼叫當前頁面的快捷鍵說明書。</li>
         </ul>
     </div>
 
     <div class="card">
         <div class="tag">原生支援</div>
         <h2>📂 特殊檔案免安裝預覽</h2>
-        <ul>
-            <li><strong>3D 模型與地圖：</strong> 支援預覽 <code>.stl</code> 與 <code>.geojson</code>，甚至能比對新舊版體積與軌跡差異。</li>
-            <li><strong>圖文與設計：</strong> 原生支援 <code>.psd</code>（Photoshop）、SVG、PDF，還有視覺化字型測試器。</li>
-            <li><strong>Mermaid 圖表：</strong> 在 Markdown 裡用純文字自動渲染流程圖、甘特圖。</li>
-            <li><strong>學術與數據：</strong> 支援 <code>.ipynb</code>（Jupyter 筆記本）預覽與 <code>LaTeX</code> 高階數學公式渲染。</li>
+        <ul style="line-height: 1.8;">
+            <li><strong><a href="preview/3d-map.html">3D 模型與地圖</a>：</strong> 支援預覽 <code>.stl</code> 與 <code>.geojson</code>，甚至能比對新舊版體積與軌跡差異。</li>
+            <li><strong><a href="preview/design.html">圖文與設計</a>：</strong> 原生支援 <code>.psd</code>（Photoshop）、SVG、PDF，還有視覺化字型測試器。</li>
+            <li><strong><a href="preview/mermaid.html">Mermaid 圖表</a>：</strong> 在 Markdown 裡用純文字自動渲染流程圖、甘特圖。</li>
+            <li><strong><a href="preview/jupyter.html">學術與數據</a>：</strong> 支援 <code>.ipynb</code>（Jupyter 筆記本）預覽與 <code>LaTeX</code> 高階數學公式渲染。</li>
         </ul>
     </div>
 
     <div class="card">
         <div class="tag">社群與互動</div>
         <h2>✨ 隱藏版功能與機制</h2>
-        <ul>
-            <li><strong>引用與贊助：</strong> 加上 <code>CITATION.cff</code> 或 <code>FUNDING.yml</code>，自動生成學術引用按鈕與抖內連結。</li>
-            <li><strong>自動存檔核取方塊：</strong> 網頁上的 Markdown 任務清單可以直接打勾，GitHub 會自動在背景幫你存檔。</li>
-            <li><strong>Issues 變表單：</strong> 透過 <code>.yml</code> 設定，把回報區變成類似 Google 表單的介面。</li>
-            <li><strong>信箱懶人回覆：</strong> 直接回覆 GitHub 的通知信，文字會自動變成網頁上的留言。</li>
+        <ul style="line-height: 1.8;">
+            <li><strong><a href="hidden-features/citation-funding.html">引用與贊助</a>：</strong> 加上 <code>CITATION.cff</code> 或 <code>FUNDING.yml</code>，自動生成學術引用按鈕與抖內連結。</li>
+            <li><strong><a href="hidden-features/task-lists.html">自動存檔核取方塊</a>：</strong> 網頁上的 Markdown 任務清單可以直接打勾，GitHub 會自動在背景幫你存檔。</li>
+            <li><strong><a href="hidden-features/issue-forms.html">Issues 變表單</a>：</strong> 透過 <code>.yml</code> 設定，把回報區變成類似 Google 表單的介面。</li>
+            <li><strong><a href="hidden-features/email-reply.html">信箱懶人回覆</a>：</strong> 直接回覆 GitHub 的通知信，文字會自動變成網頁上的留言。</li>
         </ul>
     </div>
 
     <div class="card">
         <div class="tag">破壞性創新</div>
         <h2>🔥 腦洞大開的非正規玩法</h2>
-        <ul>
-            <li><strong>無限容量免費圖床：</strong> 把圖片拖曳進 Issue 留言框，不需送出即可獲得永久圖片網址。</li>
-            <li><strong>數位公證人：</strong> 利用 Commit 不可竄改的時間戳記與 Hash，當作原創點子/劇本的防抄襲鐵證。</li>
-            <li><strong>第二大腦同步：</strong> 把 Obsidian 或 Logseq 筆記資料夾變成 Repo，享受免費跨裝置同步與版本控制。</li>
-            <li><strong>揪出戰犯神器：</strong> 使用 <code>Blame</code> 功能，一秒查出這份文件哪一行是誰在幾年前寫的。</li>
-            <li><strong>個人日記本/留言板：</strong> 把 Issue 當手帳寫，或串接 Giscus 變成部落格底下的免費留言系統。</li>
+        <ul style="line-height: 1.8;">
+            <li><strong><a href="creative-usage/free-image-host.html">無限容量免費圖床</a>：</strong> 把圖片拖曳進 Issue 留言框，不需送出即可獲得永久圖片網址。</li>
+            <li><strong><a href="creative-usage/digital-notary.html">數位公證人</a>：</strong> 利用 Commit 不可竄改的時間戳記與 Hash，當作原創點子/劇本的防抄襲鐵證。</li>
+            <li><strong><a href="creative-usage/second-brain.html">第二大腦同步</a>：</strong> 把 Obsidian 或 Logseq 筆記資料夾變成 Repo，享受免費跨裝置同步與版本控制。</li>
+            <li><strong><a href="creative-usage/git-blame.html">揪出戰犯神器</a>：</strong> 使用 <code>Blame</code> 功能，一秒查出這份文件哪一行是誰在幾年前寫的。</li>
+            <li><strong><a href="creative-usage/personal-blog.html">個人日記本/留言板</a>：</strong> 把 Issue 當手帳寫，或串接 Giscus 變成部落格底下的免費留言系統。</li>
         </ul>
     </div>
 
     <div class="card">
         <div class="tag">自動化</div>
         <h2>🤖 GitHub Actions 雲端管家</h2>
-        <ul>
-            <li><strong>每日新聞剪報：</strong> 結合 RSS 與 Python 腳本，每天定時抓取特定關鍵字新聞並自動存成 Markdown 檔。</li>
-            <li><strong>雲端數位出版：</strong> 寫完文章存檔後，自動轉檔成 PDF 或 EPUB 電子書。</li>
-            <li><strong>動態個人履歷：</strong> 首頁 (Profile README) 自動更新最新的 Spotify 聽歌紀錄或部落格文章。</li>
-            <li><strong>免費網站保全：</strong> 定時去 ping 你的網站，掛掉時自動透過手機或 Email 發送警報。</li>
-            <li><strong>社群全自動廣播：</strong> 偵測到新文章發布，自動推播到 X (Twitter)、Discord 或 Telegram。</li>
+        <ul style="line-height: 1.8;">
+            <li><strong><a href="actions/daily-news.html">每日新聞剪報</a>：</strong> 結合 RSS 與 Python 腳本，每天定時抓取特定關鍵字新聞並自動存成 Markdown 檔。</li>
+            <li><strong><a href="actions/auto-publish.html">雲端數位出版</a>：</strong> 寫完文章存檔後，自動轉檔成 PDF 或 EPUB 電子書。</li>
+            <li><strong><a href="actions/dynamic-profile.html">動態個人履歷</a>：</strong> 首頁 (Profile README) 自動更新最新的 Spotify 聽歌紀錄或部落格文章。</li>
+            <li><strong><a href="actions/site-monitor.html">免費網站保全</a>：</strong> 定時去 ping 你的網站，掛掉時自動透過手機或 Email 發送警報。</li>
+            <li><strong><a href="actions/social-broadcast.html">社群全自動廣播</a>：</strong> 偵測到新文章發布，自動推播到 X (Twitter)、Discord 或 Telegram。</li>
         </ul>
     </div>
 
     <div class="card">
         <div class="tag">工具與彩蛋</div>
         <h2>🎁 實用工具與官方彩蛋</h2>
-        <ul>
-            <li><strong>GitHub Gist：</strong> 最強雲端便利貼，適合分享程式碼片段、食譜或會議記錄，可直接嵌入網站。</li>
-            <li><strong>全球數據尋寶：</strong> 在搜尋框使用 <code>extension:csv</code>，挖掘全世界整理好的開源數據表。</li>
-            <li><strong>GitHub Desktop：</strong> 專為非工程師設計的視覺化電腦版軟體，拖曳即完成版本控制。</li>
-            <li><strong>禪意語錄：</strong> 瀏覽器輸入 <code>api.github.com/zen</code>，看看 GitHub 今天送你的幸運籤詩。</li>
+        <ul style="line-height: 1.8;">
+            <li><strong><a href="tools/github-gist.html">GitHub Gist</a>：</strong> 最強雲端便利貼，適合分享程式碼片段、食譜或會議記錄，可直接嵌入網站。</li>
+            <li><strong><a href="tools/csv-search.html">全球數據尋寶</a>：</strong> 在搜尋框使用 <code>extension:csv</code>，挖掘全世界整理好的開源數據表。</li>
+            <li><strong><a href="tools/github-desktop.html">GitHub Desktop</a>：</strong> 專為非工程師設計的視覺化電腦版軟體，拖曳即完成版本控制。</li>
+            <li><strong><a href="tools/zen-quotes.html">禪意語錄</a>：</strong> 瀏覽器輸入 <code>api.github.com/zen</code>，看看 GitHub 今天送你的幸運籤詩。</li>
         </ul>
     </div>
 

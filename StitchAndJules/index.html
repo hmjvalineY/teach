@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Stitch & Jules：高中教育 AI 應用指南</title>
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-dark: #174ea6;
+            --secondary-green: #188038;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #202124;
+            --text-muted: #5f6368;
+            --stitch-color: #e8f0fe;
+            --stitch-text: #1967d2;
+            --jules-color: #e6f4ea;
+            --jules-text: #137333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .intro-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #dadce0;
+        }
+
+        th {
+            background-color: #f1f3f4;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-top: 4px solid var(--primary-blue);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            border-bottom: 2px solid #f1f3f4;
+            padding-bottom: 10px;
+        }
+
+        .card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .card li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .card li::before {
+            content: "•";
+            color: var(--primary-blue);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .badge-stitch {
+            background-color: var(--stitch-color);
+            color: var(--stitch-text);
+        }
+
+        .badge-jules {
+            background-color: var(--jules-color);
+            color: var(--jules-text);
+        }
+
+        .badge-both {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>賦能高中教育：Google AI 工具應用指南</h1>
+    <p>Google Stitch 與 Google Jules 在六大領域的教學與學習實踐</p>
+</header>
+
+<div class="container">
+    <section class="intro-section">
+        <h2>📊 核心工具快速比較</h2>
+        <p>這兩款工具能將「想點子」到「做成品」的距離大幅縮短，是實踐跨領域專題與教師數位賦能的最佳利器。</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>工具名稱</th>
+                    <th>核心功能</th>
+                    <th>使用門檻</th>
+                    <th>高中校園最佳應用場景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Google Stitch</strong><br><span style="font-size:0.85em; color:#5f6368;">(視覺設計師)</span></td>
+                    <td>透過文字或語音，自動生成網頁 / App 介面與前端程式碼。</td>
+                    <td><strong>極低</strong><br>適合全校師生跨領域使用</td>
+                    <td>跨科專題網頁展示、數位互動教材介面、高質感學習歷程檔案。</td>
+                </tr>
+                <tr>
+                    <td><strong>Google Jules</strong><br><span style="font-size:0.85em; color:#5f6368;">(程式碼代理人)</span></td>
+                    <td>綁定 GitHub，在背景自動閱讀程式碼、抓 Bug、寫測試腳本。</td>
+                    <td><strong>較高</strong><br>需具備基礎程式碼與版本控制概念</td>
+                    <td>資訊科技科展、進階程式專題、教師開發自動化批改腳本。</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary-dark);">🏫 六大領域應用實例</h2>
+
+    <div class="grid-container">
+        <div class="card">
+            <h3>📜 國文科 (Chinese)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">核心：文學數位具象化與文本自動化</p>
+            <ul>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>古典地圖網頁：</strong>學習貶謫史時，生成帶有互動地圖與詩句對照的網頁。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>孔子人格測驗：</strong>設計模擬與論語人物對話的心理測驗 App 原型。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>成語排版器：</strong>教師寫 Python 抓每日成語，Jules 修復 Bug 並自動排版講義。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>情感分析工具：</strong>教師開發古文情緒分析程式，Jules 優化分析邏輯。</li>
+                <li><span class="badge badge-both">整合</span> <strong>桃花源記文字遊戲：</strong>學生改編課文，Stitch 做復古介面，Jules 寫分支邏輯。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🗣️ 英文科 (English)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">核心：情境互動與自動化語言輔助</p>
+            <ul>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>外籍生導覽 App：</strong>學生寫全英文文案，生成校園地圖與 Q&A 介面。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>單字情境解謎：</strong>教師製作虛擬密室網頁，輸入正確單字/文法解鎖。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>學習歷程儀表板：</strong>學生設計個人介面，記錄多益進度與英語配音作品。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>新聞摘要腳本：</strong>教師設腳本抓 BBC 新聞，Jules 寫測試確保網頁改版不失效。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>單字推播工具：</strong>學生寫定期發送單字的手機推播程式，Jules 解決 API 串接錯誤。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📐 數學科 (Mathematics)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">核心：抽象邏輯視覺化與運算模擬</p>
+            <ul>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>函數動態模擬器：</strong>教師設計網頁介面，拖動滑桿觀察三角函數圖像變化。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>理財複利工具：</strong>學生做學貸試算或儲蓄目標 App，展現生活數學應用。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>統計儀表板：</strong>學生校內問卷調查後，生成即時圓餅圖與長條圖網頁。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>蒙地卡羅算 π：</strong>學生寫程式跑數萬次模擬，Jules 優化迴圈效能。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>題庫自動生成：</strong>教師寫腳本隨機出題，Jules 檢驗邏輯避免生出無解題目。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🌍 社會科 (Social Studies)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">核心：公民參與與空間資訊展示</p>
+            <ul>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>虛擬連署平台：</strong>公民課發起校園議題，做出專業連署網頁與回饋介面。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>地方創生地圖：</strong>地理課將家鄉特色店家製作成互動式導覽網頁地圖。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>歷史 3D 時間軸：</strong>教師生成橫向滑動時間軸，直觀呈現東西方歷史共時性。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>Open Data 爬蟲：</strong>教師抓取政府數據，Jules 背景修復因網站更新導致的失效。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>選戰聲量監測：</strong>模擬選舉中寫程式分析社群聲量，Jules 協助清洗大量數據。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🔬 自然科 (Science)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">核心：實驗數據獲取與虛擬實驗室</p>
+            <ul>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>虛擬實驗儀表板：</strong>學生製作滴定實驗介面，模擬化學試劑混合變色反應。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>互動式週期表：</strong>教師製作點擊元素即跳出 3D 結構圖與實驗影片的網頁。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>星象觀測日誌：</strong>地科觀星後，學生將數據填入網頁產出個人精美日誌。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>感測器除錯：</strong>物聯網專題中，Jules 協助找出 Arduino 感測器斷線的 C++ Bug。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>物種動態模擬：</strong>教師開發捕食者消長程式，Jules 撰寫變數測試讓模擬更準確。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🎨 藝能科 (Arts/Vocational)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">核心：作品集數位化與生成式藝術</p>
+            <ul>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>線上 3D 藝廊：</strong>美術班學生生成個人網頁，用瀑布流展示高中三年創作。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>卡路里追蹤 App：</strong>家政課專題，設計管理校園午餐營養的介面原型。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <strong>樂理互動平台：</strong>音樂教師製作虛擬琴鍵，點擊發聲並顯示對應五線譜。</li>
+                <li><span class="badge badge-both">整合</span> <strong>體育即時計分板：</strong>舉辦比賽時，Stitch 生成前端顯示，Jules 處理後端計分同步。</li>
+                <li><span class="badge badge-jules">Jules</span> <strong>生成式藝術：</strong>學生嘗試 p5.js 寫藝術特效，Jules 解決語法錯誤確保網頁順利運行。</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>💡 <strong>導入建議：</strong> 一般師生可從 <strong>Stitch</strong> 入手，將報告升級為互動網頁；資訊社群或科展團隊則推薦使用 <strong>Jules</strong> 挑戰複雜開發計畫。</p>
+</div>
+
+</body>
+</html>

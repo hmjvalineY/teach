@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid 圖表自動渲染</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>在 Markdown 繪製 Mermaid 圖表</h1>
+    <div class="demo-box">
+        <h2>🛠 實際操作與示範程式碼</h2>
+        <p>繪製流程圖還要打開 Visio 或用繪圖軟體畫完再存成 PNG？在 GitHub 只要敲文字就好！</p>
+        <p><strong>操作法：</strong>在你的 <code>README.md</code> 等 Markdown 檔案內，利用三個反引號標註 <code>mermaid</code>，然後以純文字撰寫邏輯。</p>
+        
+        <h3>📌 範例：畫一個簡單流程圖</h3>
+        <pre><code>```mermaid
+graph TD;
+    A[專案構思] --> B{是否使用 GitHub?};
+    B -- 是 --> C[建立 Repo];
+    B -- 否 --> D[改用一般資料夾];
+    C --> E[享受美好的預覽功能];
+```</code></pre>
+
+        <h3>📌 範例：開發甘特圖</h3>
+        <pre><code>```mermaid
+gantt
+    title 教學專案開發進度表
+    dateFormat  YYYY-MM-DD
+    section 設計階段
+    系統架構設計     :a1, 2025-01-01, 30d
+    section 開發階段
+    前端切版實作     :after a1, 20d
+```</code></pre>
+        <p>GitHub 的文件解析器在展示這些語法時，會自動把它們渲染成漂亮的高解析度圖片！</p>
+    </div>
+</div>
+</body>
+</html>

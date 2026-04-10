@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人部落格與留言板</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>將 GitHub Issue 變成免費留言論壇</h1>
+    <div class="demo-box">
+        <h2>🛠 Giscus：開源外掛的威力</h2>
+        <p>架設個人部落格的痛點在於：如果使用靜態網站託管，往往無法自己開發一個安全的留言系統（因為你需要架設資料庫與防範垃圾廣告機器人）。</p>
+        
+        <h3>為何使用 Issue 作為留言板？</h3>
+        <p>由於 GitHub 本身就帶有防禦惡意發文的安全系統，以及成熟的 Issue （回報區）討論串介面與提醒功能，所以出現了像是 <strong>Giscus</strong> 這樣的開源小工具：</p>
+        <ol>
+            <li>將 Giscus 的 JavaScript 語法嵌入您的靜態部落格文章底部。</li>
+            <li>當有人在妳的網站底下留言時，這套系統會在背後登入他的 GitHub，並且在你的 Repo 裡面開一個對應那篇文章的 Issue。</li>
+            <li>後續所有人的留言，都會完美映射到那個 Issue 的追蹤紀錄中。</li>
+        </ol>
+        <p>這不僅為您省下了留言模組的伺服器與資料庫成本，同時過濾掉了無數網軍與假帳號。</p>
+    </div>
+</div>
+</body>
+</html>

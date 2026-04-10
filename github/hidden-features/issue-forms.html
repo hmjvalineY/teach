@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues 變表單</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>將 Issue 轉變為問卷調查表</h1>
+    <div class="demo-box">
+        <h2>🛠 擺脫無意義的問題回報</h2>
+        <p>傳統的 Issue 只是一個空白的文字框，許多學生發問時都不附上錯誤截圖與環境資訊。現在你能用 YAML 將其打造成結構嚴謹的表單。</p>
+        
+        <h3>設定步驟：</h3>
+        <p>在你的專案建立 <code>.github/ISSUE_TEMPLATE/config.yml</code> 以及你想要的表單檔案庫，這裡示範一個下拉選單與必填欄位的寫法：</p>
+<pre><code>name: 錯誤回報表單
+description: 網頁壞掉了嗎？在這裡通報！
+title: "[Bug]: "
+body:
+  - type: textarea
+    id: whats-happened
+    attributes:
+      label: 發生了什麼事？
+      description: 請詳細描述你的問題以及錯誤訊息。
+      placeholder: |
+        當我點擊登入按鈕時...
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: 你使用的瀏覽器
+      options:
+        - Chrome
+        - Edge
+        - Safari
+        - 其它</code></pre>
+        <p>下次有人點擊 "New Issue" 時，他會看到一個漂亮乾淨有必填限制的 UI 選項面板，而非一個令人恐懼的空白 Markdown 輸入框。</p>
+    </div>
+</div>
+</body>
+</html>
