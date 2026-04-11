@@ -22,6 +22,10 @@
         .wave svg { width: 100%; height: 100%;}
         
         .jules-tag { background: #e8f4f8; border-left: 4px solid #3498db; padding: 15px; border-radius: 4px; font-size: 0.9rem; margin-top: 20px;}
+        
+        .path-anim { stroke-dasharray: 2500; stroke-dashoffset: 2500; }
+        .path-anim.draw { animation: drawLine 4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
+        @keyframes drawLine { to { stroke-dashoffset: 0; } }
     </style>
 </head>
 <body>
@@ -49,7 +53,7 @@
                 <label>捕食者死亡率 (δ)</label>
                 <input type="range" value="40">
             </div>
-            <button style="width:100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;">開始執行模擬</button>
+            <button onclick="startSim()" style="width:100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background 0.3s; font-weight: bold;">開始執行模擬</button>
             
             <div class="jules-tag">
                 <strong>🤖 Jules 參數平衡建議：</strong><br>
@@ -68,13 +72,40 @@
                 <div class="wave">
                     <svg viewBox="0 0 1000 350" preserveAspectRatio="none">
                         <!-- Prey -->
-                        <path d="M0,175 Q125,50 250,175 T500,175 T750,175 T1000,175" fill="none" stroke="#3498db" stroke-width="4"/>
+                        <path id="preyPath" class="path-anim" d="M0,175 Q125,50 250,175 T500,175 T750,175 T1000,175" fill="none" stroke="#3498db" stroke-width="4"/>
                         <!-- Predator (phaseshifted) -->
-                        <path d="M0,250 Q125,300 250,175 T500,250 T750,175 T1000,250" fill="none" stroke="#e74c3c" stroke-width="4"/>
+                        <path id="predPath" class="path-anim" d="M0,250 Q125,300 250,175 T500,250 T750,175 T1000,250" fill="none" stroke="#e74c3c" stroke-width="4"/>
                     </svg>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function startSim() {
+            const btn = document.querySelector('button');
+            const prey = document.getElementById('preyPath');
+            const pred = document.getElementById('predPath');
+            
+            btn.style.background = '#e67e22';
+            btn.innerText = '模擬運行中 (Computing...)';
+            btn.disabled = true;
+            
+            prey.classList.remove('draw');
+            pred.classList.remove('draw');
+            
+            // Trigger reflow to restart CSS animation
+            void prey.offsetWidth;
+            
+            prey.classList.add('draw');
+            pred.classList.add('draw');
+            
+            setTimeout(() => {
+                btn.style.background = '#27ae60';
+                btn.innerText = '重新執行模擬';
+                btn.disabled = false;
+            }, 4000);
+        }
+    </script>
 </body>
 </html>

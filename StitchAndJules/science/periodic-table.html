@@ -20,6 +20,13 @@
         .alkaline { background: #e64a19; }
         .transition { background: #fbc02d; color: black; }
         .noble { background: #512da8; }
+        .post-transition { background: #00796b; }
+        .metalloid { background: #388e3c; }
+        .nonmetal { background: #1976d2; }
+        .halogen { background: #0288d1; }
+        .lanthanide { background: #8d6e63; }
+        .actinide { background: #4e342e; }
+
         
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100;}
         .modal-content { background: #303134; padding: 30px; border-radius: 10px; width: 400px; position: relative;}
@@ -34,33 +41,374 @@
     </header>
 
     <div class="table-grid">
-        <!-- Mock up a few elements -->
-        <div class="element alkali" style="grid-column: 1; grid-row: 1;" onclick="show('H', '氫', '1.008', '宇宙中最豐富的元素。')">
-            <div class="num">1</div><div class="sym">H</div><div class="name">氫</div>
+
+        <div class="element" style="grid-column: 3; grid-row: 6; background: #666;" onclick="alert('這些是鑭系元素 (La-Lu)，請見下方專區。')">
+            <div class="num">57-71</div><div class="sym" style="font-size: 1rem;">La-Lu</div>
         </div>
-        <div class="element noble" style="grid-column: 18; grid-row: 1;" onclick="show('He', '氦', '4.0026', '可用於填充氣球，化學性質極不活潑。')">
-            <div class="num">2</div><div class="sym">He</div><div class="name">氦</div>
-        </div>
-        <div class="element alkali" style="grid-column: 1; grid-row: 2;" onclick="show('Li', '鋰', '6.94', '質輕的金屬，廣泛用於現代電池中。')">
-            <div class="num">3</div><div class="sym">Li</div><div class="name">鋰</div>
-        </div>
-        <div class="element alkaline" style="grid-column: 2; grid-row: 2;" onclick="show('Be', '鈹', '9.0122', '用於航空航天材料，有毒。')">
-            <div class="num">4</div><div class="sym">Be</div><div class="name">鈹</div>
-        </div>
-        <!-- Gap -->
-        <div class="element noble" style="grid-column: 18; grid-row: 2;" onclick="show('Ne', '氖', '20.180', '通電時發出紅橙色光，用於霓虹燈。')">
-            <div class="num">10</div><div class="sym">Ne</div><div class="name">氖</div>
+        <div class="element" style="grid-column: 3; grid-row: 7; background: #666;" onclick="alert('這些是錒系元素 (Ac-Lr)，請見下方專區。')">
+            <div class="num">89-103</div><div class="sym" style="font-size: 1rem;">Ac-Lr</div>
         </div>
         
+
+        <div class="element nonmetal" style="grid-column: 1; grid-row: 1;" onclick="show('H', '氫', '1.008', '宇宙中最豐富的元素。')">
+            <div class="num">1</div><div class="sym" >H</div><div class="name">氫</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 1;" onclick="show('He', '氦', '4.0026', '可用於填充氣球，化學性質極不活潑。')">
+            <div class="num">2</div><div class="sym" >He</div><div class="name">氦</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 2;" onclick="show('Li', '鋰', '6.94', '質輕的金屬，廣泛用於現代電池中。')">
+            <div class="num">3</div><div class="sym" >Li</div><div class="name">鋰</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 2;" onclick="show('Be', '鈹', '9.0122', '用於航空航天材料，有毒。')">
+            <div class="num">4</div><div class="sym" >Be</div><div class="name">鈹</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 13; grid-row: 2;" onclick="show('B', '硼', '10.81', '存在於硼砂中，常用於玻璃製造。')">
+            <div class="num">5</div><div class="sym" >B</div><div class="name">硼</div>
+        </div>
+        <div class="element nonmetal" style="grid-column: 14; grid-row: 2;" onclick="show('C', '碳', '12.011', '生命體的核心元素，有金剛石和石墨等多種同素異形體。')">
+            <div class="num">6</div><div class="sym" >C</div><div class="name">碳</div>
+        </div>
+        <div class="element nonmetal" style="grid-column: 15; grid-row: 2;" onclick="show('N', '氮', '14.007', '大氣中含量最多的氣體。')">
+            <div class="num">7</div><div class="sym" >N</div><div class="name">氮</div>
+        </div>
+        <div class="element nonmetal" style="grid-column: 16; grid-row: 2;" onclick="show('O', '氧', '15.999', '生物呼吸必備元素。')">
+            <div class="num">8</div><div class="sym" >O</div><div class="name">氧</div>
+        </div>
+        <div class="element halogen" style="grid-column: 17; grid-row: 2;" onclick="show('F', '氟', '18.998', '極具反應性的氣體，常用於牙膏防蛀。')">
+            <div class="num">9</div><div class="sym" >F</div><div class="name">氟</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 2;" onclick="show('Ne', '氖', '20.18', '通電時發出紅橙色光，用於霓虹燈。')">
+            <div class="num">10</div><div class="sym" >Ne</div><div class="name">氖</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 3;" onclick="show('Na', '鈉', '22.99', '遇水劇烈反應，食鹽的重要成分。')">
+            <div class="num">11</div><div class="sym" >Na</div><div class="name">鈉</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 3;" onclick="show('Mg', '鎂', '24.305', '燃燒時發出耀眼白光，常作輕合金。')">
+            <div class="num">12</div><div class="sym" >Mg</div><div class="name">鎂</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 13; grid-row: 3;" onclick="show('Al', '鋁', '26.982', '地殼中最豐富的金屬，極具延展性。')">
+            <div class="num">13</div><div class="sym" >Al</div><div class="name">鋁</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 14; grid-row: 3;" onclick="show('Si', '矽', '28.085', '半導體工業的基礎材料。')">
+            <div class="num">14</div><div class="sym" >Si</div><div class="name">矽</div>
+        </div>
+        <div class="element nonmetal" style="grid-column: 15; grid-row: 3;" onclick="show('P', '磷', '30.974', '骨骼和DNA的關鍵成分，有紅磷白磷等。')">
+            <div class="num">15</div><div class="sym" >P</div><div class="name">磷</div>
+        </div>
+        <div class="element nonmetal" style="grid-column: 16; grid-row: 3;" onclick="show('S', '硫', '32.06', '黃色固體，在火山地區常見。')">
+            <div class="num">16</div><div class="sym" >S</div><div class="name">硫</div>
+        </div>
+        <div class="element halogen" style="grid-column: 17; grid-row: 3;" onclick="show('Cl', '氯', '35.45', '黃綠色有毒氣體，常用作消毒劑。')">
+            <div class="num">17</div><div class="sym" >Cl</div><div class="name">氯</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 3;" onclick="show('Ar', '氬', '39.95', '最常見的惰性氣體，作為保護氣。')">
+            <div class="num">18</div><div class="sym" >Ar</div><div class="name">氬</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 4;" onclick="show('K', '鉀', '39.098', '生物體內神經傳導的重要離子。')">
+            <div class="num">19</div><div class="sym" >K</div><div class="name">鉀</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 4;" onclick="show('Ca', '鈣', '40.078', '骨骼和牙齒的主要成分。')">
+            <div class="num">20</div><div class="sym" >Ca</div><div class="name">鈣</div>
+        </div>
+        <div class="element transition" style="grid-column: 3; grid-row: 4;" onclick="show('Sc', '鈧', '44.956', '用於製造高強度鋁合金。')">
+            <div class="num">21</div><div class="sym" style="color: black;">Sc</div><div class="name">鈧</div>
+        </div>
+        <div class="element transition" style="grid-column: 4; grid-row: 4;" onclick="show('Ti', '鈦', '47.867', '質輕強韌的耐腐蝕金屬，用於人工關節。')">
+            <div class="num">22</div><div class="sym" style="color: black;">Ti</div><div class="name">鈦</div>
+        </div>
+        <div class="element transition" style="grid-column: 5; grid-row: 4;" onclick="show('V', '釩', '50.942', '常添加於鋼鐵中以增加強度。')">
+            <div class="num">23</div><div class="sym" style="color: black;">V</div><div class="name">釩</div>
+        </div>
+        <div class="element transition" style="grid-column: 6; grid-row: 4;" onclick="show('Cr', '鉻', '51.996', '使不鏽鋼具有抗腐蝕能力的光澤金屬。')">
+            <div class="num">24</div><div class="sym" style="color: black;">Cr</div><div class="name">鉻</div>
+        </div>
+        <div class="element transition" style="grid-column: 7; grid-row: 4;" onclick="show('Mn', '錳', '54.938', '電池和玻璃製造中的重要元素。')">
+            <div class="num">25</div><div class="sym" style="color: black;">Mn</div><div class="name">錳</div>
+        </div>
+        <div class="element transition" style="grid-column: 8; grid-row: 4;" onclick="show('Fe', '鐵', '55.845', '人類使用最廣泛的金屬，血液中運送氧氣。')">
+            <div class="num">26</div><div class="sym" style="color: black;">Fe</div><div class="name">鐵</div>
+        </div>
+        <div class="element transition" style="grid-column: 9; grid-row: 4;" onclick="show('Co', '鈷', '58.933', '磁性合金及鋰電池正極的關鍵材料。')">
+            <div class="num">27</div><div class="sym" style="color: black;">Co</div><div class="name">鈷</div>
+        </div>
+        <div class="element transition" style="grid-column: 10; grid-row: 4;" onclick="show('Ni', '鎳', '58.693', '用於電鍍及製造硬幣合金。')">
+            <div class="num">28</div><div class="sym" style="color: black;">Ni</div><div class="name">鎳</div>
+        </div>
         <div class="element transition" style="grid-column: 11; grid-row: 4;" onclick="show('Cu', '銅', '63.546', '優良的導電體，人類最早使用的金屬之一。')">
             <div class="num">29</div><div class="sym" style="color: black;">Cu</div><div class="name">銅</div>
         </div>
-        
-        <!-- More empty space for visual effect just grid spacing -->
+        <div class="element transition" style="grid-column: 12; grid-row: 4;" onclick="show('Zn', '鋅', '65.38', '常作防鏽鍍層，亦為人體必需微量元素。')">
+            <div class="num">30</div><div class="sym" style="color: black;">Zn</div><div class="name">鋅</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 13; grid-row: 4;" onclick="show('Ga', '鎵', '69.723', '熔點低於體溫，可在手中融化的金屬。')">
+            <div class="num">31</div><div class="sym" >Ga</div><div class="name">鎵</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 14; grid-row: 4;" onclick="show('Ge', '鍺', '72.63', '早期的半導體材料和光纖組件。')">
+            <div class="num">32</div><div class="sym" >Ge</div><div class="name">鍺</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 15; grid-row: 4;" onclick="show('As', '砷', '74.922', '其化合物多具劇毒（如砒霜）。')">
+            <div class="num">33</div><div class="sym" >As</div><div class="name">砷</div>
+        </div>
+        <div class="element nonmetal" style="grid-column: 16; grid-row: 4;" onclick="show('Se', '硒', '78.971', '人體抗氧化的微量元素。')">
+            <div class="num">34</div><div class="sym" >Se</div><div class="name">硒</div>
+        </div>
+        <div class="element halogen" style="grid-column: 17; grid-row: 4;" onclick="show('Br', '溴', '79.904', '常溫下唯一的液態非金屬。')">
+            <div class="num">35</div><div class="sym" >Br</div><div class="name">溴</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 4;" onclick="show('Kr', '氪', '83.798', '可用於特種照明及閃光燈。')">
+            <div class="num">36</div><div class="sym" >Kr</div><div class="name">氪</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 5;" onclick="show('Rb', '銣', '85.468', '反應劇烈，用於光電管。')">
+            <div class="num">37</div><div class="sym" >Rb</div><div class="name">銣</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 5;" onclick="show('Sr', '鍶', '87.62', '燃燒呈現鮮紅色，用於煙火。')">
+            <div class="num">38</div><div class="sym" >Sr</div><div class="name">鍶</div>
+        </div>
+        <div class="element transition" style="grid-column: 3; grid-row: 5;" onclick="show('Y', '釔', '88.906', '用於製造LED及紅色 phosphor。')">
+            <div class="num">39</div><div class="sym" style="color: black;">Y</div><div class="name">釔</div>
+        </div>
+        <div class="element transition" style="grid-column: 4; grid-row: 5;" onclick="show('Zr', '鋯', '91.224', '具有抗腐蝕性，用於核反應爐。')">
+            <div class="num">40</div><div class="sym" style="color: black;">Zr</div><div class="name">鋯</div>
+        </div>
+        <div class="element transition" style="grid-column: 5; grid-row: 5;" onclick="show('Nb', '鈮', '92.906', '用於超導材料及高強鋼。')">
+            <div class="num">41</div><div class="sym" style="color: black;">Nb</div><div class="name">鈮</div>
+        </div>
+        <div class="element transition" style="grid-column: 6; grid-row: 5;" onclick="show('Mo', '鉬', '95.95', '高熔點，用於合金與潤滑劑。')">
+            <div class="num">42</div><div class="sym" style="color: black;">Mo</div><div class="name">鉬</div>
+        </div>
+        <div class="element transition" style="grid-column: 7; grid-row: 5;" onclick="show('Tc', '鎝', '98', '首個具備放射性的人造元素。')">
+            <div class="num">43</div><div class="sym" style="color: black;">Tc</div><div class="name">鎝</div>
+        </div>
+        <div class="element transition" style="grid-column: 8; grid-row: 5;" onclick="show('Ru', '釕', '101.07', '鉑族金屬，用於電接點。')">
+            <div class="num">44</div><div class="sym" style="color: black;">Ru</div><div class="name">釕</div>
+        </div>
+        <div class="element transition" style="grid-column: 9; grid-row: 5;" onclick="show('Rh', '銠', '102.91', '昂貴的催化劑金屬。')">
+            <div class="num">45</div><div class="sym" style="color: black;">Rh</div><div class="name">銠</div>
+        </div>
+        <div class="element transition" style="grid-column: 10; grid-row: 5;" onclick="show('Pd', '鈀', '106.42', '可吸收大量氫氣的金屬。')">
+            <div class="num">46</div><div class="sym" style="color: black;">Pd</div><div class="name">鈀</div>
+        </div>
+        <div class="element transition" style="grid-column: 11; grid-row: 5;" onclick="show('Ag', '銀', '107.87', '導電導熱性最高的金屬。')">
+            <div class="num">47</div><div class="sym" style="color: black;">Ag</div><div class="name">銀</div>
+        </div>
+        <div class="element transition" style="grid-column: 12; grid-row: 5;" onclick="show('Cd', '鎘', '112.41', '有毒，曾用於鎘鎳電池。')">
+            <div class="num">48</div><div class="sym" style="color: black;">Cd</div><div class="name">鎘</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 13; grid-row: 5;" onclick="show('In', '銦', '114.82', '用於觸控螢幕的 ITO 塗層。')">
+            <div class="num">49</div><div class="sym" >In</div><div class="name">銦</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 14; grid-row: 5;" onclick="show('Sn', '錫', '118.71', '主要用於焊料及鍍錫鐵皮 (馬口鐵)。')">
+            <div class="num">50</div><div class="sym" >Sn</div><div class="name">錫</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 15; grid-row: 5;" onclick="show('Sb', '銻', '121.76', '用於蓄電池及阻燃劑。')">
+            <div class="num">51</div><div class="sym" >Sb</div><div class="name">銻</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 16; grid-row: 5;" onclick="show('Te', '碲', '127.6', '用於太陽能板等半導體。')">
+            <div class="num">52</div><div class="sym" >Te</div><div class="name">碲</div>
+        </div>
+        <div class="element halogen" style="grid-column: 17; grid-row: 5;" onclick="show('I', '碘', '126.9', '甲狀腺素的必需元素，遇澱粉呈藍色。')">
+            <div class="num">53</div><div class="sym" >I</div><div class="name">碘</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 5;" onclick="show('Xe', '氙', '131.29', '用於氙氣車燈及離子推進器。')">
+            <div class="num">54</div><div class="sym" >Xe</div><div class="name">氙</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 6;" onclick="show('Cs', '銫', '132.91', '可用於維持原子鐘精確度。')">
+            <div class="num">55</div><div class="sym" >Cs</div><div class="name">銫</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 6;" onclick="show('Ba', '鋇', '137.33', '其硫酸鹽用於醫療X光顯影 (鋇餐)。')">
+            <div class="num">56</div><div class="sym" >Ba</div><div class="name">鋇</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 4; grid-row: 8;" onclick="show('La', '鑭', '138.91', '稀土元素，用於相機鏡頭。')">
+            <div class="num">57</div><div class="sym" >La</div><div class="name">鑭</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 5; grid-row: 8;" onclick="show('Ce', '鈰', '140.12', '最豐富的稀土金屬。')">
+            <div class="num">58</div><div class="sym" >Ce</div><div class="name">鈰</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 6; grid-row: 8;" onclick="show('Pr', '鐠', '140.91', '用於綠色玻璃。')">
+            <div class="num">59</div><div class="sym" >Pr</div><div class="name">鐠</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 7; grid-row: 8;" onclick="show('Nd', '釹', '144.24', '製造超強永久磁鐵的關鍵。')">
+            <div class="num">60</div><div class="sym" >Nd</div><div class="name">釹</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 8; grid-row: 8;" onclick="show('Pm', '鉕', '145', '具放射性，用於夜光塗料。')">
+            <div class="num">61</div><div class="sym" >Pm</div><div class="name">鉕</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 9; grid-row: 8;" onclick="show('Sm', '釤', '150.36', '用於鈷釤磁鐵及核反應控制棒。')">
+            <div class="num">62</div><div class="sym" >Sm</div><div class="name">釤</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 10; grid-row: 8;" onclick="show('Eu', '銪', '151.96', '用於防偽螢光發光材料。')">
+            <div class="num">63</div><div class="sym" >Eu</div><div class="name">銪</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 11; grid-row: 8;" onclick="show('Gd', '釓', '157.25', '用於MRI核磁共振顯影劑。')">
+            <div class="num">64</div><div class="sym" >Gd</div><div class="name">釓</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 12; grid-row: 8;" onclick="show('Tb', '鋱', '158.93', '用於綠色螢光體。')">
+            <div class="num">65</div><div class="sym" >Tb</div><div class="name">鋱</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 13; grid-row: 8;" onclick="show('Dy', '鏑', '162.5', '添加於釹磁鐵以耐高溫。')">
+            <div class="num">66</div><div class="sym" >Dy</div><div class="name">鏑</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 14; grid-row: 8;" onclick="show('Ho', '鈥', '164.93', '具有極強的磁矩。')">
+            <div class="num">67</div><div class="sym" >Ho</div><div class="name">鈥</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 15; grid-row: 8;" onclick="show('Er', '鉺', '167.26', '用於光纖放大器。')">
+            <div class="num">68</div><div class="sym" >Er</div><div class="name">鉺</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 16; grid-row: 8;" onclick="show('Tm', '銩', '168.93', '稀有且昂貴的稀土元素。')">
+            <div class="num">69</div><div class="sym" >Tm</div><div class="name">銩</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 17; grid-row: 8;" onclick="show('Yb', '鐿', '173.04', '用於雷射晶體。')">
+            <div class="num">70</div><div class="sym" >Yb</div><div class="name">鐿</div>
+        </div>
+        <div class="element lanthanide" style="grid-column: 18; grid-row: 8;" onclick="show('Lu', '鎦', '174.97', '密度最高的稀土元素。')">
+            <div class="num">71</div><div class="sym" >Lu</div><div class="name">鎦</div>
+        </div>
+        <div class="element transition" style="grid-column: 4; grid-row: 6;" onclick="show('Hf', '鉿', '178.49', '極佳的中子吸收體。')">
+            <div class="num">72</div><div class="sym" style="color: black;">Hf</div><div class="name">鉿</div>
+        </div>
+        <div class="element transition" style="grid-column: 5; grid-row: 6;" onclick="show('Ta', '鉭', '180.95', '常用於電容器，對生物體無排斥。')">
+            <div class="num">73</div><div class="sym" style="color: black;">Ta</div><div class="name">鉭</div>
+        </div>
+        <div class="element transition" style="grid-column: 6; grid-row: 6;" onclick="show('W', '鎢', '183.84', '熔點最高的金屬，傳統燈泡燈絲材料。')">
+            <div class="num">74</div><div class="sym" style="color: black;">W</div><div class="name">鎢</div>
+        </div>
+        <div class="element transition" style="grid-column: 7; grid-row: 6;" onclick="show('Re', '錸', '186.21', '用於噴射機引擎及超導合金。')">
+            <div class="num">75</div><div class="sym" style="color: black;">Re</div><div class="name">錸</div>
+        </div>
+        <div class="element transition" style="grid-column: 8; grid-row: 6;" onclick="show('Os', '鋨', '190.23', '密度最大的天然元素。')">
+            <div class="num">76</div><div class="sym" style="color: black;">Os</div><div class="name">鋨</div>
+        </div>
+        <div class="element transition" style="grid-column: 9; grid-row: 6;" onclick="show('Ir', '銥', '192.22', '抗腐蝕性最強的金屬。')">
+            <div class="num">77</div><div class="sym" style="color: black;">Ir</div><div class="name">銥</div>
+        </div>
+        <div class="element transition" style="grid-column: 10; grid-row: 6;" onclick="show('Pt', '鉑', '195.08', '貴重金屬，汽車觸媒轉換器的核心。')">
+            <div class="num">78</div><div class="sym" style="color: black;">Pt</div><div class="name">鉑</div>
+        </div>
+        <div class="element transition" style="grid-column: 11; grid-row: 6;" onclick="show('Au', '金', '196.97', '非常穩定的貴金屬，用於貨幣與飾品。')">
+            <div class="num">79</div><div class="sym" style="color: black;">Au</div><div class="name">金</div>
+        </div>
+        <div class="element transition" style="grid-column: 12; grid-row: 6;" onclick="show('Hg', '汞', '200.59', '俗稱水銀，常溫下唯一的液態金屬。')">
+            <div class="num">80</div><div class="sym" style="color: black;">Hg</div><div class="name">汞</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 13; grid-row: 6;" onclick="show('Tl', '鉈', '204.38', '劇毒金屬，曾被用作老鼠藥。')">
+            <div class="num">81</div><div class="sym" >Tl</div><div class="name">鉈</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 14; grid-row: 6;" onclick="show('Pb', '鉛', '207.2', '高密度，用於防輻射遮蔽及蓄電池。')">
+            <div class="num">82</div><div class="sym" >Pb</div><div class="name">鉛</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 15; grid-row: 6;" onclick="show('Bi', '鉍', '208.98', '低毒性重金屬，常取代鉛用於醫藥。')">
+            <div class="num">83</div><div class="sym" >Bi</div><div class="name">鉍</div>
+        </div>
+        <div class="element metalloid" style="grid-column: 16; grid-row: 6;" onclick="show('Po', '釙', '209', '居禮夫人發現的放射性元素。')">
+            <div class="num">84</div><div class="sym" >Po</div><div class="name">釙</div>
+        </div>
+        <div class="element halogen" style="grid-column: 17; grid-row: 6;" onclick="show('At', '砈', '210', '自然界中最稀有的元素之一。')">
+            <div class="num">85</div><div class="sym" >At</div><div class="name">砈</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 6;" onclick="show('Rn', '氡', '222', '天然的放射性氣體。')">
+            <div class="num">86</div><div class="sym" >Rn</div><div class="name">氡</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 7;" onclick="show('Fr', '鍅', '223', '極不穩定的放射性金屬。')">
+            <div class="num">87</div><div class="sym" >Fr</div><div class="name">鍅</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 7;" onclick="show('Ra', '鐳', '226', '居禮夫人發現，早年曾用於夜光塗料。')">
+            <div class="num">88</div><div class="sym" >Ra</div><div class="name">鐳</div>
+        </div>
+        <div class="element actinide" style="grid-column: 4; grid-row: 9;" onclick="show('Ac', '錒', '227', '強烈放射性。')">
+            <div class="num">89</div><div class="sym" >Ac</div><div class="name">錒</div>
+        </div>
+        <div class="element actinide" style="grid-column: 5; grid-row: 9;" onclick="show('Th', '釷', '232.04', '可作為核燃料的替代物。')">
+            <div class="num">90</div><div class="sym" >Th</div><div class="name">釷</div>
+        </div>
+        <div class="element actinide" style="grid-column: 6; grid-row: 9;" onclick="show('Pa', '鏷', '231.04', '放射性元素。')">
+            <div class="num">91</div><div class="sym" >Pa</div><div class="name">鏷</div>
+        </div>
+        <div class="element actinide" style="grid-column: 7; grid-row: 9;" onclick="show('U', '鈾', '238.03', '核能發電與核武的核心材料。')">
+            <div class="num">92</div><div class="sym" >U</div><div class="name">鈾</div>
+        </div>
+        <div class="element actinide" style="grid-column: 8; grid-row: 9;" onclick="show('Np', '錼', '237', '第一個被合成的超鈾元素。')">
+            <div class="num">93</div><div class="sym" >Np</div><div class="name">錼</div>
+        </div>
+        <div class="element actinide" style="grid-column: 9; grid-row: 9;" onclick="show('Pu', '鈽', '244', '重要核武原料與太空探測器熱源。')">
+            <div class="num">94</div><div class="sym" >Pu</div><div class="name">鈽</div>
+        </div>
+        <div class="element actinide" style="grid-column: 10; grid-row: 9;" onclick="show('Am', '鋂', '243', '微量存在於住宅煙霧探測器中。')">
+            <div class="num">95</div><div class="sym" >Am</div><div class="name">鋂</div>
+        </div>
+        <div class="element actinide" style="grid-column: 11; grid-row: 9;" onclick="show('Cm', '鋦', '247', '以居禮夫婦命名。')">
+            <div class="num">96</div><div class="sym" >Cm</div><div class="name">鋦</div>
+        </div>
+        <div class="element actinide" style="grid-column: 12; grid-row: 9;" onclick="show('Bk', '鉳', '247', '以柏克萊大學命名。')">
+            <div class="num">97</div><div class="sym" >Bk</div><div class="name">鉳</div>
+        </div>
+        <div class="element actinide" style="grid-column: 13; grid-row: 9;" onclick="show('Cf', '鉲', '251', '強力的中子發射源。')">
+            <div class="num">98</div><div class="sym" >Cf</div><div class="name">鉲</div>
+        </div>
+        <div class="element actinide" style="grid-column: 14; grid-row: 9;" onclick="show('Es', '鑀', '252', '紀念愛因斯坦。')">
+            <div class="num">99</div><div class="sym" >Es</div><div class="name">鑀</div>
+        </div>
+        <div class="element actinide" style="grid-column: 15; grid-row: 9;" onclick="show('Fm', '鐨', '257', '紀念費米。')">
+            <div class="num">100</div><div class="sym" >Fm</div><div class="name">鐨</div>
+        </div>
+        <div class="element actinide" style="grid-column: 16; grid-row: 9;" onclick="show('Md', '鍆', '258', '紀念門得列夫。')">
+            <div class="num">101</div><div class="sym" >Md</div><div class="name">鍆</div>
+        </div>
+        <div class="element actinide" style="grid-column: 17; grid-row: 9;" onclick="show('No', '鍩', '259', '紀念諾貝爾。')">
+            <div class="num">102</div><div class="sym" >No</div><div class="name">鍩</div>
+        </div>
+        <div class="element actinide" style="grid-column: 18; grid-row: 9;" onclick="show('Lr', '鐒', '266', '紀念勞倫斯。')">
+            <div class="num">103</div><div class="sym" >Lr</div><div class="name">鐒</div>
+        </div>
+        <div class="element transition" style="grid-column: 4; grid-row: 7;" onclick="show('Rf', '鑪', '267', '人造放射性。')">
+            <div class="num">104</div><div class="sym" style="color: black;">Rf</div><div class="name">鑪</div>
+        </div>
+        <div class="element transition" style="grid-column: 5; grid-row: 7;" onclick="show('Db', '𨧀', '268', '人造放射性。')">
+            <div class="num">105</div><div class="sym" style="color: black;">Db</div><div class="name">𨧀</div>
+        </div>
+        <div class="element transition" style="grid-column: 6; grid-row: 7;" onclick="show('Sg', '𨭎', '269', '人造放射性。')">
+            <div class="num">106</div><div class="sym" style="color: black;">Sg</div><div class="name">𨭎</div>
+        </div>
+        <div class="element transition" style="grid-column: 7; grid-row: 7;" onclick="show('Bh', '𨨏', '270', '人造放射性。')">
+            <div class="num">107</div><div class="sym" style="color: black;">Bh</div><div class="name">𨨏</div>
+        </div>
+        <div class="element transition" style="grid-column: 8; grid-row: 7;" onclick="show('Hs', '𨭆', '277', '人造放射性。')">
+            <div class="num">108</div><div class="sym" style="color: black;">Hs</div><div class="name">𨭆</div>
+        </div>
+        <div class="element transition" style="grid-column: 9; grid-row: 7;" onclick="show('Mt', '䥑', '278', '人造放射性。')">
+            <div class="num">109</div><div class="sym" style="color: black;">Mt</div><div class="name">䥑</div>
+        </div>
+        <div class="element transition" style="grid-column: 10; grid-row: 7;" onclick="show('Ds', '鐽', '281', '人造放射性。')">
+            <div class="num">110</div><div class="sym" style="color: black;">Ds</div><div class="name">鐽</div>
+        </div>
+        <div class="element transition" style="grid-column: 11; grid-row: 7;" onclick="show('Rg', '錀', '282', '人造放射性。')">
+            <div class="num">111</div><div class="sym" style="color: black;">Rg</div><div class="name">錀</div>
+        </div>
+        <div class="element transition" style="grid-column: 12; grid-row: 7;" onclick="show('Cn', '鎶', '285', '紀念哥白尼。')">
+            <div class="num">112</div><div class="sym" style="color: black;">Cn</div><div class="name">鎶</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 13; grid-row: 7;" onclick="show('Nh', '鉨', '286', '日本理化學研究所發現。')">
+            <div class="num">113</div><div class="sym" >Nh</div><div class="name">鉨</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 14; grid-row: 7;" onclick="show('Fl', '鈇', '289', '人造放射性。')">
+            <div class="num">114</div><div class="sym" >Fl</div><div class="name">鈇</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 15; grid-row: 7;" onclick="show('Mc', '鏌', '290', '人造放射性。')">
+            <div class="num">115</div><div class="sym" >Mc</div><div class="name">鏌</div>
+        </div>
+        <div class="element post-transition" style="grid-column: 16; grid-row: 7;" onclick="show('Lv', '鉝', '293', '人造放射性。')">
+            <div class="num">116</div><div class="sym" >Lv</div><div class="name">鉝</div>
+        </div>
+        <div class="element halogen" style="grid-column: 17; grid-row: 7;" onclick="show('Ts', 'Tennessine', '294', '人造放射性。')">
+            <div class="num">117</div><div class="sym" >Ts</div><div class="name">Tennessine</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 7;" onclick="show('Og', 'Oganesson', '294', '目前週期表上質量最重的元素。')">
+            <div class="num">118</div><div class="sym" >Og</div><div class="name">Oganesson</div>
+        </div>
     </div>
-    
-    <div style="margin-top: 50px; color: #9aa0a6; text-align: center; font-size: 0.9rem;">
-        (僅為 Stitch 介面生成示範，部分元素省略)
+
+    <div class="prompt-box" style="background: #303134; border-left: 4px solid #8ab4f8; padding: 15px; max-width: 1200px; margin: 40px auto; border-radius: 0 5px 5px 0; font-size: 0.9rem; color: #e8eaed; line-height: 1.5;">
+        <strong>🛠️ Stitch 開發提示語 (Prompt) 範例：</strong><br><br>
+        「請為我設計一個『互動式化學元素週期表』。使用深色科技主題背景，並以 CSS Grid 完美排列出 18 個族群的 118 個元素板塊。每一個元素都標示原子序、化學符號與中文名稱，並且依據元素分類(如鹼金屬、過渡金屬等)給予各自的專屬背景顏色。當使用者點擊任一元素時，請彈出具有科技感的獨立卡片，顯示該元素的詳細原子量與介紹文本。」
     </div>
 
     <div class="modal" id="modal">
