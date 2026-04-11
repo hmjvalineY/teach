@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="第一章 細胞的構造與功能 - 互動式自學教材，包含分頁導覽、自我測驗、學習軌跡追蹤與 AI 助理">
+    <title>Ch01 細胞的構造與功能 | 互動教學平台</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ===== 頂部導覽列 ===== -->
+    <header id="main-header">
+        <div class="header-inner">
+            <div class="logo" id="logo-btn">
+                <span class="logo-icon">🧬</span>
+                <span class="logo-text">細胞學互動教學</span>
+            </div>
+            <nav id="main-nav">
+                <button class="nav-btn active" data-section="0" id="nav-overview">總覽</button>
+                <button class="nav-btn" data-section="1" id="nav-sec1">1-1 構造</button>
+                <button class="nav-btn" data-section="2" id="nav-sec2">1-2 能量</button>
+                <button class="nav-btn" data-section="3" id="nav-sec3">1-3 分裂</button>
+                <button class="nav-btn" data-section="4" id="nav-quiz">自我測驗</button>
+                <button class="nav-btn" data-section="5" id="nav-progress">學習軌跡</button>
+            </nav>
+            <button class="ai-toggle-btn" id="ai-toggle-btn" title="開啟 AI 助理">
+                <span class="ai-icon">🤖</span>
+                <span class="ai-label">AI 助理</span>
+            </button>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="開啟選單">☰</button>
+        </div>
+    </header>
+
+    <!-- ===== 行動裝置側邊選單 ===== -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    <div class="mobile-sidebar" id="mobile-sidebar">
+        <button class="mobile-close" id="mobile-close">✕</button>
+        <div class="mobile-nav-links">
+            <button class="mobile-nav-btn active" data-section="0">📖 課程總覽</button>
+            <button class="mobile-nav-btn" data-section="1">🔬 1-1 細胞的構造</button>
+            <button class="mobile-nav-btn" data-section="2">⚡ 1-2 細胞及能量</button>
+            <button class="mobile-nav-btn" data-section="3">🧪 1-3 細胞週期與分裂</button>
+            <button class="mobile-nav-btn" data-section="4">✅ 自我測驗</button>
+            <button class="mobile-nav-btn" data-section="5">📊 學習軌跡</button>
+        </div>
+    </div>
+
+    <!-- ===== 進度指示器 ===== -->
+    <div class="progress-bar-container" id="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- ===== 主要內容區域 ===== -->
+    <main id="main-content">
+
+        <!-- =============== 第 0 節：課程總覽 =============== -->
+        <section class="content-section active" id="section-0">
+            <div class="hero-banner">
+                <div class="hero-particles" id="hero-particles"></div>
+                <div class="hero-content">
+                    <h1>第一章<br>細胞的構造與功能</h1>
+                    <p class="hero-subtitle">探索生命的基本單位 — 從細胞學說到細胞分裂</p>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <span class="stat-num">3</span>
+                            <span class="stat-label">核心單元</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" id="quiz-count-display">20</span>
+                            <span class="stat-label">測驗題目</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" id="overall-progress-display">0%</span>
+                            <span class="stat-label">完成進度</span>
+                        </div>
+                    </div>
+                    <button class="hero-cta" id="start-learning-btn">開始學習 →</button>
+                </div>
+            </div>
+
+            <!-- 概念圖 -->
+            <div class="concept-map-section">
+                <h2 class="section-title"><span class="title-icon">🗺️</span>學習概念圖</h2>
+                <div class="concept-map" id="concept-map">
+                    <div class="concept-node concept-root" id="node-cell">
+                        <span>細胞</span>
+                    </div>
+                    <div class="concept-branch concept-left">
+                        <div class="concept-node concept-l1" data-goto="1" id="node-structure">
+                            <span>1-1 細胞的構造</span>
+                        </div>
+                        <div class="concept-children">
+                            <div class="concept-node concept-l2">細胞學說</div>
+                            <div class="concept-node concept-l2">形態與功能</div>
+                            <div class="concept-node concept-l2">原核 vs 真核</div>
+                            <div class="concept-node concept-l2">細胞膜・核・質</div>
+                        </div>
+                    </div>
+                    <div class="concept-branch concept-center">
+                        <div class="concept-node concept-l1" data-goto="2" id="node-energy">
+                            <span>1-2 細胞及能量</span>
+                        </div>
+                        <div class="concept-children">
+                            <div class="concept-node concept-l2">ATP 能量貨幣</div>
+                            <div class="concept-node concept-l2">光合作用</div>
+                            <div class="concept-node concept-l2">呼吸作用</div>
+                            <div class="concept-node concept-l2">發酵作用</div>
+                        </div>
+                    </div>
+                    <div class="concept-branch concept-right">
+                        <div class="concept-node concept-l1" data-goto="3" id="node-division">
+                            <span>1-3 細胞週期與分裂</span>
+                        </div>
+                        <div class="concept-children">
+                            <div class="concept-node concept-l2">染色體</div>
+                            <div class="concept-node concept-l2">有絲分裂</div>
+                            <div class="concept-node concept-l2">減數分裂</div>
+                            <div class="concept-node concept-l2">配子形成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快速導覽卡片 -->
+            <div class="overview-cards">
+                <div class="overview-card" data-goto="1" id="card-sec1">
+                    <div class="card-icon">🔬</div>
+                    <h3>1-1 細胞的構造</h3>
+                    <p>認識細胞學說的建立，了解原核與真核細胞的差異，探索細胞膜、細胞核與細胞質的精妙構造。</p>
+                    <div class="card-progress-bar"><div class="card-progress-fill" id="card-progress-1"></div></div>
+                    <span class="card-arrow">→</span>
+                </div>
+                <div class="overview-card" data-goto="2" id="card-sec2">
+                    <div class="card-icon">⚡</div>
+                    <h3>1-2 細胞及能量</h3>
+                    <p>探究 ATP 能量貨幣，理解光合作用與呼吸作用如何將能量轉換，以及發酵作用的過程。</p>
+                    <div class="card-progress-bar"><div class="card-progress-fill" id="card-progress-2"></div></div>
+                    <span class="card-arrow">→</span>
+                </div>
+                <div class="overview-card" data-goto="3" id="card-sec3">
+                    <div class="card-icon">🧪</div>
+                    <h3>1-3 細胞週期與細胞分裂</h3>
+                    <p>了解染色體的構造，學習有絲分裂與減數分裂的過程，認識配子的形成與受精卵發育。</p>
+                    <div class="card-progress-bar"><div class="card-progress-fill" id="card-progress-3"></div></div>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============== 第 1 節：1-1 細胞的構造 =============== -->
+        <section class="content-section" id="section-1">
+            <div class="section-header">
+                <span class="section-badge">1-1</span>
+                <h2>細胞的構造</h2>
+            </div>
+
+            <!-- 子分頁標籤 -->
+            <div class="sub-tabs" id="sub-tabs-1">
+                <button class="sub-tab active" data-subtab="1-1">細胞學說</button>
+                <button class="sub-tab" data-subtab="1-2">形態與功能</button>
+                <button class="sub-tab" data-subtab="1-3">原核 vs 真核</button>
+                <button class="sub-tab" data-subtab="1-4">真核細胞構造</button>
+                <button class="sub-tab" data-subtab="1-5">細胞膜・核・質</button>
+            </div>
+
+            <!-- 1-1-1: 細胞學說 -->
+            <div class="sub-content active" id="subtab-1-1">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">📜</span>細胞學說的建立</h3>
+                    <div class="timeline">
+                        <div class="timeline-item" data-year="1590">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1590 年 — 詹森 (Janssen)</h4>
+                                <p>在父親協助下發明了第一臺光學複式顯微鏡，放大倍率約 <strong>10 倍</strong>。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-year="1665">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1665 年 — 虎克 (Robert Hooke)</h4>
+                                <p>利用改良的複式顯微鏡（約 <strong>50 倍</strong>）觀察軟木切片，看到蜂窩狀小空格，命名為「<strong>細胞 (Cell)</strong>」。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-year="1676">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1676 年 — 雷文霍克 (Leeuwenhoek)</h4>
+                                <p>改良鏡片研磨技術，提升至 <strong>270 倍</strong>，發現原生生物及細菌。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-year="1831">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1831 年 — 布朗 (Robert Brown)</h4>
+                                <p>在蘭花花瓣細胞內發現球狀構造，命名為「<strong>細胞核</strong>」。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-year="1838">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1838 年 — 許來登 (Schleiden)</h4>
+                                <p>提出「<strong>細胞是構成植物體的基本單位</strong>」。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-year="1839">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1839 年 — 許旺 (Schwann)</h4>
+                                <p>擴展觀點，提出「<strong>細胞是動物及植物構造的基本單位</strong>」。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-year="1855">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>1855 年 — 魏修 (Virchow)</h4>
+                                <p>提出「<strong>細胞來自已存在的細胞</strong>」，完善了細胞學說。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-concept-box">
+                        <h4>📌 現今細胞學說三大要點</h4>
+                        <ol>
+                            <li>生物體皆由<strong>細胞</strong>所構成。</li>
+                            <li>細胞是生物體<strong>構造和功能的基本單位</strong>。</li>
+                            <li>細胞皆由<strong>已存在的細胞分裂</strong>所產生。</li>
+                        </ol>
+                    </div>
+
+                    <div class="importance-box">
+                        <h4>💡 細胞學說的重要性</h4>
+                        <ul>
+                            <li>闡明生物體在構造上的<strong>一致性</strong></li>
+                            <li>說明現存細胞都是由原有的細胞分裂而來</li>
+                            <li>支持生物演化具有<strong>共同起源</strong>的想法</li>
+                        </ul>
+                    </div>
+
+                    <!-- 互動：配對連線 -->
+                    <div class="interactive-box">
+                        <h4>🎯 互動練習：科學家配對</h4>
+                        <p class="hint-text">點選左右欄位進行配對</p>
+                        <div class="matching-game" id="matching-game-1">
+                            <div class="match-col match-left">
+                                <button class="match-item" data-match="hooke">虎克</button>
+                                <button class="match-item" data-match="brown">布朗</button>
+                                <button class="match-item" data-match="schleiden">許來登</button>
+                                <button class="match-item" data-match="schwann">許旺</button>
+                                <button class="match-item" data-match="virchow">魏修</button>
+                            </div>
+                            <div class="match-col match-right">
+                                <button class="match-item" data-match="schwann">動物植物皆由細胞構成</button>
+                                <button class="match-item" data-match="virchow">細胞來自既存細胞</button>
+                                <button class="match-item" data-match="hooke">發現細胞</button>
+                                <button class="match-item" data-match="schleiden">植物由細胞構成</button>
+                                <button class="match-item" data-match="brown">發現細胞核</button>
+                            </div>
+                        </div>
+                        <div class="match-result" id="match-result-1"></div>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="1-1" id="complete-1-1">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 1-1-2: 形態與功能 -->
+            <div class="sub-content" id="subtab-1-2">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🔎</span>細胞的形態與功能</h3>
+
+                    <div class="info-block">
+                        <h4>📏 細胞的大小</h4>
+                        <p>大部分細胞大小在 <strong>1～100 微米 (μm)</strong> 之間，需要顯微鏡才能觀察。</p>
+                        <div class="size-comparison">
+                            <div class="size-item">
+                                <span class="size-dot" style="width:8px;height:8px;"></span>
+                                <span>大腸桿菌 ≈ 2 μm</span>
+                            </div>
+                            <div class="size-item">
+                                <span class="size-dot" style="width:14px;height:14px;"></span>
+                                <span>人類白血球 ≈ 10 μm</span>
+                            </div>
+                            <div class="size-item">
+                                <span class="size-dot" style="width:24px;height:24px;"></span>
+                                <span>牛蛙卵 ≈ 2 mm</span>
+                            </div>
+                            <div class="size-item">
+                                <span class="size-dot" style="width:40px;height:40px;"></span>
+                                <span>鴕鳥卵黃 ≈ 8 cm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>🔗 形態與功能的對應</h4>
+                        <div class="cell-type-grid">
+                            <div class="cell-type-card">
+                                <div class="cell-type-icon">🧠</div>
+                                <h5>神經細胞</h5>
+                                <p class="cell-shape">具有許多突起</p>
+                                <p class="cell-func">增加接觸面，利於訊息接收與傳遞</p>
+                            </div>
+                            <div class="cell-type-card">
+                                <div class="cell-type-icon">💪</div>
+                                <h5>肌肉細胞</h5>
+                                <p class="cell-shape">纖維狀</p>
+                                <p class="cell-func">有利於收縮產生運動</p>
+                            </div>
+                            <div class="cell-type-card">
+                                <div class="cell-type-icon">🌿</div>
+                                <h5>木質部細胞</h5>
+                                <p class="cell-shape">管狀</p>
+                                <p class="cell-func">運送水分及礦物質</p>
+                            </div>
+                            <div class="cell-type-card">
+                                <div class="cell-type-icon">🛡️</div>
+                                <h5>表皮細胞</h5>
+                                <p class="cell-shape">扁平且排列緊密</p>
+                                <p class="cell-func">保護功能</p>
+                            </div>
+                            <div class="cell-type-card">
+                                <div class="cell-type-icon">🌙</div>
+                                <h5>保衛細胞</h5>
+                                <p class="cell-shape">半月形兩兩成對</p>
+                                <p class="cell-func">控制氣孔開閉</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="think-box">
+                        <h4>🤔 想一想</h4>
+                        <p>為什麼大多數的細胞都偏小？哪些因素可能不利於較大細胞的生存？</p>
+                        <div class="think-reveal">
+                            <button class="reveal-btn" data-reveal="think-1-2">顯示提示</button>
+                            <div class="reveal-content" id="think-1-2">
+                                <p>提示：當細胞變大時，<strong>體積的增加速率</strong>比<strong>表面積的增加速率</strong>更快。這會導致物質的交換效率下降，不利於細胞的生存。較小的細胞有更高的表面積與體積比，能更有效地進行物質交換。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="1-2" id="complete-1-2">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 1-1-3: 原核 vs 真核 -->
+            <div class="sub-content" id="subtab-1-3">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">⚖️</span>原核細胞與真核細胞</h3>
+
+                    <div class="info-block">
+                        <h4>🧪 組成細胞的分子</h4>
+                        <div class="molecule-grid">
+                            <div class="molecule-card molecule-water">
+                                <h5>💧 水</h5>
+                                <p>含量最多的化合物，做為化學反應的溶劑</p>
+                            </div>
+                            <div class="molecule-card molecule-carb">
+                                <h5>🍬 醣類</h5>
+                                <p>碳水化合物，分為單醣（葡萄糖）、雙醣（蔗糖）、多醣（澱粉、肝醣、纖維素）</p>
+                            </div>
+                            <div class="molecule-card molecule-protein">
+                                <h5>🔧 蛋白質</h5>
+                                <p>由 20 種胺基酸構成，如酵素、構造蛋白、抗體</p>
+                            </div>
+                            <div class="molecule-card molecule-lipid">
+                                <h5>🛢️ 脂質</h5>
+                                <p>中性脂肪（儲存能量）、磷脂質（細胞膜主成分）</p>
+                            </div>
+                            <div class="molecule-card molecule-na">
+                                <h5>🧬 核酸</h5>
+                                <p>DNA（攜帶遺傳訊息）、RNA（與蛋白質合成有關）</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 互動比較表 -->
+                    <div class="compare-table-wrapper">
+                        <h4>📊 原核 vs 真核細胞比較表</h4>
+                        <table class="compare-table" id="compare-table-1">
+                            <thead>
+                                <tr>
+                                    <th>比較項目</th>
+                                    <th>原核細胞</th>
+                                    <th>真核細胞</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>生物舉例</td>
+                                    <td>大腸桿菌、藍綠菌</td>
+                                    <td>動物、植物、真菌</td>
+                                </tr>
+                                <tr>
+                                    <td>細胞核</td>
+                                    <td class="no-cell">✗ 無核膜</td>
+                                    <td class="yes-cell">✓ 具核膜</td>
+                                </tr>
+                                <tr>
+                                    <td>DNA 位置</td>
+                                    <td>細胞質中</td>
+                                    <td>細胞核內</td>
+                                </tr>
+                                <tr>
+                                    <td>膜狀胞器</td>
+                                    <td class="no-cell">✗ 無</td>
+                                    <td class="yes-cell">✓ 有（粒線體、內質網等）</td>
+                                </tr>
+                                <tr>
+                                    <td>核糖體</td>
+                                    <td class="yes-cell">✓ 有</td>
+                                    <td class="yes-cell">✓ 有</td>
+                                </tr>
+                                <tr>
+                                    <td>細胞壁</td>
+                                    <td class="yes-cell">✓ 大多有</td>
+                                    <td>植物有、動物無</td>
+                                </tr>
+                                <tr>
+                                    <td>細胞膜</td>
+                                    <td class="yes-cell">✓ 有</td>
+                                    <td class="yes-cell">✓ 有</td>
+                                </tr>
+                                <tr>
+                                    <td>大小</td>
+                                    <td>1～10 μm</td>
+                                    <td>10～100 μm</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="1-3" id="complete-1-3">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 1-1-4: 真核細胞構造 -->
+            <div class="sub-content" id="subtab-1-4">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🏗️</span>真核細胞的構造</h3>
+
+                    <!-- 互動式細胞圖 -->
+                    <div class="interactive-cell" id="interactive-cell">
+                        <h4>🖱️ 點擊胞器查看說明</h4>
+                        <div class="cell-diagram">
+                            <div class="cell-outer">
+                                <div class="organelle" id="org-membrane" data-name="細胞膜" data-info="單層膜，區隔細胞內外環境，選擇性地讓物質進出細胞。主要由磷脂質、蛋白質和醣類組成。">
+                                    <span class="org-label">細胞膜</span>
+                                </div>
+                                <div class="organelle" id="org-nucleus" data-name="細胞核" data-info="雙層膜，具有遺傳物質 DNA，控制細胞生理活動。含核膜、核仁、核質和染色質。">
+                                    <span class="org-label">細胞核</span>
+                                </div>
+                                <div class="organelle" id="org-mito" data-name="粒線體" data-info="雙層膜，進行呼吸作用產生能量的場所，稱為「細胞發電廠」。外膜平滑，內膜形成皺褶隔膜。">
+                                    <span class="org-label">粒線體</span>
+                                </div>
+                                <div class="organelle" id="org-er" data-name="內質網" data-info="單層膜，與核膜相連。粗糙內質網有核糖體附著，修飾和運輸蛋白質；平滑內質網參與脂質合成。">
+                                    <span class="org-label">內質網</span>
+                                </div>
+                                <div class="organelle" id="org-golgi" data-name="高基氏體" data-info="單層膜扁囊排列，具儲存、運輸、修飾和分泌物質的功能。在分泌細胞中十分發達。">
+                                    <span class="org-label">高基氏體</span>
+                                </div>
+                                <div class="organelle" id="org-vacuole" data-name="液泡" data-info="單層膜，植物的中央液泡可儲存水、色素、礦物質及代謝廢物，並維持細胞形狀。">
+                                    <span class="org-label">液泡</span>
+                                </div>
+                                <div class="organelle" id="org-ribosome" data-name="核糖體" data-info="非膜狀顆粒構造，由 RNA 和蛋白質組成，主要功能是合成蛋白質。">
+                                    <span class="org-label">核糖體</span>
+                                </div>
+                                <div class="organelle plant-only" id="org-chloro" data-name="葉綠體" data-info="雙層膜，內含類囊體和葉綠餅。進行光合作用的場所，利用光能將 CO₂ 固定成醣類。（僅植物）">
+                                    <span class="org-label">葉綠體 🌱</span>
+                                </div>
+                                <div class="organelle plant-only" id="org-wall" data-name="細胞壁" data-info="主要由纖維素構成，保護、支持及維持細胞的形狀。（僅植物及藻類）">
+                                    <span class="org-label">細胞壁 🌱</span>
+                                </div>
+                                <div class="organelle animal-only" id="org-centriole" data-name="中心粒" data-info="非膜狀，由蛋白質組成。兩個中心粒與周圍細胞質形成中心體，協助細胞分裂時染色體分離。（僅動物）">
+                                    <span class="org-label">中心粒 🐾</span>
+                                </div>
+                                <div class="organelle animal-only" id="org-lysosome" data-name="溶體" data-info="單層膜囊狀胞器，內含水解酶，分解細胞內的大分子物質及衰老胞器。（僅動物有明顯溶體）">
+                                    <span class="org-label">溶體 🐾</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="organelle-info-panel" id="organelle-info-panel">
+                            <h5 id="org-info-title">← 點擊上方胞器</h5>
+                            <p id="org-info-desc">點擊各個胞器來查看其結構與功能。</p>
+                        </div>
+                        <div class="cell-toggle">
+                            <button class="toggle-btn active" id="show-all-org">全部</button>
+                            <button class="toggle-btn" id="show-plant-org">植物細胞</button>
+                            <button class="toggle-btn" id="show-animal-org">動物細胞</button>
+                        </div>
+                    </div>
+
+                    <div class="compare-table-wrapper">
+                        <h4>🌱🐾 動植物細胞比較</h4>
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    <th>構造</th>
+                                    <th>動物細胞</th>
+                                    <th>植物細胞</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>細胞壁</td><td class="no-cell">✗</td><td class="yes-cell">✓ 纖維素</td></tr>
+                                <tr><td>葉綠體</td><td class="no-cell">✗</td><td class="yes-cell">✓ 光合作用</td></tr>
+                                <tr><td>大液泡</td><td>小且多</td><td class="yes-cell">✓ 中央大液泡</td></tr>
+                                <tr><td>中心粒</td><td class="yes-cell">✓</td><td class="no-cell">✗ (通常)</td></tr>
+                                <tr><td>溶體</td><td class="yes-cell">✓ 明顯</td><td>不明顯</td></tr>
+                                <tr><td>粒線體</td><td class="yes-cell">✓</td><td class="yes-cell">✓</td></tr>
+                                <tr><td>核糖體</td><td class="yes-cell">✓</td><td class="yes-cell">✓</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="1-4" id="complete-1-4">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 1-1-5: 細胞膜、核、質 -->
+            <div class="sub-content" id="subtab-1-5">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🔬</span>細胞膜、細胞核與細胞質</h3>
+
+                    <div class="accordion" id="accordion-membrane">
+                        <div class="accordion-item">
+                            <button class="accordion-header">🔵 細胞膜</button>
+                            <div class="accordion-body">
+                                <p>細胞膜可以<strong>區隔細胞內外</strong>的環境，並<strong>選擇性</strong>地讓物質進出細胞。</p>
+                                <h5>主要組成：</h5>
+                                <ul>
+                                    <li><strong>磷脂質</strong>：雙層排列，隔開細胞內外含水環境</li>
+                                    <li><strong>蛋白質</strong>：鑲嵌於雙層磷脂質之間，協助物質進出或接收刺激</li>
+                                    <li><strong>醣類</strong>：附著於細胞膜外側，與細胞辨識有關</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">🟣 細胞核</button>
+                            <div class="accordion-body">
+                                <p>由<strong>核膜</strong>包圍，是控制細胞生理活動的中心。</p>
+                                <h5>組成構造：</h5>
+                                <ul>
+                                    <li><strong>核膜</strong>：雙層膜，膜上有核孔管控物質出入</li>
+                                    <li><strong>核質</strong>：核內膠狀物質</li>
+                                    <li><strong>染色質</strong>：由 DNA 和蛋白質構成的細絲狀物，攜帶遺傳訊息</li>
+                                    <li><strong>核仁</strong>：成分為 RNA 及蛋白質，是合成核糖體的場所</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">🟢 細胞質</button>
+                            <div class="accordion-body">
+                                <p>介於細胞核與細胞膜之間，是細胞進行<strong>化學反應</strong>的主要場所。</p>
+                                <h5>組成：</h5>
+                                <ul>
+                                    <li><strong>細胞質液</strong>：膠狀物質</li>
+                                    <li><strong>核糖體</strong>：非膜構造，合成蛋白質</li>
+                                    <li><strong>內質網</strong>：修飾、運輸蛋白質及脂質合成</li>
+                                    <li><strong>高基氏體</strong>：儲存、運輸、修飾、分泌物質</li>
+                                    <li><strong>液泡</strong>：儲存水及代謝廢物</li>
+                                    <li><strong>粒線體</strong>：呼吸作用，「細胞發電廠」</li>
+                                    <li><strong>葉綠體</strong>：光合作用（植物）</li>
+                                </ul>
+                                <div class="special-note">
+                                    <strong>💡 半自主胞器：</strong>粒線體和葉綠體內都含有 DNA 及核糖體，可自行合成部分蛋白質，也能自行分裂增殖。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="1-5" id="complete-1-5">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 前後導覽按鈕 -->
+            <div class="section-nav-btns">
+                <button class="nav-prev" data-goto-section="0">← 回總覽</button>
+                <button class="nav-next" data-goto-section="2">前往 1-2 細胞及能量 →</button>
+            </div>
+        </section>
+
+        <!-- =============== 第 2 節：1-2 細胞及能量 =============== -->
+        <section class="content-section" id="section-2">
+            <div class="section-header">
+                <span class="section-badge">1-2</span>
+                <h2>細胞及能量</h2>
+            </div>
+
+            <div class="sub-tabs" id="sub-tabs-2">
+                <button class="sub-tab active" data-subtab="2-1">代謝與 ATP</button>
+                <button class="sub-tab" data-subtab="2-2">光合作用</button>
+                <button class="sub-tab" data-subtab="2-3">呼吸與發酵</button>
+            </div>
+
+            <!-- 2-1: 代謝與 ATP -->
+            <div class="sub-content active" id="subtab-2-1">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🔄</span>代謝作用與 ATP</h3>
+
+                    <div class="info-block">
+                        <h4>代謝作用</h4>
+                        <div class="metabolism-diagram">
+                            <div class="metab-card metab-cata">
+                                <h5>異化代謝 ⬇️</h5>
+                                <p>複雜分子 → 簡單分子</p>
+                                <p class="metab-energy">🔋 釋出能量</p>
+                                <p class="metab-example">例：呼吸作用（葡萄糖 → CO₂ + H₂O）</p>
+                            </div>
+                            <div class="metab-arrow">⇄</div>
+                            <div class="metab-card metab-ana">
+                                <h5>同化代謝 ⬆️</h5>
+                                <p>簡單分子 → 複雜分子</p>
+                                <p class="metab-energy">🔌 消耗能量</p>
+                                <p class="metab-example">例：葡萄糖 → 肝醣</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block atp-block">
+                        <h4>⚡ ATP — 細胞的能量貨幣</h4>
+                        <div class="atp-structure">
+                            <div class="atp-component">腺嘌呤</div>
+                            <div class="atp-plus">+</div>
+                            <div class="atp-component">核糖</div>
+                            <div class="atp-plus">+</div>
+                            <div class="atp-component atp-p">P</div>
+                            <div class="atp-bond">~</div>
+                            <div class="atp-component atp-p">P</div>
+                            <div class="atp-bond">~</div>
+                            <div class="atp-component atp-p">P</div>
+                        </div>
+                        <p class="atp-desc">ATP 水解 → ADP + Pi + <strong>能量</strong>（供各種生理作用）</p>
+                        <div class="atp-uses">
+                            <span class="atp-use">物質合成</span>
+                            <span class="atp-use">物質運輸</span>
+                            <span class="atp-use">肌肉收縮</span>
+                            <span class="atp-use">鞭毛運動</span>
+                        </div>
+                    </div>
+
+                    <div class="key-concept-box">
+                        <h4>📌 重點整理</h4>
+                        <ul>
+                            <li>ATP 是細胞所需能量的<strong>直接來源</strong></li>
+                            <li>葡萄糖中的能量無法直接使用，需先轉移至 ATP</li>
+                            <li>ATP 可比喻為細胞內的<strong>通用能量貨幣</strong></li>
+                        </ul>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="2-1" id="complete-2-1">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 2-2: 光合作用 -->
+            <div class="sub-content" id="subtab-2-2">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">☀️</span>光合作用</h3>
+
+                    <div class="equation-box">
+                        <div class="equation">
+                            <span class="eq-reactant">H₂O + CO₂</span>
+                            <span class="eq-arrow">→<sup>光能</sup></span>
+                            <span class="eq-product">醣類 + O₂</span>
+                        </div>
+                    </div>
+
+                    <div class="two-col-layout">
+                        <div class="reaction-card light-reaction">
+                            <h4>☀️ 光反應</h4>
+                            <div class="reaction-location">📍 葉綠體的類囊體膜</div>
+                            <div class="reaction-detail">
+                                <p><strong>輸入：</strong>光能、H₂O</p>
+                                <p><strong>輸出：</strong>O₂、ATP、NADPH</p>
+                                <p><strong>過程：</strong>葉綠素吸收光能 → 分解水 → 釋出 O₂ → 能量轉移至 ATP 和 NADPH</p>
+                            </div>
+                        </div>
+                        <div class="reaction-card carbon-reaction">
+                            <h4>🌿 固碳反應</h4>
+                            <div class="reaction-location">📍 葉綠體的基質</div>
+                            <div class="reaction-detail">
+                                <p><strong>輸入：</strong>CO₂、ATP、NADPH</p>
+                                <p><strong>輸出：</strong>醣類</p>
+                                <p><strong>過程：</strong>利用光反應產物的能量 → 固定 CO₂ → 合成醣類</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>🌡️ 影響光合作用的因素</h4>
+                        <div class="factor-chips">
+                            <div class="factor-chip">
+                                <span class="factor-icon">💡</span>
+                                <span>光照強度</span>
+                                <span class="factor-detail">適當光照有利光反應；太強會破壞葉綠素</span>
+                            </div>
+                            <div class="factor-chip">
+                                <span class="factor-icon">🌡️</span>
+                                <span>溫度</span>
+                                <span class="factor-detail">適當溫度利於酵素作用；太高破壞膜與酵素</span>
+                            </div>
+                            <div class="factor-chip">
+                                <span class="factor-icon">💨</span>
+                                <span>CO₂ 濃度</span>
+                                <span class="factor-detail">作為反應物，含量影響速率</span>
+                            </div>
+                            <div class="factor-chip">
+                                <span class="factor-icon">💧</span>
+                                <span>水</span>
+                                <span class="factor-detail">光反應的反應物</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="2-2" id="complete-2-2">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 2-3: 呼吸與發酵 -->
+            <div class="sub-content" id="subtab-2-3">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🔥</span>呼吸作用與發酵作用</h3>
+
+                    <div class="info-block">
+                        <h4>🫁 有氧呼吸</h4>
+                        <div class="equation-box">
+                            <div class="equation">
+                                <span class="eq-reactant">葡萄糖 + O₂</span>
+                                <span class="eq-arrow">→</span>
+                                <span class="eq-product">CO₂ + H₂O + 能量 (多量 ATP)</span>
+                            </div>
+                        </div>
+                        <div class="process-flow">
+                            <div class="process-step">
+                                <div class="step-num">1</div>
+                                <div class="step-text">
+                                    <strong>細胞質</strong><br>
+                                    葡萄糖 → 丙酮酸<br>
+                                    <small>產生少量 ATP</small>
+                                </div>
+                            </div>
+                            <div class="process-arrow">→</div>
+                            <div class="process-step">
+                                <div class="step-num">2</div>
+                                <div class="step-text">
+                                    <strong>粒線體</strong><br>
+                                    丙酮酸 → CO₂ + H₂O<br>
+                                    <small>產生多量 ATP</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>🍺 發酵作用（不需氧）</h4>
+                        <div class="two-col-layout">
+                            <div class="fermentation-card">
+                                <h5>🍷 酒精發酵</h5>
+                                <p>葡萄糖 → 酒精 + CO₂ + 少量 ATP</p>
+                                <p class="ferm-organism">進行者：酵母菌、植物細胞</p>
+                            </div>
+                            <div class="fermentation-card">
+                                <h5>🥛 乳酸發酵</h5>
+                                <p>葡萄糖 → 乳酸 + 少量 ATP</p>
+                                <p class="ferm-organism">進行者：乳酸菌、肌肉細胞</p>
+                            </div>
+                        </div>
+                        <div class="special-note">
+                            <strong>⚠️ 關鍵差異：</strong>發酵時丙酮酸<strong>不進入粒線體</strong>，留在細胞質中轉變，因此產生的 ATP 遠少於有氧呼吸。
+                        </div>
+                    </div>
+
+                    <div class="compare-table-wrapper">
+                        <h4>📊 有氧呼吸 vs 發酵作用</h4>
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    <th>比較</th>
+                                    <th>有氧呼吸</th>
+                                    <th>發酵作用</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>氧氣</td><td class="yes-cell">需要</td><td class="no-cell">不需要</td></tr>
+                                <tr><td>反應場所</td><td>細胞質 + 粒線體</td><td>僅細胞質</td></tr>
+                                <tr><td>ATP 產量</td><td class="yes-cell">多量</td><td class="no-cell">少量</td></tr>
+                                <tr><td>最終產物</td><td>CO₂ + H₂O</td><td>酒精/乳酸 + CO₂</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="2-3" id="complete-2-3">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <div class="section-nav-btns">
+                <button class="nav-prev" data-goto-section="1">← 回 1-1 構造</button>
+                <button class="nav-next" data-goto-section="3">前往 1-3 細胞分裂 →</button>
+            </div>
+        </section>
+
+        <!-- =============== 第 3 節：1-3 細胞週期與細胞分裂 =============== -->
+        <section class="content-section" id="section-3">
+            <div class="section-header">
+                <span class="section-badge">1-3</span>
+                <h2>細胞週期與細胞分裂</h2>
+            </div>
+
+            <div class="sub-tabs" id="sub-tabs-3">
+                <button class="sub-tab active" data-subtab="3-1">染色體</button>
+                <button class="sub-tab" data-subtab="3-2">細胞週期與有絲分裂</button>
+                <button class="sub-tab" data-subtab="3-3">減數分裂</button>
+                <button class="sub-tab" data-subtab="3-4">配子與受精卵</button>
+            </div>
+
+            <!-- 3-1: 染色體 -->
+            <div class="sub-content active" id="subtab-3-1">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🧬</span>染色體與染色質</h3>
+
+                    <div class="info-block">
+                        <h4>染色體的構造</h4>
+                        <div class="chromatin-flow">
+                            <div class="chromatin-step">
+                                <div class="chromatin-icon">🧵</div>
+                                <h5>DNA</h5>
+                                <p>很長的分子（人類單一細胞約 2 公尺）</p>
+                            </div>
+                            <div class="chromatin-arrow">→</div>
+                            <div class="chromatin-step">
+                                <div class="chromatin-icon">🔗</div>
+                                <h5>染色質</h5>
+                                <p>DNA + 蛋白質，細絲狀<br>（細胞生長期的型態）</p>
+                            </div>
+                            <div class="chromatin-arrow">→</div>
+                            <div class="chromatin-step">
+                                <div class="chromatin-icon">🧱</div>
+                                <h5>染色體</h5>
+                                <p>染色質緊密纏繞<br>（細胞分裂時的型態）</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>同源染色體與倍數</h4>
+                        <div class="ploidy-cards">
+                            <div class="ploidy-card">
+                                <h5>二倍數 (2n)</h5>
+                                <p>染色體兩兩成對</p>
+                                <p>人體體細胞：<strong>2n = 46</strong>（23 對）</p>
+                                <p class="ploidy-example">一條來自父方，一條來自母方</p>
+                            </div>
+                            <div class="ploidy-card">
+                                <h5>單倍數 (n)</h5>
+                                <p>染色體不成對</p>
+                                <p>人類生殖細胞：<strong>n = 23</strong></p>
+                                <p class="ploidy-example">精子或卵</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-concept-box">
+                        <h4>📌 二分體結構</h4>
+                        <p>染色質複製後纏繞形成的染色體稱為<strong>二分體</strong>，由兩條<strong>姊妹染色分體</strong>在<strong>中節</strong>（著絲點）相連。著絲點可與紡錘絲相連，協助染色體分離。</p>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="3-1" id="complete-3-1">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 3-2: 細胞週期與有絲分裂 -->
+            <div class="sub-content" id="subtab-3-2">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">🔄</span>細胞週期與有絲分裂</h3>
+
+                    <div class="info-block">
+                        <h4>細胞週期</h4>
+                        <div class="cell-cycle-diagram">
+                            <div class="cycle-phase cycle-interphase">
+                                <h5>間期 (~90%)</h5>
+                                <ul>
+                                    <li>細胞生長</li>
+                                    <li>製造酵素與蛋白質</li>
+                                    <li>染色質複製</li>
+                                    <li>合成胞器</li>
+                                </ul>
+                            </div>
+                            <div class="cycle-arrow">→</div>
+                            <div class="cycle-phase cycle-division">
+                                <h5>細胞分裂期 (~10%)</h5>
+                                <ul>
+                                    <li>有絲分裂（核分裂）</li>
+                                    <li>細胞質分裂</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>🔬 有絲分裂與細胞質分裂步驟</h4>
+                        <div class="mitosis-steps">
+                            <div class="mitosis-step">
+                                <div class="step-badge">1</div>
+                                <h5>染色質複製</h5>
+                                <p>DNA 完成複製</p>
+                            </div>
+                            <div class="mitosis-step">
+                                <div class="step-badge">2</div>
+                                <h5>二分體形成</h5>
+                                <p>染色質纏繞成二分體，中心粒附近出現紡錘絲</p>
+                            </div>
+                            <div class="mitosis-step">
+                                <div class="step-badge">3</div>
+                                <h5>二分體排列</h5>
+                                <p>紡錘絲連接著絲點，牽引至細胞中央</p>
+                            </div>
+                            <div class="mitosis-step">
+                                <div class="step-badge">4</div>
+                                <h5>姊妹染色分體分離</h5>
+                                <p>在紡錘絲協助下，分別向細胞兩端移動</p>
+                            </div>
+                            <div class="mitosis-step">
+                                <div class="step-badge">5</div>
+                                <h5>子細胞形成</h5>
+                                <p>細胞質分裂，形成 <strong>2 個完全相同</strong>的子細胞</p>
+                            </div>
+                            <div class="mitosis-step">
+                                <div class="step-badge">6</div>
+                                <h5>進入間期</h5>
+                                <p>細胞開始生長，準備下一次分裂</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="special-note">
+                        <strong>⚠️ 動植物差異：</strong>
+                        <ul>
+                            <li>動物細胞：有中心粒；質分裂時形成<strong>分裂溝</strong></li>
+                            <li>植物細胞：通常無中心粒；質分裂時形成<strong>細胞板</strong></li>
+                        </ul>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="3-2" id="complete-3-2">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 3-3: 減數分裂 -->
+            <div class="sub-content" id="subtab-3-3">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">➗</span>減數分裂</h3>
+
+                    <div class="info-block">
+                        <h4>減數分裂的意義</h4>
+                        <p>生殖母細胞產生配子時，經過<strong>連續兩次分裂</strong>，使每個配子的染色體數目只有母細胞的<strong>一半</strong>。</p>
+                    </div>
+
+                    <div class="meiosis-flow">
+                        <div class="meiosis-phase">
+                            <h5>減數分裂 I</h5>
+                            <div class="meiosis-steps-minor">
+                                <div class="mei-step">染色質複製 → 二分體形成</div>
+                                <div class="mei-step highlight-step">同源二分體配對 → <strong>四分體（聯會）</strong></div>
+                                <div class="mei-step">四分體排列於細胞中央</div>
+                                <div class="mei-step highlight-step"><strong>同源染色體分離</strong> → 2 個子細胞</div>
+                            </div>
+                        </div>
+                        <div class="meiosis-arrow">⬇️</div>
+                        <div class="meiosis-phase">
+                            <h5>減數分裂 II</h5>
+                            <div class="meiosis-steps-minor">
+                                <div class="mei-step">染色質<strong>不再複製</strong></div>
+                                <div class="mei-step">二分體排列於細胞中央</div>
+                                <div class="mei-step highlight-step"><strong>姊妹染色分體分離</strong></div>
+                                <div class="mei-step">形成 <strong>4 個子細胞</strong>（n）</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="compare-table-wrapper">
+                        <h4>📊 有絲分裂 vs 減數分裂</h4>
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    <th>比較項目</th>
+                                    <th>有絲分裂</th>
+                                    <th>減數分裂</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>發生細胞</td><td>體細胞</td><td>生殖母細胞</td></tr>
+                                <tr><td>複製次數</td><td>1 次</td><td>1 次</td></tr>
+                                <tr><td>分裂次數</td><td>1 次</td><td>2 次</td></tr>
+                                <tr><td>子細胞數</td><td>2 個</td><td>4 個</td></tr>
+                                <tr><td>倍數變化</td><td>2n → 2n</td><td>2n → n</td></tr>
+                                <tr><td>聯會</td><td class="no-cell">✗</td><td class="yes-cell">✓ 四分體</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="3-3" id="complete-3-3">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <!-- 3-4: 配子形成與受精卵 -->
+            <div class="sub-content" id="subtab-3-4">
+                <div class="content-card">
+                    <h3><span class="emoji-bullet">👶</span>配子形成與受精卵發育</h3>
+
+                    <div class="two-col-layout">
+                        <div class="gamete-card">
+                            <h4>🧑 精子的形成</h4>
+                            <div class="gamete-flow">
+                                <div class="gamete-step">精原細胞 (2n=46)</div>
+                                <div class="gamete-arrow">↓ 減數分裂I</div>
+                                <div class="gamete-step">2個 次級精母細胞</div>
+                                <div class="gamete-arrow">↓ 減數分裂II</div>
+                                <div class="gamete-step">4個 精細胞</div>
+                                <div class="gamete-arrow">↓ 特化</div>
+                                <div class="gamete-step gamete-final">4個 精子 (n=23)</div>
+                            </div>
+                        </div>
+                        <div class="gamete-card">
+                            <h4>👩 卵細胞的形成</h4>
+                            <div class="gamete-flow">
+                                <div class="gamete-step">卵原細胞 (2n=46)</div>
+                                <div class="gamete-arrow">↓ 減數分裂I</div>
+                                <div class="gamete-step">1個 次級卵母細胞 + 1個極體</div>
+                                <div class="gamete-arrow">↓ 減數分裂II</div>
+                                <div class="gamete-step gamete-final">1個 卵細胞 (n=23) + 極體</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>🧬 受精卵的發育</h4>
+                        <div class="development-flow">
+                            <div class="dev-step">
+                                <span class="dev-icon">🥚</span>
+                                <span>精子 (n=23) + 卵 (n=23)</span>
+                            </div>
+                            <div class="dev-arrow">→</div>
+                            <div class="dev-step">
+                                <span class="dev-icon">🔬</span>
+                                <span>受精卵 (2n=46)</span>
+                            </div>
+                            <div class="dev-arrow">→</div>
+                            <div class="dev-step">
+                                <span class="dev-icon">🔄</span>
+                                <span>有絲分裂</span>
+                            </div>
+                            <div class="dev-arrow">→</div>
+                            <div class="dev-step">
+                                <span class="dev-icon">🧫</span>
+                                <span>細胞分化</span>
+                            </div>
+                            <div class="dev-arrow">→</div>
+                            <div class="dev-step">
+                                <span class="dev-icon">🧍</span>
+                                <span>完整人體</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-concept-box">
+                        <h4>📌 關鍵觀念</h4>
+                        <p>減數分裂確保配子只有 <strong>n</strong> 條染色體，受精後恢復為 <strong>2n</strong>，代代相傳維持染色體數目一致。</p>
+                    </div>
+
+                    <div class="special-note cancer-note">
+                        <h4>⚠️ 延伸：癌症與細胞分裂</h4>
+                        <p>癌症是細胞分裂<strong>失去控制</strong>的現象，因調控細胞週期或 DNA 修復的基因突變所導致。約 95% 與外在環境因素（紫外線、化學物質、病毒感染）有關，僅 5% 直接遺傳。</p>
+                    </div>
+
+                    <button class="read-complete-btn" data-topic="3-4" id="complete-3-4">✅ 我已讀完本節</button>
+                </div>
+            </div>
+
+            <div class="section-nav-btns">
+                <button class="nav-prev" data-goto-section="2">← 回 1-2 能量</button>
+                <button class="nav-next" data-goto-section="4">前往自我測驗 →</button>
+            </div>
+        </section>
+
+        <!-- =============== 第 4 節：自我測驗 =============== -->
+        <section class="content-section" id="section-4">
+            <div class="section-header">
+                <span class="section-badge">✅</span>
+                <h2>自我測驗</h2>
+            </div>
+
+            <div class="quiz-controls">
+                <div class="quiz-filter">
+                    <label>篩選範圍：</label>
+                    <select id="quiz-filter-select">
+                        <option value="all">全部章節</option>
+                        <option value="1-1">1-1 細胞的構造</option>
+                        <option value="1-2">1-2 細胞及能量</option>
+                        <option value="1-3">1-3 細胞週期與分裂</option>
+                    </select>
+                </div>
+                <div class="quiz-score-display">
+                    <span id="quiz-correct">0</span> / <span id="quiz-total">0</span> 正確
+                    <div class="quiz-score-bar"><div class="quiz-score-fill" id="quiz-score-fill"></div></div>
+                </div>
+            </div>
+
+            <div class="quiz-container" id="quiz-container">
+                <!-- 題目由 JavaScript 動態生成 -->
+            </div>
+
+            <div class="quiz-result-panel" id="quiz-result-panel" style="display:none;">
+                <h3>🎉 測驗結果</h3>
+                <div class="result-score" id="result-score"></div>
+                <div class="result-feedback" id="result-feedback"></div>
+                <button class="retry-btn" id="retry-quiz-btn">🔁 重新測驗</button>
+            </div>
+        </section>
+
+        <!-- =============== 第 5 節：學習軌跡 =============== -->
+        <section class="content-section" id="section-5">
+            <div class="section-header">
+                <span class="section-badge">📊</span>
+                <h2>學習軌跡</h2>
+            </div>
+
+            <div class="progress-dashboard">
+                <div class="dashboard-card">
+                    <h4>📈 整體進度</h4>
+                    <div class="circular-progress" id="circular-progress">
+                        <svg viewBox="0 0 120 120">
+                            <circle class="progress-bg" cx="60" cy="60" r="54"></circle>
+                            <circle class="progress-ring" cx="60" cy="60" r="54" id="progress-ring"></circle>
+                        </svg>
+                        <div class="progress-text" id="progress-text">0%</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h4>📅 學習歷程</h4>
+                    <div class="learning-log" id="learning-log">
+                        <p class="log-empty">尚未有學習紀錄，開始閱讀並標記完成吧！</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h4>✅ 測驗成績</h4>
+                    <div class="quiz-history" id="quiz-history">
+                        <p class="log-empty">尚未有測驗紀錄。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="topic-checklist">
+                <h4>📋 各節完成狀態</h4>
+                <div class="checklist-grid" id="checklist-grid">
+                    <!-- 由 JavaScript 動態生成 -->
+                </div>
+            </div>
+
+            <div class="data-actions">
+                <button class="data-btn" id="export-progress-btn">📥 匯出學習紀錄</button>
+                <button class="data-btn danger" id="reset-progress-btn">🗑️ 重置所有進度</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== AI 助理面板 ===== -->
+    <div class="ai-panel" id="ai-panel">
+        <div class="ai-panel-header">
+            <h3>🤖 AI 學習助理</h3>
+            <button class="ai-close-btn" id="ai-close-btn">✕</button>
+        </div>
+        <div class="ai-chat-messages" id="ai-chat-messages">
+            <div class="ai-message ai-bot">
+                <div class="ai-avatar">🤖</div>
+                <div class="ai-bubble">
+                    <p>你好！我是你的細胞學 AI 助理 😊</p>
+                    <p>你可以問我任何關於「第一章 細胞的構造與功能」的問題，例如：</p>
+                    <ul>
+                        <li>什麼是細胞學說？</li>
+                        <li>比較光合作用和呼吸作用</li>
+                        <li>有絲分裂和減數分裂有什麼不同？</li>
+                        <li>ATP 為什麼被稱為能量貨幣？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="ai-quick-questions">
+            <button class="quick-q" data-question="什麼是細胞學說？">細胞學說</button>
+            <button class="quick-q" data-question="比較原核和真核細胞">原核vs真核</button>
+            <button class="quick-q" data-question="解釋ATP的功能">ATP功能</button>
+            <button class="quick-q" data-question="光合作用的光反應和固碳反應有什麼不同？">光合作用</button>
+            <button class="quick-q" data-question="有絲分裂和減數分裂有什麼差異？">分裂比較</button>
+        </div>
+        <div class="ai-chat-input">
+            <input type="text" id="ai-input" placeholder="輸入你的問題..." autocomplete="off">
+            <button id="ai-send-btn">發送</button>
+        </div>
+    </div>
+
+    <!-- ===== 回到頂部按鈕 ===== -->
+    <button class="back-to-top" id="back-to-top" title="回到頂部">↑</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
