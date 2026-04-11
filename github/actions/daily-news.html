@@ -39,14 +39,46 @@ jobs:
           pip install requests
           python fetch_news.py
           
-      - name: 將整理好的新聞 Markdown 存回 GitHub
+      - name: 將整理好的新聞 HTML 存回 GitHub
         run: |
           git config --global user.name "Actions Bot"
           git config --global user.email "bot@example.com"
-          git add report-today.md
+          git add report-today.html
           git commit -m "update news"
           git push</code></pre>
-        <p>透過這樣的方法，不需花費一毛錢，即可完成無伺服器化的長期追蹤爬蟲機器人。</p>
+
+        <h3>Python 爬蟲腳本：fetch_news.py</h3>
+        <p>這是一個簡單的 Python 腳本範例，會在背景擷取新聞並自動產生 HTML 檔案 (<code>report-today.html</code>)：</p>
+<pre><code>import requests
+from datetime import datetime
+
+# 取得開放資料或新聞 API (以維基百科每日精選文章為例)
+today = datetime.today().strftime('%Y/%m/%d')
+response = requests.get(f'https://zh.wikipedia.org/api/rest_v1/feed/featured/{today}')
+data = response.json()
+
+# 整理資訊並產生 HTML 內容
+html_content = f"&lt;html&gt;&lt;head&gt;&lt;meta charset='utf-8'&gt;&lt;title&gt;今日新聞剪報&lt;/title&gt;&lt;/head&gt;&lt;body&gt;\n"
+html_content += f"&lt;h1&gt;🗞️ 今日新聞剪報 ({today})&lt;/h1&gt;\n"
+
+if 'tfa' in data: # 主要推薦條目
+    title = data['tfa']['title']
+    extract = data['tfa']['extract']
+    url = data['tfa']['content_urls']['desktop']['page']
+    
+    html_content += f"&lt;h2&gt;{title}&lt;/h2&gt;\n"
+    html_content += f"&lt;p&gt;{extract}&lt;/p&gt;\n"
+    html_content += f"&lt;a href='{url}' target='_blank'&gt;閱讀完整文章&lt;/a&gt;\n"
+
+html_content += "&lt;/body&gt;&lt;/html&gt;"
+
+# 輸出儲存成檔案
+with open('report-today.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+    
+print("新聞報表產生完成！")</code></pre>
+
+        <p>透過這樣的方法，不需花費一毛錢，只需撰寫簡單的 Python 邏輯，即可完成無伺服器化的長期追蹤機器人，每天將最新的資訊推送到你的 Repo 裡！</p>
     </div>
 </div>
 </body>
