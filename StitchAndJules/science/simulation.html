@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>捕食者與獵物動態模擬 - Jules</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #fff; color: #333; margin: 0; padding: 40px;}
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px;}
+        .header a { color: white; background: #333; text-decoration: none; padding: 8px 20px; border-radius: 5px;}
+        .layout { display: flex; gap: 40px; margin-top: 30px;}
+        .controls { width: 300px; background: #f9f9f9; padding: 20px; border-radius: 10px;}
+        .controls h3 { margin-top: 0; color: #2c3e50;}
+        .form-group { margin-bottom: 15px;}
+        label { display: block; font-size: 0.9rem; margin-bottom: 5px; color: #555;}
+        input[type=range] { width: 100%; }
+        
+        .simulation { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+        .chart-box { width: 100%; height: 350px; background: white; border: 1px solid #ccc; position: relative;}
+        
+        /* Mocking sine waves for Lotka-Volterra dynamics */
+        .wave { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; overflow: hidden;}
+        .wave svg { width: 100%; height: 100%;}
+        
+        .jules-tag { background: #e8f4f8; border-left: 4px solid #3498db; padding: 15px; border-radius: 4px; font-size: 0.9rem; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="margin: 0; color: #2c3e50;">Lotka-Volterra 生態模型模擬</h1>
+        <a href="../index.html">返回首頁</a>
+    </div>
+
+    <div class="layout">
+        <div class="controls">
+            <h3>參數控制檯</h3>
+            <div class="form-group">
+                <label>獵物繁殖率 (α)</label>
+                <input type="range" value="50">
+            </div>
+            <div class="form-group">
+                <label>被捕食率 (β)</label>
+                <input type="range" value="30">
+            </div>
+            <div class="form-group">
+                <label>捕食者增長率 (γ)</label>
+                <input type="range" value="20">
+            </div>
+            <div class="form-group">
+                <label>捕食者死亡率 (δ)</label>
+                <input type="range" value="40">
+            </div>
+            <button style="width:100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;">開始執行模擬</button>
+            
+            <div class="jules-tag">
+                <strong>🤖 Jules 參數平衡建議：</strong><br>
+                老師原先設定的參數會導致捕食者在第二代就餓死，導致系統崩潰。<br>
+                Jules 在後台運行了單元測試，藉由演算法算出了能產生「穩定震盪」循環的黃金參數比例，並自動綁定到了這些拉桿的有效範圍內。
+            </div>
+        </div>
+        
+        <div class="simulation">
+            <h3 style="align-self: flex-start;">族群數量時間圖 (Time Series Graph)</h3>
+            <div style="display: flex; gap: 20px; align-self: flex-start; margin-bottom: 10px; font-size: 0.9rem;">
+                <span style="color: #3498db; font-weight: bold;">-- 獵物 (如：兔子)</span>
+                <span style="color: #e74c3c; font-weight: bold;">-- 捕食者 (如：狐狸)</span>
+            </div>
+            <div class="chart-box">
+                <div class="wave">
+                    <svg viewBox="0 0 1000 350" preserveAspectRatio="none">
+                        <!-- Prey -->
+                        <path d="M0,175 Q125,50 250,175 T500,175 T750,175 T1000,175" fill="none" stroke="#3498db" stroke-width="4"/>
+                        <!-- Predator (phaseshifted) -->
+                        <path d="M0,250 Q125,300 250,175 T500,250 T750,175 T1000,250" fill="none" stroke="#e74c3c" stroke-width="4"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

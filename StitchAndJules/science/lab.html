@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>酸鹼滴定虛擬實驗室 - Stitch</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #e0f7fa; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100vh; box-sizing: border-box;}
+        .lab-table { background: #fff; width: 800px; height: 500px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); position: relative; display: flex; padding: 30px; box-sizing: border-box;}
+        .equipment { flex: 1; position: relative; border-right: 2px dashed #b2ebf2; display: flex; flex-direction: column; align-items: center;}
+        
+        .buret { width: 30px; height: 200px; border: 3px solid #ccc; border-top: none; position: relative; background: #e3f2fd; border-radius: 0 0 5px 5px;}
+        .buret-liquid { position: absolute; bottom: 0; width: 100%; background: #bbdefb; height: 100%; transition: height 0.3s;}
+        .valve { width: 40px; height: 10px; background: #9e9e9e; position: absolute; bottom: -10px; left: -5px; cursor: pointer; border-radius: 5px;}
+        .drop { position: absolute; width: 6px; height: 10px; background: #bbdefb; border-radius: 50%; opacity: 0; bottom: -30px; left: 12px; transition: all 0.3s;}
+        
+        .flask { width: 100px; height: 100px; border: 3px solid #ccc; border-radius: 50%; position: absolute; bottom: 20px; display: flex; align-items: flex-end; overflow: hidden; justify-content: center;}
+        .flask-neck { width: 30px; height: 40px; border-left: 3px solid #ccc; border-right: 3px solid #ccc; position: absolute; bottom: 110px;}
+        .flask-liquid { width: 100%; height: 50%; background: rgba(255, 255, 255, 0.5); transition: background 1s ease-in-out;}
+        
+        .controls { flex: 1; padding-left: 30px; display: flex; flex-direction: column; justify-content: center;}
+        h2 { color: #0097a7; margin-top: 0;}
+        button { background: #00bcd4; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px; cursor: pointer; margin-bottom: 10px; font-weight: bold;}
+        button:hover { background: #0097a7; }
+        .data-box { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 20px;}
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <a href="../index.html" style="position: absolute; top: 20px; left: 20px; color: #0097a7; text-decoration: none; font-weight: bold;">← 返回首頁</a>
+    
+    <div class="lab-table">
+        <div class="equipment">
+            <div class="buret">
+                <div class="buret-liquid" id="buretL"></div>
+                <div class="valve"></div>
+                <div class="drop" id="drop"></div>
+            </div>
+            <div class="flask-neck"></div>
+            <div class="flask">
+                <div class="flask-liquid" id="flaskL"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h2>酸鹼滴定實驗模擬</h2>
+            <p style="color: #666; font-size: 0.9rem;">
+                以 0.1M NaOH (滴定管) 滴定未知濃度之 HCl (錐形瓶)。指示劑：酚酞。
+            </p>
+            <button onclick="addDrop()">滴入 1mL 氫氧化鈉</button>
+            <button onclick="resetLab()" style="background: #9e9e9e;">重置實驗</button>
+            
+            <div class="data-box">
+                <div class="data-row"><span>已滴入體積：</span><span id="vol">0</span> mL</div>
+                <div class="data-row"><span>預估 pH 值：</span><span id="ph">1.0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let vol = 0;
+        function addDrop() {
+            if(vol >= 25) return;
+            
+            // Animation
+            const drop = document.getElementById('drop');
+            drop.style.opacity = 1;
+            drop.style.transform = 'translateY(80px)';
+            
+            setTimeout(() => {
+                drop.style.opacity = 0;
+                drop.style.transform = 'translateY(0)';
+                
+                vol += 1;
+                document.getElementById('vol').innerText = vol;
+                document.getElementById('buretL').style.height = (100 - vol * 4) + '%';
+                
+                let ph = 1.0;
+                if(vol < 20) ph = 1.0 + (vol * 0.05);
+                else if (vol >= 20 && vol < 22) ph = 7.0;
+                else ph = 12.0;
+                
+                document.getElementById('ph').innerText = ph.toFixed(1);
+                
+                // Color change
+                if(ph >= 8.2) {
+                    document.getElementById('flaskL').style.background = 'rgba(233, 30, 99, 0.4)'; // pink
+                }
+            }, 300);
+        }
+        
+        function resetLab() {
+            vol = 0;
+            document.getElementById('vol').innerText = 0;
+            document.getElementById('buretL').style.height = '100%';
+            document.getElementById('ph').innerText = '1.0';
+            document.getElementById('flaskL').style.background = 'rgba(255, 255, 255, 0.5)';
+        }
+    </script>
+</body>
+</html>

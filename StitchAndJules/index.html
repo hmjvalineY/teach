@@ -132,6 +132,17 @@
             top: 0;
         }
 
+        .card li a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .card li a:hover {
+            color: var(--primary-blue);
+            text-decoration: underline;
+        }
+
         .badge {
             display: inline-block;
             padding: 3px 8px;
@@ -214,11 +225,11 @@
             <h3>📜 國文科 (Chinese)</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted);">核心：文學數位具象化與文本自動化</p>
             <ul>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>古典地圖網頁：</strong>學習貶謫史時，生成帶有互動地圖與詩句對照的網頁。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>孔子人格測驗：</strong>設計模擬與論語人物對話的心理測驗 App 原型。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>成語排版器：</strong>教師寫 Python 抓每日成語，Jules 修復 Bug 並自動排版講義。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>情感分析工具：</strong>教師開發古文情緒分析程式，Jules 優化分析邏輯。</li>
-                <li><span class="badge badge-both">整合</span> <strong>桃花源記文字遊戲：</strong>學生改編課文，Stitch 做復古介面，Jules 寫分支邏輯。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="chinese/map.html"><strong>古典地圖網頁：</strong></a>學習貶謫史時，生成帶有互動地圖與詩句對照的網頁。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="chinese/test.html"><strong>孔子人格測驗：</strong></a>設計模擬與論語人物對話的心理測驗 App 原型。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="chinese/typesetter.html"><strong>成語排版器：</strong></a>教師寫 Python 抓每日成語，Jules 修復 Bug 並自動排版講義。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="chinese/sentiment.html"><strong>情感分析工具：</strong></a>教師開發古文情緒分析程式，Jules 優化分析邏輯。</li>
+                <li><span class="badge badge-both">整合</span> <a href="chinese/game.html"><strong>桃花源記文字遊戲：</strong></a>學生改編課文，Stitch 做復古介面，Jules 寫分支邏輯。</li>
             </ul>
         </div>
 
@@ -226,11 +237,11 @@
             <h3>🗣️ 英文科 (English)</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted);">核心：情境互動與自動化語言輔助</p>
             <ul>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>外籍生導覽 App：</strong>學生寫全英文文案，生成校園地圖與 Q&A 介面。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>單字情境解謎：</strong>教師製作虛擬密室網頁，輸入正確單字/文法解鎖。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>學習歷程儀表板：</strong>學生設計個人介面，記錄多益進度與英語配音作品。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>新聞摘要腳本：</strong>教師設腳本抓 BBC 新聞，Jules 寫測試確保網頁改版不失效。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>單字推播工具：</strong>學生寫定期發送單字的手機推播程式，Jules 解決 API 串接錯誤。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="english/guide.html"><strong>外籍生導覽 App：</strong></a>學生寫全英文文案，生成校園地圖與 Q&A 介面。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="english/escape.html"><strong>單字情境解謎：</strong></a>教師製作虛擬密室網頁，輸入正確單字/文法解鎖。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="english/dashboard.html"><strong>學習歷程儀表板：</strong></a>學生設計個人介面，記錄多益進度與英語配音作品。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="english/news.html"><strong>新聞摘要腳本：</strong></a>教師設腳本抓 BBC 新聞，Jules 寫測試確保網頁改版不失效。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="english/push.html"><strong>單字推播工具：</strong></a>學生寫定期發送單字的手機推播程式，Jules 解決 API 串接錯誤。</li>
             </ul>
         </div>
 
@@ -238,11 +249,11 @@
             <h3>📐 數學科 (Mathematics)</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted);">核心：抽象邏輯視覺化與運算模擬</p>
             <ul>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>函數動態模擬器：</strong>教師設計網頁介面，拖動滑桿觀察三角函數圖像變化。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>理財複利工具：</strong>學生做學貸試算或儲蓄目標 App，展現生活數學應用。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>統計儀表板：</strong>學生校內問卷調查後，生成即時圓餅圖與長條圖網頁。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>蒙地卡羅算 π：</strong>學生寫程式跑數萬次模擬，Jules 優化迴圈效能。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>題庫自動生成：</strong>教師寫腳本隨機出題，Jules 檢驗邏輯避免生出無解題目。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="math/function.html"><strong>函數動態模擬器：</strong></a>教師設計網頁介面，拖動滑桿觀察三角函數圖像變化。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="math/finance.html"><strong>理財複利工具：</strong></a>學生做學貸試算或儲蓄目標 App，展現生活數學應用。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="math/stats.html"><strong>統計儀表板：</strong></a>學生校內問卷調查後，生成即時圓餅圖與長條圖網頁。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="math/pi.html"><strong>蒙地卡羅算 π：</strong></a>學生寫程式跑數萬次模擬，Jules 優化迴圈效能。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="math/generator.html"><strong>題庫自動生成：</strong></a>教師寫腳本隨機出題，Jules 檢驗邏輯避免生出無解題目。</li>
             </ul>
         </div>
 
@@ -250,11 +261,11 @@
             <h3>🌍 社會科 (Social Studies)</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted);">核心：公民參與與空間資訊展示</p>
             <ul>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>虛擬連署平台：</strong>公民課發起校園議題，做出專業連署網頁與回饋介面。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>地方創生地圖：</strong>地理課將家鄉特色店家製作成互動式導覽網頁地圖。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>歷史 3D 時間軸：</strong>教師生成橫向滑動時間軸，直觀呈現東西方歷史共時性。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>Open Data 爬蟲：</strong>教師抓取政府數據，Jules 背景修復因網站更新導致的失效。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>選戰聲量監測：</strong>模擬選舉中寫程式分析社群聲量，Jules 協助清洗大量數據。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="social-studies/petition.html"><strong>虛擬連署平台：</strong></a>公民課發起校園議題，做出專業連署網頁與回饋介面。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="social-studies/local-map.html"><strong>地方創生地圖：</strong></a>地理課將家鄉特色店家製作成互動式導覽網頁地圖。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="social-studies/timeline.html"><strong>歷史 3D 時間軸：</strong></a>教師生成橫向滑動時間軸，直觀呈現東西方歷史共時性。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="social-studies/spider.html"><strong>Open Data 爬蟲：</strong></a>教師抓取政府數據，Jules 背景修復因網站更新導致的失效。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="social-studies/election.html"><strong>選戰聲量監測：</strong></a>模擬選舉中寫程式分析社群聲量，Jules 協助清洗大量數據。</li>
             </ul>
         </div>
 
@@ -262,11 +273,11 @@
             <h3>🔬 自然科 (Science)</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted);">核心：實驗數據獲取與虛擬實驗室</p>
             <ul>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>虛擬實驗儀表板：</strong>學生製作滴定實驗介面，模擬化學試劑混合變色反應。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>互動式週期表：</strong>教師製作點擊元素即跳出 3D 結構圖與實驗影片的網頁。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>星象觀測日誌：</strong>地科觀星後，學生將數據填入網頁產出個人精美日誌。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>感測器除錯：</strong>物聯網專題中，Jules 協助找出 Arduino 感測器斷線的 C++ Bug。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>物種動態模擬：</strong>教師開發捕食者消長程式，Jules 撰寫變數測試讓模擬更準確。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="science/lab.html"><strong>虛擬實驗儀表板：</strong></a>學生製作滴定實驗介面，模擬化學試劑混合變色反應。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="science/periodic-table.html"><strong>互動式週期表：</strong></a>教師製作點擊元素即跳出 3D 結構圖與實驗影片的網頁。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="science/stars.html"><strong>星象觀測日誌：</strong></a>地科觀星後，學生將數據填入網頁產出個人精美日誌。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="science/sensor.html"><strong>感測器除錯：</strong></a>物聯網專題中，Jules 協助找出 Arduino 感測器斷線的 C++ Bug。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="science/simulation.html"><strong>物種動態模擬：</strong></a>教師開發捕食者消長程式，Jules 撰寫變數測試讓模擬更準確。</li>
             </ul>
         </div>
 
@@ -274,11 +285,11 @@
             <h3>🎨 藝能科 (Arts/Vocational)</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted);">核心：作品集數位化與生成式藝術</p>
             <ul>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>線上 3D 藝廊：</strong>美術班學生生成個人網頁，用瀑布流展示高中三年創作。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>卡路里追蹤 App：</strong>家政課專題，設計管理校園午餐營養的介面原型。</li>
-                <li><span class="badge badge-stitch">Stitch</span> <strong>樂理互動平台：</strong>音樂教師製作虛擬琴鍵，點擊發聲並顯示對應五線譜。</li>
-                <li><span class="badge badge-both">整合</span> <strong>體育即時計分板：</strong>舉辦比賽時，Stitch 生成前端顯示，Jules 處理後端計分同步。</li>
-                <li><span class="badge badge-jules">Jules</span> <strong>生成式藝術：</strong>學生嘗試 p5.js 寫藝術特效，Jules 解決語法錯誤確保網頁順利運行。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="arts/gallery.html"><strong>線上 3D 藝廊：</strong></a>美術班學生生成個人網頁，用瀑布流展示高中三年創作。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="arts/calories.html"><strong>卡路里追蹤 App：</strong></a>家政課專題，設計管理校園午餐營養的介面原型。</li>
+                <li><span class="badge badge-stitch">Stitch</span> <a href="arts/music.html"><strong>樂理互動平台：</strong></a>音樂教師製作虛擬琴鍵，點擊發聲並顯示對應五線譜。</li>
+                <li><span class="badge badge-both">整合</span> <a href="arts/scoreboard.html"><strong>體育即時計分板：</strong></a>舉辦比賽時，Stitch 生成前端顯示，Jules 處理後端計分同步。</li>
+                <li><span class="badge badge-jules">Jules</span> <a href="arts/generative-art.html"><strong>生成式藝術：</strong></a>學生嘗試 p5.js 寫藝術特效，Jules 解決語法錯誤確保網頁順利運行。</li>
             </ul>
         </div>
     </div>

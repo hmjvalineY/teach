@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>歷史 3D 時間軸 - Stitch</title>
+    <style>
+        body { margin: 0; background: #1a1a1a; color: white; font-family: 'Segoe UI', Tahoma, sans-serif; overflow-x: auto; overflow-y: hidden; height: 100vh; display: flex; align-items: center;}
+        .back { position: fixed; top: 20px; left: 20px; color: white; text-decoration: none; border: 1px solid white; padding: 5px 15px; border-radius: 20px; z-index: 100;}
+        .timeline-container { display: flex; align-items: center; padding: 0 50vw; gap: 100px; height: 60vh; position: relative;}
+        .timeline-line { position: absolute; height: 4px; background: #444; width: 4000px; top: 50%; transform: translateY(-50%); z-index: -1; left: 0;}
+        
+        .event { width: 300px; perspective: 1000px; flex-shrink: 0;}
+        .event-card { background: #2a2a2a; border-top: 5px solid #d4af37; padding: 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform-style: preserve-3d; transition: transform 0.5s; position: relative;}
+        .event-card:hover { transform: translateY(-20px) rotateY(10deg); border-top-color: #f1c40f;}
+        .year { font-size: 2.5rem; font-weight: bold; color: #d4af37; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+        .title { font-size: 1.2rem; margin-bottom: 10px;}
+        .desc { color: #aaa; font-size: 0.9rem; line-height: 1.5;}
+        
+        .point { position: absolute; width: 20px; height: 20px; background: #d4af37; border-radius: 50%; bottom: -50px; left: 50%; transform: translateX(-50%); border: 4px solid #1a1a1a;}
+        
+        .up .event-card { transform: translateY(-40px); }
+        .down .event-card { transform: translateY(40px); }
+        .down .point { top: -50px; bottom: auto; }
+        
+        ::-webkit-scrollbar { height: 12px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back">← 返回首頁 (使用 Shift+滾輪 橫向滑動)</a>
+
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div class="event up">
+            <div class="event-card">
+                <div class="year">1492</div>
+                <div class="title">哥倫布發現新大陸</div>
+                <div class="desc">開啟了歐洲國家在美洲的殖民時代，並促成了「哥倫布大交換」，徹底改變了全球的生態與經濟板塊。</div>
+                <div class="point"></div>
+            </div>
+        </div>
+        
+        <div class="event down">
+            <div class="event-card">
+                <div class="year">1517</div>
+                <div class="title">宗教改革</div>
+                <div class="desc">馬丁·路德發表《九十五條論綱》，挑戰天主教會的權威，引發歐洲社會結構與思想的劇烈變動。</div>
+                <div class="point"></div>
+            </div>
+        </div>
+        
+        <div class="event up">
+            <div class="event-card">
+                <div class="year">1624</div>
+                <div class="title">荷蘭人登陸大員</div>
+                <div class="desc">荷蘭東印度公司在台灣南部建立據點，台灣正式被捲入全球貿易網絡，進入大航海時代的歷史舞台。</div>
+                <div class="point"></div>
+            </div>
+        </div>
+        
+        <div class="event down">
+            <div class="event-card">
+                <div class="year">1644</div>
+                <div class="title">明朝滅亡</div>
+                <div class="desc">李自成攻破北京，崇禎帝自縊，清軍入關建立大清帝國。東亞政治秩序重新洗牌。</div>
+                <div class="point"></div>
+            </div>
+        </div>
+        
+        <div class="event up">
+            <div class="event-card">
+                <div class="year">1789</div>
+                <div class="title">法國大革命</div>
+                <div class="desc">巴黎群眾攻佔巴士底監獄，發布《人權宣言》，摧毀絕對君主制，民主自由思想開始在歐洲蔓延。</div>
+                <div class="point"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

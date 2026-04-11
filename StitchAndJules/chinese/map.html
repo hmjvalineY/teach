@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古典文學地圖 - Stitch 實作範例</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary: #8b5a2b; /* 復古棕色 */
+            --bg-color: #f4ecdf; /* 宣紙底色 */
+            --text-main: #3e2723;
+            --accent: #d32f2f;
+        }
+
+        body {
+            font-family: "Noto Serif TC", "PMingLiU", serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#e0cda7 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .map-section {
+            flex: 2;
+            position: relative;
+            background: #e8dbb8;
+            border: 2px solid #bcaaa4;
+            border-radius: 10px;
+            height: 500px;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(139, 90, 43, 0.2);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        /* 替地圖加上復古泛黃濾鏡，營造古典古籍感 */
+        .leaflet-layer,
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out,
+        .leaflet-control-attribution {
+            filter: sepia(0.6) hue-rotate(-15deg) contrast(0.9) saturate(0.8);
+        }
+
+        .pin {
+            position: absolute;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .pin:hover {
+            transform: scale(1.1);
+            background: #b71c1c;
+        }
+
+        .pin::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: var(--accent) transparent transparent transparent;
+        }
+
+        .info-section {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-section h3 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: var(--primary);
+            border-bottom: 2px dashed #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .poem-content {
+            font-size: 1.2rem;
+            line-height: 2;
+            flex-grow: 1;
+        }
+
+        .poem-meta {
+            color: #795548;
+            font-style: italic;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .prompt-box {
+            background: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin-top: 40px;
+            border-radius: 0 5px 5px 0;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="back-btn">← 返回全區</a>
+        <h1>古典地圖網頁：蘇軾貶謫路線</h1>
+    </header>
+
+    <div class="container">
+        <div class="map-section">
+            <div id="map"></div>
+        </div>
+        
+        <div class="info-section">
+            <h3 id="loc-title">請點擊地圖地點</h3>
+            <div class="poem-content" id="poem-text">
+                透過左側的地標，追隨蘇東坡的足跡，感受他在不同貶謫時期的心境變化與千古名篇。
+            </div>
+            <div class="poem-meta" id="poem-meta"></div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 0;">
+        <div class="prompt-box">
+            <strong>🛠️ Stitch 開發提示語 (Prompt) 範例：</strong><br><br>
+            「請幫我設計一個『蘇軾貶謫路線』的互動網頁。背景要採用復古的宣紙材質套色。左半部要有一個中國地圖的示意區塊，上面標出黃州、惠州、儋州三個按鈕。當使用者點擊按鈕時，右半部的面板要平滑地切換顯示蘇軾在該地創作的名句與解析。請使用優雅的襯線字體。」
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            'huangzhou': {
+                title: '黃州 (元豐三年)',
+                text: '「大江東去，浪淘盡，千古風流人物。」<br><br>蘇軾因烏臺詩案貶至黃州。在這裡他歷經生死關頭的頓悟，寫下了震古鑠今的《赤壁賦》與《念奴嬌》。性格由鋒芒畢露轉為曠達。',
+                meta: '— 蘇軾《念奴嬌·赤壁懷古》'
+            },
+            'huizhou': {
+                title: '惠州 (紹聖元年)',
+                text: '「日啖荔枝三百顆，不辭長作嶺南人。」<br><br>晚年再遭貶謫至惠州，雖地處偏遠蠻荒，蘇軾卻能隨遇而安，苦中作樂，甚至協助當地改善民生。',
+                meta: '— 蘇軾《惠州一絕 / 食荔枝》'
+            },
+            'danzhou': {
+                title: '儋州 (紹聖四年)',
+                text: '「九死南荒吾不恨，茲游奇絕冠平生。」<br><br>被放逐至天涯海角的海南島。他在這裡開辦學堂，成為海南文化的拓荒者，展現了超越個人榮辱的偉大精神。',
+                meta: '— 蘇軾《六月二十日夜渡海》'
+            }
+        };
+
+        // 初始化 Leaflet 地圖，中心對準中國華南地區
+        const map = L.map('map', {zoomControl: false}).setView([24.5, 112.0], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 自訂圖標：重複利用既有的 .pin CSS 樣式
+        const createIcon = (label) => L.divIcon({
+            className: '', // 清空預設 class
+            html: `<div class="pin" style="position:relative; top:0; left:0; white-space:nowrap; display:inline-block;">${label}</div>`,
+            iconSize: null, // 讓大小自適應文字
+            iconAnchor: [30, 40]
+        });
+
+        // 建立標記並綁定點擊事件
+        const m1 = L.marker([30.4500, 114.8750], {icon: createIcon('黃州')}).addTo(map).on('click', () => showLocation('huangzhou'));
+        const m2 = L.marker([23.1118, 114.4162], {icon: createIcon('惠州')}).addTo(map).on('click', () => showLocation('huizhou'));
+        const m3 = L.marker([19.5255, 109.5768], {icon: createIcon('儋州')}).addTo(map).on('click', () => showLocation('danzhou'));
+
+        function showLocation(loc) {
+            const info = data[loc];
+            const titleEl = document.getElementById('loc-title');
+            const textEl = document.getElementById('poem-text');
+            const metaEl = document.getElementById('poem-meta');
+
+            // 簡單的動畫效果
+            textEl.style.opacity = 0;
+            metaEl.style.opacity = 0;
+            titleEl.style.opacity = 0;
+
+            setTimeout(() => {
+                titleEl.innerText = info.title;
+                textEl.innerHTML = info.text;
+                metaEl.innerText = info.meta;
+                
+                titleEl.style.transition = 'opacity 0.5s';
+                textEl.style.transition = 'opacity 0.5s';
+                metaEl.style.transition = 'opacity 0.5s';
+                
+                titleEl.style.opacity = 1;
+                textEl.style.opacity = 1;
+                metaEl.style.opacity = 1;
+            }, 200);
+        }
+    </script>
+</body>
+</html>

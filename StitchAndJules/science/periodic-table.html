@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>互動式元素週期表 - Stitch</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #202124; color: white; margin: 0; padding: 20px;}
+        header { border-bottom: 2px solid #5f6368; padding-bottom: 10px; margin-bottom: 20px;}
+        header a { color: #8ab4f8; text-decoration: none;}
+        .table-grid { display: grid; grid-template-columns: repeat(18, 1fr); gap: 5px; max-width: 1200px; margin: 0 auto;}
+        
+        .element { background: #3c4043; border: 1px solid #5f6368; padding: 5px;text-align: center; border-radius: 4px; cursor: pointer; transition: transform 0.2s, background 0.2s;}
+        .element:hover { transform: scale(1.1); z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.5);}
+        .num { font-size: 0.7rem; color: #9aa0a6; text-align: left;}
+        .sym { font-size: 1.5rem; font-weight: bold;}
+        .name { font-size: 0.7rem;}
+        
+        /* Categories */
+        .alkali { background: #c2185b; }
+        .alkaline { background: #e64a19; }
+        .transition { background: #fbc02d; color: black; }
+        .noble { background: #512da8; }
+        
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100;}
+        .modal-content { background: #303134; padding: 30px; border-radius: 10px; width: 400px; position: relative;}
+        .close { position: absolute; right: 20px; top: 20px; font-size: 1.5rem; cursor: pointer; color: #9aa0a6;}
+        .close:hover { color: white; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html">← 返回首頁</a>
+        <h1 style="margin: 10px 0 0 0;">互動式化學元素週期表</h1>
+    </header>
+
+    <div class="table-grid">
+        <!-- Mock up a few elements -->
+        <div class="element alkali" style="grid-column: 1; grid-row: 1;" onclick="show('H', '氫', '1.008', '宇宙中最豐富的元素。')">
+            <div class="num">1</div><div class="sym">H</div><div class="name">氫</div>
+        </div>
+        <div class="element noble" style="grid-column: 18; grid-row: 1;" onclick="show('He', '氦', '4.0026', '可用於填充氣球，化學性質極不活潑。')">
+            <div class="num">2</div><div class="sym">He</div><div class="name">氦</div>
+        </div>
+        <div class="element alkali" style="grid-column: 1; grid-row: 2;" onclick="show('Li', '鋰', '6.94', '質輕的金屬，廣泛用於現代電池中。')">
+            <div class="num">3</div><div class="sym">Li</div><div class="name">鋰</div>
+        </div>
+        <div class="element alkaline" style="grid-column: 2; grid-row: 2;" onclick="show('Be', '鈹', '9.0122', '用於航空航天材料，有毒。')">
+            <div class="num">4</div><div class="sym">Be</div><div class="name">鈹</div>
+        </div>
+        <!-- Gap -->
+        <div class="element noble" style="grid-column: 18; grid-row: 2;" onclick="show('Ne', '氖', '20.180', '通電時發出紅橙色光，用於霓虹燈。')">
+            <div class="num">10</div><div class="sym">Ne</div><div class="name">氖</div>
+        </div>
+        
+        <div class="element transition" style="grid-column: 11; grid-row: 4;" onclick="show('Cu', '銅', '63.546', '優良的導電體，人類最早使用的金屬之一。')">
+            <div class="num">29</div><div class="sym" style="color: black;">Cu</div><div class="name">銅</div>
+        </div>
+        
+        <!-- More empty space for visual effect just grid spacing -->
+    </div>
+    
+    <div style="margin-top: 50px; color: #9aa0a6; text-align: center; font-size: 0.9rem;">
+        (僅為 Stitch 介面生成示範，部分元素省略)
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+            <div style="font-size: 4rem; font-weight: bold; margin-bottom: 0;" id="m-sym">H</div>
+            <h2 style="margin-top: 0; color: #8ab4f8;" id="m-name">氫</h2>
+            <div style="margin-bottom: 20px; color: #9aa0a6;">原子量: <span id="m-wt"></span></div>
+            <p id="m-desc" style="line-height: 1.5;"></p>
+            <div style="width: 100%; height: 150px; background: #202124; border-radius: 5px; display: flex; justify-content: center; align-items: center; color: #e8eaed; border: 1px dashed #5f6368;">
+                [ 3D 分子結構或實驗影片佔位區 ]
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function show(sym, name, wt, desc) {
+            document.getElementById('m-sym').innerText = sym;
+            document.getElementById('m-name').innerText = name;
+            document.getElementById('m-wt').innerText = wt;
+            document.getElementById('m-desc').innerText = desc;
+            document.getElementById('modal').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

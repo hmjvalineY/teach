@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>個人星象觀測日誌 - Stitch</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0B0C10; color: #C5C6C7; margin: 0; padding: 0;}
+        .sky-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1F2833 0%, #0B0C10 100%); z-index: -1; overflow: hidden;}
+        /* Pure CSS Stars */
+        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--dur) infinite alternate;}
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px white; } }
+
+        header { padding: 30px; display: flex; justify-content: space-between; align-items: center;}
+        header a { color: #66FCF1; text-decoration: none; border: 1px solid #66FCF1; padding: 5px 15px; border-radius: 20px;}
+        header h1 { margin: 0; color: #66FCF1; text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);}
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 2fr; gap: 30px;}
+        .form-panel { background: rgba(31, 40, 51, 0.8); padding: 30px; border-radius: 15px; border: 1px solid #45A29E; backdrop-filter: blur(10px);}
+        h2 { color: #45A29E; margin-top: 0;}
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #45A29E; background: transparent; color: white; border-radius: 5px; box-sizing: border-box;}
+        button { background: #66FCF1; color: #0B0C10; border: none; padding: 10px 20px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%;}
+        
+        .log-list { display: flex; flex-direction: column; gap: 20px;}
+        .log-entry { background: rgba(31, 40, 51, 0.6); border-left: 4px solid #66FCF1; padding: 20px; border-radius: 5px;}
+        .log-date { font-size: 0.8rem; color: #45A29E; margin-bottom: 5px;}
+        .log-title { font-size: 1.2rem; color: white; margin-bottom: 10px; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <div class="sky-bg">
+        <div class="star" style="top: 10%; left: 20%; width: 2px; height: 2px; --dur: 2s;"></div>
+        <div class="star" style="top: 30%; left: 50%; width: 3px; height: 3px; --dur: 3s;"></div>
+        <div class="star" style="top: 70%; left: 80%; width: 2px; height: 2px; --dur: 1.5s;"></div>
+        <div class="star" style="top: 80%; left: 10%; width: 4px; height: 4px; --dur: 4s;"></div>
+    </div>
+
+    <header>
+        <a href="../index.html">← 返回</a>
+        <h1>Stargazer's Log</h1>
+    </header>
+
+    <div class="container">
+        <div class="form-panel">
+            <h2>新增觀測紀錄</h2>
+            <label>觀測天體 / 星座</label>
+            <input type="text" placeholder="例如：獵戶座大星雲 (M42)">
+            <label>觀測日期與時間</label>
+            <input type="datetime-local" value="2026-04-10T21:00">
+            <label>天氣狀況 / 光害影響</label>
+            <input type="text" placeholder="例如：晴朗無雲，Bortle 4">
+            <label>觀測心得</label>
+            <textarea rows="5" placeholder="描述你看到的景象..."></textarea>
+            <button>儲存日誌</button>
+        </div>
+
+        <div class="log-list">
+            <div class="log-entry">
+                <div class="log-date">2026/04/05 22:30</div>
+                <div class="log-title">木星與伽利略衛星</div>
+                <div class="log-content">使用學校的 8 吋杜布森望遠鏡，清楚看見木星的兩條主要雲帶，以及四顆排成一列的伽利略衛星。非常感動！</div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026/03/15 20:00</div>
+                <div class="log-title">尋找北極星 (Polaris)</div>
+                <div class="log-content">利用大熊座的北斗七星勺口延伸五倍距離，成功定位到位於小熊座尾端的北極星。</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

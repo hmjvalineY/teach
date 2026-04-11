@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>p5.js 生成式藝術 - Jules 除錯支援</title>
+    <style>
+        body { margin: 0; background: #222; color: #fff; font-family: sans-serif; display: flex; height: 100vh;}
+        .sidebar { width: 400px; background: #333; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; overflow-y: auto;}
+        .canvas-area { flex-grow: 1; display: flex; justify-content: center; align-items: center;}
+        canvas { background: black; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 1px solid #555;}
+        
+        pre { background: #111; padding: 15px; border-radius: 5px; color: #f8f8f2; overflow-x: auto; font-size: 0.9rem;}
+        .highlight { color: #f1fa8c;}
+        .error { color: #ff5555;}
+        .fix { color: #50fa7b;}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="../index.html" style="color: white; text-decoration: none; display: inline-block; border: 1px solid; padding: 5px 15px; text-align: center; border-radius: 20px;">← 返回首頁</a>
+        <h2 style="margin: 0; color: #ff79c6;">Jules 修復紀錄</h2>
+        <p><strong>學生原程式碼：</strong></p>
+        <pre>
+for(var i=0; i<360; i++) {
+  var x = r * Math.sin(i);
+  var y = r * <span class="error">Math.cos(i)</span>; // Canvas 畫不出漂亮的碎形！
+  ellipse(x, y, 5, 5);
+}</pre>
+
+        <p><strong>🤖 Jules 建議與修復：</strong><br>Math.sin() 傳入的單位應該是弧度 (Radians) 而不是角度 (Degrees)。我幫您引入了 noise() 來產生柏林雜訊，使粒子的流動更具有機的藝術感！</p>
+        <pre>
+for(let a=0; a&lt;TWO_PI; a+=0.1) {
+  let offset = <span class="fix">noise(a + t)</span> * 50;
+  let r = 100 + offset;
+  let x = r * cos(a);
+  let y = r * sin(a);
+  ...
+}</pre>
+        <button style="background: #bd93f9; color: white; border: none; padding: 10px; font-weight: bold; border-radius: 5px; cursor: pointer;" onclick="drawArt()">重新繪製特效</button>
+    </div>
+
+    <div class="canvas-area">
+        <canvas id="c" width="600" height="600"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let t = 0;
+
+        function drawArt() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.save();
+            ctx.translate(300, 300);
+            
+            for(let i=0; i<Math.PI*2; i+=0.1) {
+                // mock perlin noise with sine waves
+                let n = Math.sin(i*3 + t) * Math.cos(i*2 - t*0.5) * 50;
+                let r = 150 + n;
+                let x = r * Math.cos(i);
+                let y = r * Math.sin(i);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI*2);
+                ctx.fillStyle = `hsl(${(i * 180 / Math.PI + t * 50) % 360}, 100%, 60%)`;
+                ctx.fill();
+            }
+            
+            ctx.restore();
+            t += 0.05;
+            requestAnimationFrame(drawArt);
+        }
+        
+        drawArt();
+    </script>
+</body>
+</html>

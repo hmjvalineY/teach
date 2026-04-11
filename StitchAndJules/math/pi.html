@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>蒙地卡羅計算 π - Jules 優化</title>
+    <style>
+        body { font-family: 'Consolas', monospace; color: #eee; background: #222; margin: 0; padding: 40px; display: flex; gap: 40px; align-items: flex-start;}
+        .jules-console { flex: 1; background: #111; border: 1px solid #444; border-radius: 8px; padding: 20px;}
+        .jules-console h2 { color: #f39c12; margin-top: 0; border-bottom: 1px dashed #444; padding-bottom: 10px;}
+        
+        .sim-area { flex: 1; display: flex; flex-direction: column; align-items: center;}
+        canvas { background: #333; border: 2px solid #555; border-radius: 4px; box-shadow: 0 0 20px rgba(0,0,0,0.5);}
+        .stats { background: #000; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; width: 100%; box-sizing: border-box; border: 1px solid #333;}
+        .pi-val { font-size: 3rem; color: #2ecc71; font-weight: bold;}
+        button { background: #f39c12; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 5px; margin-top: 20px; font-weight: bold;}
+        button:hover { background: #e67e22; }
+    </style>
+</head>
+<body>
+    <div class="jules-console">
+        <a href="../index.html" style="color: white; text-decoration: none; font-family: sans-serif; display: inline-block; margin-bottom: 20px;">← 返回首頁</a>
+        <h2>Jules Code Reviewer</h2>
+        <p><strong>[User]</strong><br>我寫了一個蒙地卡羅算圓周率的 Python 迴圈，但當模擬次數標高到 1000 萬次時，瀏覽器/終端機直接卡死。請幫我修正。</p>
+        <p><strong>[Jules]</strong><br>你原先使用純粹的 `for` 迴圈跑 1000 萬次，這在單執行緒的環境下會阻塞主執行緒。我幫你將運算分批拆解（使用 JavaScript 的 `requestAnimationFrame` 或 Python 的向量化/平行運算技術），同時加上視覺化回饋，這樣就不會卡死了！</p>
+        <div style="background: #333; padding: 10px; border-radius: 5px; color: #a8ff60;">
+            ✔ 解決阻塞問題 (Non-blocking loop)<br>
+            ✔ 提升效能 (Batch rendering)<br>
+            ✔ 修復變數溢位警告
+        </div>
+    </div>
+
+    <div class="sim-area">
+        <canvas id="c" width="400" height="400"></canvas>
+        <button onclick="startSim()">Jules 優化版：開始模擬</button>
+        <div class="stats">
+            <div style="color: #888;">目前總點數: <span id="pts">0</span></div>
+            <div style="color: #888;">估計圓周率 (π)</div>
+            <div class="pi-val" id="piStr">3.000000</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const R = W / 2;
+        
+        let inside = 0;
+        let total = 0;
+        let running = false;
+        
+        ctx.translate(W/2, H/2);
+        
+        // Draw circle boundary
+        ctx.beginPath();
+        ctx.arc(0, 0, R, 0, Math.PI * 2);
+        ctx.strokeStyle = '#666';
+        ctx.stroke();
+
+        function addPoints() {
+            if(!running) return;
+            
+            // Batch of 1000 to avoid freezing
+            for(let i=0; i<3000; i++) {
+                const x = (Math.random() * 2 - 1);
+                const y = (Math.random() * 2 - 1);
+                const d = x*x + y*y;
+                
+                total++;
+                if(d <= 1) {
+                    inside++;
+                    ctx.fillStyle = 'rgba(46, 204, 113, 0.5)';
+                } else {
+                    ctx.fillStyle = 'rgba(231, 76, 60, 0.5)';
+                }
+                ctx.fillRect(x*R, y*R, 1, 1);
+            }
+            
+            const pi = 4 * (inside / total);
+            document.getElementById('pts').innerText = total.toLocaleString();
+            document.getElementById('piStr').innerText = pi.toFixed(6);
+            
+            if(total < 300000) {
+                requestAnimationFrame(addPoints);
+            } else {
+                running = false;
+            }
+        }
+        
+        function startSim() {
+            ctx.clearRect(-W/2, -H/2, W, H);
+            ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI * 2); ctx.stroke();
+            inside = 0; total = 0;
+            if(!running) {
+                running = true;
+                addPoints();
+            }
+        }
+    </script>
+</body>
+</html>

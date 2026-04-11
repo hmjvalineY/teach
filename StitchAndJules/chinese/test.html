@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孔子人格測驗 - Stitch 實作範例</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --bg-color: #f0f4f8;
+            --chat-bg: #ffffff;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; }
+        header { background-color: var(--primary); color: white; padding: 20px; text-align: center; position: relative;}
+        .back-btn { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: white; text-decoration: none; border: 1px solid white; padding: 5px 15px; border-radius: 20px;}
+        .app-container { max-width: 500px; margin: 40px auto; background: var(--chat-bg); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; height: 600px; display: flex; flex-direction: column; }
+        .chat-area { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: #e5ddd5; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 15px; font-size: 1rem; line-height: 1.4; animation: fadeIn 0.3s; }
+        .msg.master { background: white; align-self: flex-start; border-bottom-left-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .msg.user { background: #dcf8c6; align-self: flex-end; border-bottom-right-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .options-area { background: #f0f0f0; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .btn-option { background: white; border: 1px solid #ccc; padding: 15px; border-radius: 10px; cursor: pointer; text-align: center; transition: background 0.2s; font-size: 1rem; }
+        .btn-option:hover { background: #e9ecef; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .prompt-box { max-width: 500px; margin: 20px auto; padding: 15px; background: #e8f0fe; border-left: 4px solid #1a73e8; border-radius: 5px; font-size: 0.9rem;}
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="back-btn">← 返回</a>
+        <h1>孔廟 Chat：你是哪位弟子？</h1>
+    </header>
+
+    <div class="app-container">
+        <div class="chat-area" id="chat">
+            <div class="msg master"><strong>孔子：</strong><br>有朋自遠方來，不亦樂乎！年輕人，如果你在街上看到有人錢包掉了，你會怎麼做？</div>
+        </div>
+        <div class="options-area" id="opts">
+            <div class="btn-option" onclick="reply('大聲呼喊叫住他，馬上歸還', 'A')">大聲呼喊叫住他，馬上歸還</div>
+            <div class="btn-option" onclick="reply('先撿起來看看裡面有多少錢再說', 'B')">先撿起來看看裡面有多少錢再說</div>
+            <div class="btn-option" onclick="reply('假裝沒看到，多一事不如少一事', 'C')">假裝沒看到，多一事不如少一事</div>
+        </div>
+    </div>
+
+    <div class="prompt-box">
+        <strong>🛠️ Stitch 開發提示語範例：</strong><br>
+        「設計一個仿照 Line 聊天介面的網頁 App。對方是『孔子』。畫面上方是歷史聊天紀錄，下方是三個選擇題按鈕。點擊後會顯示使用者的回覆，然後孔子會跳出新的對話。」
+    </div>
+
+    <script>
+        const chat = document.getElementById('chat');
+        const opts = document.getElementById('opts');
+
+        function appendMsg(text, sender) {
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+            div.innerHTML = sender === 'master' ? `<strong>孔子：</strong><br>${text}` : text;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function reply(text, type) {
+            appendMsg(text, 'user');
+            opts.style.display = 'none';
+            setTimeout(() => {
+                let replyTxt = "";
+                if(type === 'A') replyTxt = "善哉！見義勇為，非顏回莫屬也。你具有高度的道德自覺與仁愛之心。";
+                if(type === 'B') replyTxt = "思慮周密，雖不純粹但也近乎情理，頗有子貢之風。";
+                if(type === 'C') replyTxt = "朽木不可雕也！你這宰予，還不快去讀書！";
+                
+                appendMsg(replyTxt, 'master');
+                setTimeout(() => {
+                    opts.innerHTML = `<div class="btn-option" onclick="location.reload()">重新測驗</div>`;
+                    opts.style.display = 'flex';
+                }, 1000);
+            }, 800);
+        }
+    </script>
+</body>
+</html>

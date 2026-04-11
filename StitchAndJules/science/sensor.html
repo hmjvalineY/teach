@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Arduino 感測器除錯 - Jules 輔助</title>
+    <style>
+        body { font-family: 'Consolas', monospace; background: #282a36; color: #f8f8f2; margin: 0; padding: 40px;}
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #6272a4; padding-bottom: 20px;}
+        .header a { color: #8be9fd; text-decoration: none; border: 1px solid; padding: 5px 15px; border-radius: 5px;}
+        .ide-container { display: flex; gap: 20px; margin-top: 20px;}
+        .code-window { flex: 2; background: #21222c; border-radius: 8px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); overflow-x: auto;}
+        .terminal { flex: 1; background: #000; border-radius: 8px; padding: 20px; color: #50fa7b; font-size: 0.9rem; line-height: 1.5; display: flex; flex-direction: column;}
+        
+        pre { margin: 0; line-height: 1.5;}
+        .err-line { background: rgba(255, 85, 85, 0.2); display: block; border-left: 3px solid #ff5555; padding-left: 10px;}
+        .fix-line { background: rgba(80, 250, 123, 0.2); display: block; border-left: 3px solid #50fa7b; padding-left: 10px;}
+        .comment { color: #6272a4; }
+        .keyword { color: #ff79c6; }
+        .func { color: #50fa7b; }
+        
+        .jules-card { background: #44475a; border-radius: 8px; padding: 20px; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="margin: 0; color: #bd93f9;">物聯網專題：Arduino 序列埠斷線除錯</h1>
+        <a href="../index.html">← 返回首頁</a>
+    </div>
+
+    <div class="ide-container">
+        <div class="code-window">
+            <h3 style="color: #8be9fd; margin-top: 0;">DHT11_Sensor.ino</h3>
+            <pre>
+<span class="keyword">#include</span> &lt;DHT.h&gt;
+
+<span class="keyword">#define</span> DHTPIN 2
+<span class="keyword">#define</span> DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+<span class="keyword">void</span> <span class="func">setup</span>() {
+  <span class="err-line" style="display: none;" id="erl">Serial.<span class="func">begin</span>(9600); <span class="comment">// Jules 提示：baud rate 設太低導致緩衝區阻塞</span></span>
+  <span class="fix-line">Serial.<span class="func">begin</span>(115200); <span class="comment">// Jules 自動建議修改：提高鮑率</span></span>
+  dht.<span class="func">begin</span>();
+}
+
+<span class="keyword">void</span> <span class="func">loop</span>() {
+  <span class="keyword">float</span> h = dht.readHumidity();
+  <span class="keyword">float</span> t = dht.readTemperature();
+  
+  <span class="err-line" style="display: none;" id="erl2"><span class="comment">// 學生原先沒加上延遲，導致連續瘋狂寫入 Serial Port 造成當機</span></span>
+  <span class="fix-line"><span class="func">delay</span>(2000); <span class="comment">// Jules 建議：DHT11 讀取週期為 2 秒</span></span>
+  
+  Serial.<span class="func">print</span>("Temp: "); Serial.<span class="func">print</span>(t); Serial.<span class="func">println</span>("C");
+}
+            </pre>
+        </div>
+        
+        <div class="terminal">
+            <h3 style="color: #f8f8f2; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 5px;">Serial Monitor</h3>
+            <div id="out">
+                Temp: 25.40C<br>
+                Temp: 25.40C<br>
+                Temp: 25.50C<br>
+                <span style="color: #ff5555;">[ERROR] Port disconnected. Buffer overflow.</span>
+            </div>
+            <button onclick="fix()" style="margin-top: auto; background: #bd93f9; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold;">套用 Jules 建議並重新燒錄</button>
+        </div>
+    </div>
+    
+    <div class="jules-card">
+        <strong>🤖 Jules 的除錯分析：</strong><br>
+        「檢測到 Serial Buffer Overflow 錯誤。原因是 <code>loop()</code> 中沒有加上延遲，DHT11 晶片無法負荷以 CPU 速度連續讀取。此外，建議將 Baud rate 從 9600 提升至 115200 以加快資料傳輸效率，避免阻塞主迴圈。」
+    </div>
+
+    <script>
+        function fix() {
+            document.getElementById('out').innerHTML = "Uploading... Done.<br>Temp: 25.40C<br>Temp: 25.40C<br>(每兩秒穩定更新一次)";
+            document.getElementById('erl').style.display = 'none';
+            document.getElementById('erl2').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>古文情感分析工具 - Jules 實作範例</title>
+    <style>
+        :root { --primary: #00796b; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eceff1; margin: 0; }
+        header { background: var(--primary); color: white; padding: 20px; text-align: center; position: relative;}
+        .back-btn { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: white; text-decoration: none; border: 1px solid white; padding: 5px 15px; border-radius: 20px;}
+        .container { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 100px; padding: 10px; font-size: 1.1rem; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px;}
+        button { background: var(--primary); color: white; border: none; padding: 10px 20px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; margin-top: 15px;}
+        button:hover { opacity: 0.9; }
+        .bars { margin-top: 30px; display: none; }
+        .bar-wrap { margin-bottom: 15px; }
+        .bar-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: bold;}
+        .bar-bg { width: 100%; background: #eee; height: 20px; border-radius: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 10px; width: 0; transition: width 1s ease-in-out; }
+        .jules-info { background: #e0f2f1; padding: 15px; border-left: 4px solid #004d40; margin-top: 20px; font-size: 0.9rem;}
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="back-btn">← 返回</a>
+        <h1>古文 NLP 情感雷達</h1>
+    </header>
+    <div class="container">
+        <h3>輸入詩詞文字：</h3>
+        <textarea id="poem">尋尋覓覓，冷冷清清，淒淒慘慘戚戚。乍暖還寒時候，最難將息。</textarea>
+        <button onclick="analyze()">啟動分析引擎</button>
+        
+        <div class="jules-info">
+            <strong>🤖 Jules 優化紀錄：</strong> 教師最初使用簡單的字典比對法，準確率低。Jules 建議導入 Transformer 模型 API，並自動生成了請求與 JSON 結構解析的非同步處理程式碼。
+        </div>
+
+        <div class="bars" id="results">
+            <div class="bar-wrap">
+                <div class="bar-label"><span>悲傷 (Sadness)</span><span id="score-sad">0%</span></div>
+                <div class="bar-bg"><div class="bar-fill" style="background:#5c6bc0;" id="bar-sad"></div></div>
+            </div>
+            <div class="bar-wrap">
+                <div class="bar-label"><span>曠達 (Grandeur)</span><span id="score-grand">0%</span></div>
+                <div class="bar-bg"><div class="bar-fill" style="background:#fbc02d;" id="bar-grand"></div></div>
+            </div>
+            <div class="bar-wrap">
+                <div class="bar-label"><span>喜悅 (Joy)</span><span id="score-joy">0%</span></div>
+                <div class="bar-bg"><div class="bar-fill" style="background:#43a047;" id="bar-joy"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function analyze() {
+            document.getElementById('results').style.display = 'block';
+            const poem = document.getElementById('poem').value;
+            
+            // Mock logic
+            let sad = 10, grand = 10, joy = 10;
+            if (poem.includes('淒') || poem.includes('冷')) sad = 95;
+            else if (poem.includes('大江東去') || poem.includes('笑')) { grand = 85; joy = 40; sad = 5; }
+
+            setTimeout(() => {
+                document.getElementById('bar-sad').style.width = sad + '%';
+                document.getElementById('bar-grand').style.width = grand + '%';
+                document.getElementById('bar-joy').style.width = joy + '%';
+                
+                document.getElementById('score-sad').innerText = sad + '%';
+                document.getElementById('score-grand').innerText = grand + '%';
+                document.getElementById('score-joy').innerText = joy + '%';
+            }, 100);
+        }
+    </script>
+</body>
+</html>

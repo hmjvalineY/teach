@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BBC News Auto Summarizer - Jules Demo</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #fdfdfd; margin: 0; padding: 40px; color: #333;}
+        .jules-terminal { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 30px;}
+        .jules-header { border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 15px; color: #569cd6;}
+        .btn-run { background: #569cd6; color: white; border: none; padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 5px; font-weight: bold;}
+        .news-container { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .news-card { border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .news-card img { width: 100%; height: 180px; background: #ddd; object-fit: cover;}
+        .news-card .content { padding: 20px; }
+        .news-card h3 { margin-top: 0; color: #b71c1c; font-size: 1.2rem;}
+        .summary { color: #555; font-size: 0.95rem; line-height: 1.5; background: #f9f9f9; padding: 10px; border-left: 3px solid #b71c1c}
+    </style>
+</head>
+<body>
+    <a href="../index.html" style="text-decoration: none; color: #b71c1c; font-weight: bold;">← Back to Index</a>
+    <h1 style="border-bottom: 2px solid #b71c1c; padding-bottom: 10px; display: inline-block;">Daily News Summarizer</h1>
+
+    <div class="jules-terminal">
+        <div class="jules-header">Jules Agent: Test Suite Execution</div>
+        <code>
+            > Running tests for BBC Scraper...<br>
+            > [FAIL] test_fetch_headlines (bbc_scraper.py:42) - ElementNotFoundError: div.media__content not found<br>
+            > Jules AI Analysis: "The BBC website has updated its DOM structure. The headlines are now wrapped in 'div.ssrcss-1q0x1qg-Paragraph'."<br>
+            > [FIX] Patching bbc_scraper.py line 45...<br>
+            > Running tests... [PASS]<br>
+            > Extracted 3 articles successfully.
+        </code>
+    </div>
+
+    <button class="btn-run" onclick="document.getElementById('news').style.display='grid'">View Scraped & Summarized Output</button>
+
+    <div class="news-container" id="news" style="display: none;">
+        <div class="news-card">
+            <div style="width:100%; height:180px; background:url('https://placehold.co/400x200?text=Tech+News') center/cover;"></div>
+            <div class="content">
+                <h3>AI Breakthrough in Medicine</h3>
+                <div class="summary"><b>TL;DR:</b> Researchers developed a new AI model capable of predicting protein structures in seconds, potentially revolutionizing drug discovery.</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <div style="width:100%; height:180px; background:url('https://placehold.co/400x200?text=Space+News') center/cover;"></div>
+            <div class="content">
+                <h3>James Webb Telescope Finds Water</h3>
+                <div class="summary"><b>TL;DR:</b> NASA's telescope detected water vapor in the atmosphere of an exoplanet located 120 light-years away.</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

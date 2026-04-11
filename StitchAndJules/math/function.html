@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>三角函數動態模擬器 - Stitch</title>
+    <style>
+        :root { --primary: #3f51b5; --bg: #f5f5f5; --text: #333;}
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;}
+        .card { background: white; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); padding: 30px; width: 800px; max-width: 100%; box-sizing: border-box; text-align: center; position: relative;}
+        .back { position: absolute; left: 20px; top: 20px; text-decoration: none; color: white; background: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;}
+        h1 { color: var(--primary); margin-top: 0;}
+        canvas { border: 1px solid #ccc; border-radius: 5px; background: #fafafa; margin-top: 20px; width: 100%;}
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; text-align: left; background: #e8eaf6; padding: 20px; border-radius: 10px;}
+        .control-group label { font-weight: bold; color: var(--primary); display: flex; justify-content: space-between;}
+        input[type=range] { width: 100%; margin-top: 10px;}
+        .prompt-box { background: white; border-left: 4px solid var(--primary); padding: 15px; font-size: 0.9rem; text-align: left; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <a href="../index.html" class="back">← 返回</a>
+        <h1>動態三角函數模擬</h1>
+        <p>觀察方程式：y = <span id="v-amp">1</span> * sin(<span id="v-freq">1</span>x) 的圖形變化</p>
+
+        <canvas id="graph" width="700" height="300"></canvas>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>振幅 (Amplitude) <span id="lbl-amp">1</span></label>
+                <input type="range" id="amp" min="0.1" max="5" step="0.1" value="1" oninput="draw()">
+            </div>
+            <div class="control-group">
+                <label>頻率 (Frequency) <span id="lbl-freq">1</span></label>
+                <input type="range" id="freq" min="0.5" max="5" step="0.1" value="1" oninput="draw()">
+            </div>
+        </div>
+
+        <div class="prompt-box">
+            <strong>🛠️ Stitch 提示語：</strong> "設計一個網頁工具，包含一個能繪製 sin(x) 的 Canvas。下方提供兩個滑桿，分別控制振幅與頻率。拖動滑桿時， Canvas 要即時重新渲染波形，並在標題顯示目前數值。"
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('graph');
+        const ctx = canvas.getContext('2d');
+
+        function draw() {
+            const amp = document.getElementById('amp').value;
+            const freq = document.getElementById('freq').value;
+
+            document.getElementById('lbl-amp').innerText = amp;
+            document.getElementById('lbl-freq').innerText = freq;
+            document.getElementById('v-amp').innerText = amp;
+            document.getElementById('v-freq').innerText = freq;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw axes
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#aaa';
+            ctx.moveTo(0, canvas.height / 2);
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+
+            // Draw sine wave
+            ctx.beginPath();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#3f51b5';
+            
+            for (let x = 0; x < canvas.width; x++) {
+                // transform x to logical coordinate (-10 to 10)
+                const logicX = (x - canvas.width / 2) / 30;
+                // calculate y = A * sin(f * x)
+                const logicY = amp * Math.sin(freq * logicX);
+                // transform logic y to canvas y
+                const canvasY = canvas.height / 2 - logicY * 30;
+
+                if (x === 0) ctx.moveTo(x, canvasY);
+                else ctx.lineTo(x, canvasY);
+            }
+            ctx.stroke();
+        }
+
+        draw(); // init
+    </script>
+</body>
+</html>

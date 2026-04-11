@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>政府 Open Data 爬蟲 - Jules 自動修復範例</title>
+    <style>
+        body { font-family: monospace; background: #0d1117; color: #c9d1d9; margin: 0; padding: 40px; font-size: 14px; line-height: 1.6;}
+        a { color: #58a6ff; text-decoration: none;}
+        .terminal { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 20px; max-width: 800px; margin: 20px auto; box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        .prompt::before { content: "$ "; color: #3fb950; font-weight: bold;}
+        .error { color: #f85149; }
+        .jules { color: #a5d6ff; border-left: 3px solid #1f6feb; padding-left: 10px; margin: 15px 0;}
+        .success { color: #3fb950; }
+        .mock-app { background: white; color: #333; max-width: 800px; margin: 40px auto; border-radius: 6px; padding: 20px; font-family: sans-serif;}
+        table { width: 100%; border-collapse: collapse; margin-top: 20px;}
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left;}
+        th { background: #f6f8fa; }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <a href="../index.html">← 返回首頁</a>
+    </div>
+
+    <div class="terminal">
+        <div class="prompt">python fetch_ubike.py</div>
+        <div class="error">
+            Traceback (most recent call last):<br>
+            &nbsp;&nbsp;File "fetch_ubike.py", line 12, in <module><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;available = site['sbi']<br>
+            KeyError: 'sbi'
+        </div>
+        
+        <div class="jules">
+            <strong>🤖 Jules Analysis:</strong><br>
+            I noticed the Python script threw a KeyError. The government's YouBike Open Data API has recently changed its response schema to v2.0.<br>
+            The field for available bikes has changed from <code>'sbi'</code> to <code>'available_rent_bikes'</code>.<br>
+            I will apply a patch to update the JSON keys mapping.
+        </div>
+        
+        <div class="prompt">jules apply-fix</div>
+        <div>Patching fetch_ubike.py... Done.</div>
+        <div class="prompt">python fetch_ubike.py</div>
+        <div class="success">Data fetched successfully! Parsed 1200 stations. rendering output...</div>
+    </div>
+
+    <div class="mock-app">
+        <h2 style="margin-top: 0;">大台北 YouBike 即時站點狀態 (爬蟲輸出結果)</h2>
+        <table>
+            <tr>
+                <th>站名</th>
+                <th>行政區</th>
+                <th>可借車輛</th>
+                <th>可停空位</th>
+            </tr>
+            <tr>
+                <td>捷運市政府站(3號出口)</td>
+                <td>信義區</td>
+                <td style="color: red; font-weight: bold;">3</td>
+                <td>45</td>
+            </tr>
+            <tr>
+                <td>捷運台大醫院站(4號出口)</td>
+                <td>中正區</td>
+                <td style="color: green; font-weight: bold;">28</td>
+                <td>12</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

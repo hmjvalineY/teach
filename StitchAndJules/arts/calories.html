@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>健康餐盤卡路里追蹤 (家政專題) - Stitch</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fdfdfd; display: flex; justify-content: center; padding: 40px; margin: 0;}
+        .mobile-app { width: 375px; height: 812px; border: 15px solid #222; border-radius: 40px; background: #fff; box-shadow: 0 20px 50px rgba(0,0,0,0.1); position: relative; overflow: hidden; display: flex; flex-direction: column;}
+        .mobile-app::before { content: ''; width: 150px; height: 25px; background: #222; position: absolute; left: 50%; transform: translateX(-50%); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; z-index: 100;}
+        
+        .top-bar { background: #ff7043; color: white; padding: 50px 20px 20px 20px; display: flex; justify-content: space-between;}
+        
+        .summary-card { margin: 20px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 20px rgba(255, 112, 67, 0.1); text-align: center; border: 1px solid #ffe0b2;}
+        .circle { width: 150px; height: 150px; border-radius: 50%; border: 15px solid #ffe0b2; border-top-color: #ff7043; border-right-color: #ff7043; border-bottom-color: #ffccbc; margin: 0 auto; display: flex; justify-content: center; align-items: center; flex-direction: column; transform: rotate(-45deg);}
+        .circle-inner { transform: rotate(45deg); text-align: center;}
+        
+        .food-list { flex-grow: 1; padding: 0 20px; overflow-y: auto;}
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fafafa; border-radius: 10px; margin-bottom: 10px;}
+        .f-icon { width: 40px; height: 40px; background: #ffccbc; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem;}
+        
+        .fab { position: absolute; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #ff7043; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2rem; box-shadow: 0 5px 15px rgba(255, 112, 67, 0.4); cursor: pointer;}
+        
+        .stitch-panel { position: absolute; right: 100px; padding: 30px; background: #fff3e0; border-radius: 10px; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); top: 150px;}
+    </style>
+</head>
+<body>
+    <div class="stitch-panel">
+        <h2 style="color: #e64a19; margin-top: 0;">家政科食育專題</h2>
+        <p>Stitch 根據學生的設計草圖，完美重現了以橘紅色為主軸的「卡路里記錄 App」。</p>
+        <p>包括圓形進度環設計、下方清單的陰影細節以及懸浮按鈕。全程無須手動撰寫複雜的 CSS！</p>
+        <a href="../index.html" style="color: #d84315; font-weight: bold; text-decoration: none;">← 回到首頁</a>
+    </div>
+
+    <div class="mobile-app">
+        <div class="top-bar">
+            <strong>Today's Diet</strong>
+            <span>📅 04/11</span>
+        </div>
+        
+        <div class="summary-card">
+            <h3 style="margin-top: 0; color: #ff7043;">Calories Remaining</h3>
+            <div class="circle">
+                <div class="circle-inner">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #d84315;">860</div>
+                    <div style="font-size: 0.8rem; color: #999;">/ 2000 kcal</div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-around; margin-top: 20px; font-size: 0.9rem; color: #666;">
+                <div>Carbs<br><strong>120g</strong></div>
+                <div>Protein<br><strong>80g</strong></div>
+                <div>Fat<br><strong>45g</strong></div>
+            </div>
+        </div>
+        
+        <h3 style="margin: 10px 20px; color: #333;">Lunch</h3>
+        <div class="food-list">
+            <div class="food-item">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="f-icon">🍱</div>
+                    <div>
+                        <div style="font-weight: bold; color: #333;">烤雞腿便當</div>
+                        <div style="font-size: 0.8rem; color: #999;">學校福利社</div>
+                    </div>
+                </div>
+                <div style="font-weight: bold; color: #ff7043;">650 kcal</div>
+            </div>
+            <div class="food-item">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="f-icon">🧋</div>
+                    <div>
+                        <div style="font-weight: bold; color: #333;">微糖珍珠紅茶</div>
+                        <div style="font-size: 0.8rem; color: #999;">手搖飲料</div>
+                    </div>
+                </div>
+                <div style="font-weight: bold; color: #ff7043;">280 kcal</div>
+            </div>
+        </div>
+        
+        <div class="fab" onclick="alert('開啟鏡頭進行食物影像辨識 (AI 功能展示)')">+</div>
+    </div>
+</body>
+</html>

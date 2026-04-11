@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>自動題庫生成器與邏輯檢驗 - Jules</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #fafafa; margin: 0; padding: 30px;}
+        .wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 30px; flex-wrap: wrap;}
+        .panel { flex: 1; min-width: 300px; background: white; border-top: 5px solid #ab47bc; border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+        h2 { color: #8e24aa; margin-top: 0;}
+        .q-item { background: #f3e5f5; border-left: 4px solid #ab47bc; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 1.1rem; line-height: 1.5;}
+        .alert { background: #ffebee; color: #c62828; padding: 15px; border-radius: 4px; border: 1px solid #ef9a9a; margin-bottom: 20px;}
+        button { background: #ab47bc; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px; cursor: pointer; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <a href="../index.html" style="color: #666; text-decoration: none; margin-bottom: 20px; display: inline-block;">← 返回</a>
+    <div class="wrapper">
+        <div class="panel">
+            <h2>教師自動出題腳本</h2>
+            <div class="alert">
+                <strong>🚫 Jules 警報：發現無解方程式！</strong><br>
+                老師原先的腳本隨機生成了一元二次方程式 $ax^2 + bx + c = 0$。但未檢查判別式 $b^2 - 4ac \ge 0$，導致部分題目產生無無理實數解或虛數解（這超出高一上學期範圍）。
+                <br><br>Jules 已經在自動排版前攔截並修改生成邏輯！
+            </div>
+            <button id="gen-btn" onclick="generate()">生成 3 題合理考題</button>
+        </div>
+        
+        <div class="panel">
+            <h2>最終講義預覽</h2>
+            <div id="output" style="display: none;">
+                <div class="q-item">
+                    <strong>Q1.</strong> 求解方程式：<br>
+                    <span style="font-family: 'Times New Roman', serif; font-size: 1.3rem;">1x² + 5x + 6 = 0</span><br>
+                    <small style="color: #666;">（Jules 驗證：b²-4ac = 25 - 24 = 1 ≥ 0，有實解）</small>
+                </div>
+                <div class="q-item">
+                    <strong>Q2.</strong> 求解方程式：<br>
+                    <span style="font-family: 'Times New Roman', serif; font-size: 1.3rem;">2x² - 8x + 8 = 0</span><br>
+                    <small style="color: #666;">（Jules 驗證：b²-4ac = 64 - 64 = 0，有重根實解）</small>
+                </div>
+                <div class="q-item">
+                    <strong>Q3.</strong> 求解方程式：<br>
+                    <span style="font-family: 'Times New Roman', serif; font-size: 1.3rem;">-1x² + 3x + 10 = 0</span><br>
+                    <small style="color: #666;">（Jules 驗證：b²-4ac = 9 - (-40) = 49 ≥ 0，有實解）</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const out = document.getElementById('output');
+            out.style.opacity = 0;
+            out.style.display = 'block';
+            setTimeout(() => {
+                out.style.transition = 'opacity 0.5s';
+                out.style.opacity = 1;
+                document.getElementById('gen-btn').innerText = "重新生成";
+            }, 100);
+        }
+    </script>
+</body>
+</html>

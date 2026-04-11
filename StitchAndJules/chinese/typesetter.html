@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>成語排版器 - Jules 實作範例</title>
+    <style>
+        :root { --bg: #f9f9f9; --primary: #333; }
+        body { font-family: 'PMingLiU', serif; background-color: var(--bg); color: var(--primary); margin: 0; padding: 0;}
+        header { background: #2c3e50; color: white; padding: 20px; text-align: center; position: relative;}
+        .back-btn { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: white; text-decoration: none; border: 1px solid white; padding: 5px 15px; border-radius: 20px;}
+        .container { max-width: 900px; margin: 40px auto; display: flex; gap: 20px; padding: 0 20px;}
+        .panel { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        textarea { width: 100%; height: 200px; font-family: monospace; font-size: 14px; padding: 10px; box-sizing: border-box; }
+        .btn { display: block; width: 100%; background: #27ae60; color: white; text-align: center; padding: 15px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 15px;}
+        .btn.jules { background: #8e44ad; }
+        
+        .result-render { 
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            height: 350px;
+            padding: 30px;
+            border: 2px solid #bdc3c7;
+            background: #fffdf7;
+            font-size: 1.5rem;
+            line-height: 2;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .result-render h2 { margin-top: 0; font-family: "KaiTi", "BiauKai", serif; font-size: 2rem; border-bottom: 2px solid red; padding-bottom: 20px;}
+        
+        .jules-card { background: #fdf2e9; border: 1px solid #e67e22; padding: 15px; border-radius: 5px; margin-bottom: 20px;}
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="back-btn">← 返回</a>
+        <h1>傳統直書排版器</h1>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <h3>輸入原始文字資料</h3>
+            <textarea id="raw-text">成語：破釜沉舟
+解釋：比喻下定必死的決心，不顧一切地幹到底。
+出處：《史記·項羽本紀》。</textarea>
+            <div class="jules-card">
+                <strong>🤖 Jules 協助除錯提示：</strong><br>
+                老師原先的 Python 腳本無法處理全半角符號混雜的情形，導致排版錯亂。Jules 在背景自動找出了正則表達式的盲點，並重構了 HTML 輸出的 CSS 邏輯，才得以呈現完美的直書。
+            </div>
+            <button class="btn" onclick="formatText()">執行排版腳本</button>
+        </div>
+        
+        <div class="panel">
+            <h3>腳本輸出結果（講義樣式）</h3>
+            <div class="result-render" id="output">
+                等待執行中...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatText() {
+            const raw = document.getElementById('raw-text').value;
+            const lines = raw.split('\n');
+            let html = '<h2>每日一詞</h2>';
+            lines.forEach(line => {
+                if(line.trim() !== '') {
+                    html += `<p>${line.replace('：', '：<br>')}</p>`;
+                }
+            });
+            document.getElementById('output').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

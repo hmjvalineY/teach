@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>線上虛擬琴鍵與樂理教學 - Stitch</title>
+    <style>
+        body { background: #f0f0f0; display: flex; flex-direction: column; align-items: center; padding: 40px; margin: 0; font-family: sans-serif;}
+        .header { align-self: flex-start; margin-bottom: 20px;}
+        .header a { background: #333; color: white; padding: 5px 15px; border-radius: 5px; text-decoration: none;}
+        
+        .score-board { width: 800px; height: 150px; background: white; margin-bottom: 50px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; position: relative;}
+        .lines { position: absolute; width: 90%; height: 60px; border-top: 2px solid #000; border-bottom: 2px solid #000; display: flex; flex-direction: column; justify-content: space-between;}
+        .lines::before, .lines::after { content: ''; border-top: 2px solid #000; height: 20px; width: 100%;}
+        
+        .note-display { font-size: 4rem; z-index: 10; color: #e74c3c; font-weight: bold; background: white; padding: 0 10px;}
+        
+        .piano { display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius: 5px;}
+        .key { width: 50px; height: 250px; background: white; border: 1px solid #ccc; cursor: pointer; border-radius: 0 0 5px 5px; box-sizing: border-box; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; font-weight: bold; color: #999; position: relative; transition: background 0.1s;}
+        .key.black { width: 30px; height: 150px; background: black; color: white; position: absolute; top: 0; transform: translateX(-15px); border: none; z-index: 2;}
+        
+        .key:active { background: #e0e0e0; }
+        .key.black:active { background: #333; }
+        
+        .prompt { background: white; padding: 20px; width: 800px; margin-top: 40px; border-left: 4px solid #f1c40f;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="../index.html">← 返回</a>
+        <h2 style="display: inline-block; margin: 0 20px 0;">音樂課：和弦基礎互動教學</h2>
+    </div>
+
+    <div class="score-board">
+        <div class="lines">
+            <div></div><div></div>
+        </div>
+        <div class="note-display" id="nt">-</div>
+    </div>
+
+    <div class="piano">
+        <div class="key" onmousedown="play('C4')">C <div class="key black" style="left: 100%;"></div></div>
+        <div class="key" onmousedown="play('D4')">D <div class="key black" style="left: 100%;"></div></div>
+        <div class="key" onmousedown="play('E4')">E</div>
+        <div class="key" onmousedown="play('F4')">F <div class="key black" style="left: 100%;"></div></div>
+        <div class="key" onmousedown="play('G4')">G <div class="key black" style="left: 100%;"></div></div>
+        <div class="key" onmousedown="play('A4')">A <div class="key black" style="left: 100%;"></div></div>
+        <div class="key" onmousedown="play('B4')">B</div>
+        <div class="key" onmousedown="play('C5')">C</div>
+    </div>
+
+    <div class="prompt">
+        <strong>Stitch UI 生成：</strong><br>「請幫我設計一個虛擬鋼琴鍵盤，擁有完美對齊的黑底白鍵，且上方要有一個五線譜的視覺區塊。當我按下任何一個鋼琴鍵，上方的五線譜區塊要顯示對應的音符名稱（如 C4、G4）。」
+    </div>
+
+    <script>
+        function play(note) {
+            document.getElementById('nt').innerText = note;
+            // mock sound
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            let freq = 261.63; // C4
+            if(note==='D4') freq=293.66;
+            if(note==='E4') freq=329.63;
+            if(note==='F4') freq=349.23;
+            if(note==='G4') freq=392.00;
+            if(note==='A4') freq=440.00;
+            if(note==='B4') freq=493.88;
+            if(note==='C5') freq=523.25;
+            
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            osc.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.1);
+        }
+    </script>
+</body>
+</html>

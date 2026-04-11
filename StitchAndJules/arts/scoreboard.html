@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧體育計分板 - Stitch & Jules 整合</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        body { background: #000; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: 'Share Tech Mono', monospace;}
+        
+        .scoreboard { background: #111; border: 5px solid #333; border-radius: 20px; padding: 40px; display: flex; gap: 50px; box-shadow: 0 0 50px rgba(255, 0, 0, 0.2);}
+        
+        .team { text-align: center; display: flex; flex-direction: column; align-items: center;}
+        .team-name { font-size: 3rem; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 5px;}
+        .score { font-size: 15rem; color: #ff0000; text-shadow: 0 0 20px #ff0000; line-height: 1; background: #0a0a0a; border: 2px solid #222; border-radius: 10px; padding: 0 20px; width: 250px; box-sizing: border-box;}
+        
+        .center-hub { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;}
+        .timer { font-size: 6rem; color: #00ff00; text-shadow: 0 0 20px #00ff00; background: #0a0a0a; border: 2px solid #222; border-radius: 10px; padding: 10px 30px;}
+        .quarter { font-size: 2rem; color: #ffff00; }
+        
+        .controls { margin-top: 50px; display: flex; gap: 20px;}
+        button { font-family: inherit; font-size: 1.2rem; background: #333; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;}
+        button:hover { background: #555; }
+        
+        .jules-badge { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 255, 0.2); border: 1px solid #0000ff; padding: 15px; border-radius: 5px; font-family: sans-serif; max-width: 300px; line-height: 1.5;}
+    </style>
+</head>
+<body>
+    <a href="../index.html" style="position: absolute; top: 20px; left: 20px; color: white; text-decoration: none; border: 1px solid; padding: 5px 15px; font-family: sans-serif;">← 返回</a>
+    
+    <div class="jules-badge">
+        <strong>⚡ 系統架構</strong><br>
+        <span style="color: #ff9900;">Stitch:</span> 負責產出這個充滿科技感與霓虹特效的計分板前端 UI。<br>
+        <span style="color: #66ccff;">Jules:</span> 在後端伺服器運用 WebSocket 解決同步多個行動裝置計分時產生的 Race Condition 與延遲問題，達成完美的「即時更新」。
+    </div>
+
+    <div class="scoreboard">
+        <div class="team">
+            <div class="team-name">HOME</div>
+            <div class="score" id="s1">85</div>
+        </div>
+        
+        <div class="center-hub">
+            <div class="quarter">QTR 4</div>
+            <div class="timer">02:14</div>
+            <img src="https://placehold.co/100x100/000/fff?text=BALL" style="border-radius: 50%;">
+        </div>
+        
+        <div class="team">
+            <div class="team-name">GUEST</div>
+            <div class="score" id="s2">82</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="add('s1')">Home +1 (模擬裁判手機指令)</button>
+        <button onclick="add('s2')">Guest +1 (模擬裁判手機指令)</button>
+    </div>
+
+    <script>
+        function add(id) {
+            const el = document.getElementById(id);
+            el.innerText = parseInt(el.innerText) + 1;
+        }
+    </script>
+</body>
+</html>

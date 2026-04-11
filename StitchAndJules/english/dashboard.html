@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My English Learning Dashboard - Stitch</title>
+    <style>
+        :root { --sidebar: #2c3e50; --bg: #ecf0f1; --card: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh;}
+        .sidebar { width: 250px; background: var(--sidebar); color: white; padding: 20px;}
+        .sidebar h2 { margin-top: 0; color: #3498db; }
+        .menu-item { padding: 15px 10px; margin-bottom: 5px; border-radius: 5px; cursor: pointer; transition: 0.2s;}
+        .menu-item:hover, .menu-item.active { background: #34495e; border-left: 4px solid #3498db;}
+        .main { flex-grow: 1; padding: 40px; overflow-y: auto;}
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;}
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;}
+        .card { background: var(--card); padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
+        .card h3 { margin-top: 0; color: #7f8c8d; font-size: 1rem; border-bottom: 1px solid #ecf0f1; padding-bottom: 10px;}
+        .score { font-size: 3rem; font-weight: bold; color: #2ecc71; text-align: center;}
+        
+        .bar-chart { display: flex; align-items: flex-end; gap: 10px; height: 150px; padding-top: 20px; border-bottom: 1px solid #ccc;}
+        .bar { width: 40px; background: #3498db; border-radius: 5px 5px 0 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; color: white; font-size: 0.8rem; padding-bottom: 5px;}
+        .bar-label { margin-top: 10px; font-size: 0.8rem; color: #7f8c8d; text-align: center;}
+        
+        .btn { background: #3498db; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <div class="menu-item active">Overview</div>
+        <div class="menu-item">TOEIC Practice</div>
+        <div class="menu-item">Voice Over Projects</div>
+        <div class="menu-item">Writing Portfolio</div>
+        <br>
+        <a href="../index.html" style="color: #95a5a6; text-decoration: none;">← Exit</a>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <h1>Welcome back, Student</h1>
+            <a href="#" class="btn">+ New Activity</a>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Latest TOEIC Mock Score</h3>
+                <div class="score">850</div>
+                <p style="text-align: center; color: #7f8c8d;">Top 15% in school</p>
+            </div>
+            
+            <div class="card">
+                <h3>Vocabulary Progress (Words/Week)</h3>
+                <div class="bar-chart">
+                    <div>
+                        <div class="bar" style="height: 60px;">60</div>
+                        <div class="bar-label">W1</div>
+                    </div>
+                    <div>
+                        <div class="bar" style="height: 80px;">80</div>
+                        <div class="bar-label">W2</div>
+                    </div>
+                    <div>
+                        <div class="bar" style="height: 120px; background: #e74c3c;">120</div>
+                        <div class="bar-label">W3</div>
+                    </div>
+                    <div>
+                        <div class="bar" style="height: 150px;">150</div>
+                        <div class="bar-label">W4</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="grid-column: span 2;">
+                <h3>Recent Voice Over Projects</h3>
+                <table style="width: 100%; text-align: left; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <th style="padding: 10px 0;">Title</th>
+                        <th>Duration</th>
+                        <th>Grade</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 10px 0;">🎙️ TED Talk Dubbing: Climate Change</td>
+                        <td>3m 45s</td>
+                        <td><span style="color: #2ecc71; font-weight: bold;">A+</span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px 0;">🎙️ Disney Movie Scene</td>
+                        <td>1m 20s</td>
+                        <td><span style="color: #f1c40f; font-weight: bold;">A-</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

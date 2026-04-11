@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>桃花源文字冒險 - Stitch 實作範例</title>
+    <style>
+        body { background-color: #121212; color: #4caf50; font-family: 'Courier New', Courier, monospace; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden;}
+        .back-btn { position: absolute; left: 20px; top: 20px; color: #4caf50; text-decoration: none; border: 1px solid #4caf50; padding: 5px 15px;}
+        .back-btn:hover { background: #4caf50; color: #121212; }
+        .game-terminal { width: 800px; height: 500px; border: 2px solid #333; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; text-shadow: 0 0 5px rgba(76,175,80,0.5);}
+        .story-text { flex-grow: 1; font-size: 1.2rem; line-height: 1.6; animation: typing 2s steps(40, end); overflow: hidden; white-space: pre-wrap;}
+        .choices { display: flex; flex-direction: column; gap: 10px; margin-top: 20px;}
+        .choice-btn { background: transparent; color: #4caf50; border: 1px solid #4caf50; padding: 10px; font-family: inherit; font-size: 1.1rem; cursor: pointer; text-align: left; transition: all 0.2s;}
+        .choice-btn:hover { background: #4caf50; color: #121212; box-shadow: 0 0 10px #4caf50;}
+        .scanline { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none;}
+        @keyframes typing { from { max-height: 0; } to { max-height: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <a href="../index.html" class="back-btn">← 放棄探索</a>
+    
+    <div class="game-terminal">
+        <div class="story-text" id="story">
+晉太元中，武陵人捕魚為業。緣溪行，忘路之遠近。
+忽逢桃花林，夾岸數百步，中無雜樹，芳草鮮美，落英繽紛。
+漁人甚異之。復前行，欲窮其林。
+
+林盡水源，便得一山，山有小口，彷彿若有光。
+        </div>
+        <div class="choices" id="choices">
+            <button class="choice-btn" onclick="step2()">[ 便舍船，從口入 ]</button>
+            <button class="choice-btn" onclick="endGame()">[ 覺得詭異，掉頭划船回家 ]</button>
+        </div>
+    </div>
+
+    <script>
+        function step2() {
+            document.getElementById('story').innerHTML = "初極狹，纔通人。復行數十步，豁然開朗。<br><br>土地平曠，屋舍儼然，有良田美池桑竹之屬。阡陌交通，雞犬相聞。其中往來種作，男女衣著，悉如外人。黃髮垂髫，並怡然自樂。";
+            document.getElementById('choices').innerHTML = `
+                <button class="choice-btn" onclick="alert('恭喜解鎖【世外桃源】結局！\\nStitch 負責復古終端機介面生成，Jules 協助維持 JavaScript 分支狀態。')">[ 上前打招呼 ]</button>
+                <button class="choice-btn" onclick="endGame()">[ 偷偷觀察不說話 ]</button>
+            `;
+        }
+        function endGame() {
+            document.getElementById('story').innerText = "你因為膽怯錯失了仙境，最終過著平淡的一生。\n\n[ GAME OVER ]";
+            document.getElementById('choices').innerHTML = '<button class="choice-btn" onclick="location.reload()">[ 重新開始 ]</button>';
+        }
+    </script>
+</body>
+</html>

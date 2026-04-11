@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>個人線上 3D 藝廊 - Stitch</title>
+    <style>
+        body { margin: 0; background: #eceff1; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; perspective: 1500px;}
+        header { position: fixed; top:0; left:0; width:100%; background: rgba(255,255,255,0.9); padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 100;}
+        header a { color: #37474f; text-decoration: none; border: 1px solid #37474f; padding: 5px 15px; border-radius: 20px;}
+        
+        .gallery { display: flex; flex-wrap: wrap; gap: 40px; padding: 100px 50px; justify-content: center; transform-style: preserve-3d;}
+        .frame { background: white; padding: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border-radius: 5px; transition: transform 0.5s ease; cursor: pointer; transform: translateZ(-200px) rotateY(15deg);}
+        .frame:nth-child(even) { transform: translateZ(-100px) rotateY(-15deg); }
+        .frame:hover { transform: translateZ(50px) rotateY(0deg) scale(1.1); z-index: 10;}
+        
+        .art { width: 300px; height: 400px; background: url('https://placehold.co/300x400/90caf9/ffffff?text=Artwork') center/cover; margin-bottom: 15px;}
+        .art-title { font-size: 1.2rem; margin: 0 0 5px 0; color: #37474f; font-weight: bold;}
+        .art-desc { color: #78909c; font-size: 0.9rem; margin: 0;}
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html">← 返回首頁</a>
+        <h2 style="display: inline-block; margin: 0 0 0 20px; color: #37474f;">[美術班展] 115級 畢業作品回顧</h2>
+    </header>
+
+    <div class="gallery">
+        <div class="frame">
+            <div class="art" style="background-image: url('https://placehold.co/300x400/ffcc80/fff?text=WaterColor')"></div>
+            <p class="art-title">夏日午後的陣雨</p>
+            <p class="art-desc">水彩, 30x40 cm (2025)</p>
+        </div>
+        <div class="frame">
+            <div class="art" style="background-image: url('https://placehold.co/300x400/b39ddb/fff?text=Oil+Painting')"></div>
+            <p class="art-title">靜物與貓</p>
+            <p class="art-desc">油畫, 45x60 cm (2026)</p>
+        </div>
+        <div class="frame">
+            <div class="art" style="background-image: url('https://placehold.co/300x400/a5d6a7/fff?text=Sketch')"></div>
+            <p class="art-title">石膏像素描練習</p>
+            <p class="art-desc">炭筆, 全開 (2024)</p>
+        </div>
+    </div>
+    
+    <div style="text-align: center; color: #90a4ae; margin-top: 50px; font-weight: bold;">
+        ※ 此互動式瀑布流牆由 Stitch 透過簡單的 Prompt "創建一個具有景深與 3D 傾斜視角的畫框博物館" 自動生成出 CSS 透視效果。
+    </div>
+</body>
+</html>
