@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語文與人文學科 — GitHub 應用</title>
+    <meta name="description" content="GitHub 在高中語文與人文學科的應用，包括 Diff 差異比對寫作指導、同儕互評、共筆翻譯專案等實例。">
+    <link rel="stylesheet" href="../style-github.css">
+    <style>
+        .banner {
+            background: linear-gradient(135deg, #8250df 0%, #c084fc 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .banner h1 { color: #fff; border-bottom: none; margin: 0 0 8px; }
+        .banner p { opacity: 0.9; margin: 0; }
+        .scenario {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .scenario:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .role-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 2em;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .teacher-tag { background: #ddf4ff; color: #0969da; }
+        .student-tag { background: #dafbe1; color: #1a7f37; }
+        .example-box {
+            background: #f6f8fa;
+            border-left: 3px solid #8250df;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+        }
+        .example-box h4 { margin: 0 0 8px; color: #8250df; }
+        .diff-demo {
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-size: 0.9em;
+            margin: 16px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .diff-header {
+            background: #f6f8fa;
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            color: #57606a;
+        }
+        .diff-line {
+            padding: 4px 16px;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        .diff-del {
+            background: #ffebe9;
+            color: #82071e;
+        }
+        .diff-add {
+            background: #dafbe1;
+            color: #116329;
+        }
+        .diff-context {
+            background: #fff;
+            color: #57606a;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+
+    <div class="banner">
+        <h1>✍️ 語文與人文學科 — GitHub 應用</h1>
+        <p>寫作的「草稿到定稿」過程，本質上就是一種「版本控制」</p>
+    </div>
+
+    <!-- 教師：Diff 寫作指導 -->
+    <div class="scenario">
+        <span class="role-tag teacher-tag">👩‍🏫 教師教學應用</span>
+        <h2>利用「差異比對 (Diff)」進行寫作指導與同儕互評</h2>
+        <p>英文老師讓學生用 Markdown 格式繳交作文。學生修改後提交第二版時，老師可使用 Diff 功能一目了然地看到修改內容。</p>
+        
+        <h3>📊 Diff 差異比對模擬</h3>
+        <div class="diff-demo">
+            <div class="diff-header">📝 essay_climate_change.md — 學生修改前後對比</div>
+            <div class="diff-line diff-context"> Climate change is a big problem in the world today.</div>
+            <div class="diff-line diff-del">- Many people does not care about it.</div>
+            <div class="diff-line diff-add">+ Many people do not seem to care about this issue.</div>
+            <div class="diff-line diff-context"> We need to take action before it is too late.</div>
+            <div class="diff-line diff-del">- The earth is getting more hotter every year.</div>
+            <div class="diff-line diff-add">+ The earth is getting increasingly warmer each year.</div>
+        </div>
+
+        <div class="example-box">
+            <h4>🛠 操作流程</h4>
+            <ol>
+                <li>學生使用 Markdown 格式撰寫英文作文並提交到 GitHub</li>
+                <li>老師給予初步修改建議（可直接在程式碼行留言）</li>
+                <li>學生根據建議修改後提交第二版（新的 Commit）</li>
+                <li>老師使用 <strong>Diff 功能</strong>查看修改處：
+                    <ul>
+                        <li>🟢 <strong>綠色</strong>代表新增的文字</li>
+                        <li>🔴 <strong>紅色</strong>代表刪除的文字</li>
+                    </ul>
+                </li>
+                <li>也可透過 <strong>Pull Request</strong> 讓學生進行同儕互評 (Peer Review)</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 學生：共筆翻譯 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生學習應用</span>
+        <h2>共筆協作與開源翻譯</h2>
+        <p>學生組成自主學習小組，將國外一篇關於「氣候變遷」的優質開源英文文章翻譯成中文。</p>
+
+        <div class="example-box">
+            <h4>📝 協作翻譯流程</h4>
+            <ol>
+                <li>在 GitHub 上建立翻譯專案 Repository</li>
+                <li>利用 <strong>Wiki 功能</strong>或共同編輯 Markdown 文件</li>
+                <li>每人負責不同的段落：
+                    <ul>
+                        <li>A 同學負責第 1-3 章</li>
+                        <li>B 同學負責第 4-6 章</li>
+                        <li>C 同學負責附錄與詞彙表</li>
+                    </ul>
+                </li>
+                <li>遇到翻譯瓶頸時，開 <strong>Issue</strong> 進行討論與集體決策</li>
+                <li>最終完成一份高品質的共筆翻譯作品</li>
+            </ol>
+            <p>💡 <strong>學習價值：</strong>培養英語閱讀能力、團隊協作能力，以及翻譯的精確度與溝通技巧。</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

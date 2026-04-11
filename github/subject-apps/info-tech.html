@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資訊科技 — GitHub 應用</title>
+    <meta name="description" content="GitHub 在高中資訊科技課程的應用，包括 GitHub Classroom 自動評分、Branch 分工協作開發等實例。">
+    <link rel="stylesheet" href="../style-github.css">
+    <style>
+        .banner {
+            background: linear-gradient(135deg, #0969da 0%, #54aeff 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .banner h1 { color: #fff; border-bottom: none; margin: 0 0 8px; }
+        .banner p { opacity: 0.9; margin: 0; }
+        .scenario {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .scenario:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .role-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 2em;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .teacher-tag { background: #ddf4ff; color: #0969da; }
+        .student-tag { background: #dafbe1; color: #1a7f37; }
+        .flow-chart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+            font-size: 0.9em;
+        }
+        .flow-step {
+            background: #ddf4ff;
+            color: #0550ae;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .flow-arrow { color: #57606a; font-size: 1.2em; }
+        .example-box {
+            background: #f6f8fa;
+            border-left: 3px solid #0969da;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+        }
+        .example-box h4 { margin: 0 0 8px; color: #0550ae; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+
+    <div class="banner">
+        <h1>💻 資訊科技 — GitHub 應用</h1>
+        <p>最直接的應用領域，讓學生接軌業界標準的版本控制流程</p>
+    </div>
+
+    <!-- 教師：GitHub Classroom -->
+    <div class="scenario">
+        <span class="role-tag teacher-tag">👩‍🏫 教師教學應用</span>
+        <h2>使用 GitHub Classroom 指派與批改作業</h2>
+        <p>教師在教導 Python 基礎時，透過 GitHub Classroom 建立一份包含基礎架構的作業。系統會自動為每位學生複製一份專屬的 Repository（儲存庫）。</p>
+        
+        <div class="flow-chart">
+            <span class="flow-step">📋 建立作業模板</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🔗 發送邀請連結</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">📦 自動複製 Repo</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">✅ Autograding 自動評分</span>
+        </div>
+        
+        <div class="example-box">
+            <h4>🛠 核心功能：自動評分 (Autograding)</h4>
+            <ol>
+                <li>教師在作業 Repo 中設定測試腳本（如 <code>pytest</code>）</li>
+                <li>學生提交程式碼（Push 到 GitHub）</li>
+                <li>GitHub Actions 會自動執行測試腳本</li>
+                <li>系統立即告訴學生程式碼是否正確</li>
+                <li>教師可以在後台一覽所有學生的評分狀態</li>
+            </ol>
+            <p>💡 <strong>效果：</strong>大幅節省教師批改時間，學生也能獲得即時回饋。</p>
+        </div>
+    </div>
+
+    <!-- 學生：期末專案 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生學習應用</span>
+        <h2>期末專案的版本控制與協作</h2>
+        <p>學生分組進行「校訂選修：網頁設計」的期末專案，學會使用業界標準的 Git 工作流程。</p>
+        
+        <div class="flow-chart">
+            <span class="flow-step">🌿 建立 Branch 分工</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">💻 各自開發</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">📤 提交 Pull Request</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🔀 合併程式碼</span>
+        </div>
+
+        <div class="example-box">
+            <h4>📝 協作實例</h4>
+            <ol>
+                <li>A 同學建立 <code>feature/frontend</code> 分支，負責前端版面設計</li>
+                <li>B 同學建立 <code>feature/backend</code> 分支，負責後端邏輯</li>
+                <li>各自完成後提交 Pull Request 將進度合併到 <code>main</code> 分支</li>
+                <li>若程式碼發生衝突，透過 GitHub 介面解決</li>
+                <li>過程中留下完整的開發紀錄，展現團隊合作歷程</li>
+            </ol>
+            <p>💡 <strong>學習重點：</strong>學會版本控制、分工合作、程式碼審查等業界標準工作流程。</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

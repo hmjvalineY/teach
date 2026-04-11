@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Copilot 非程式碼寫作應用</title>
+    <meta name="description" content="GitHub Copilot 在高中教育的非程式碼寫作應用，包括教案生成、跨語系資料整理、企劃書自動撰寫等實例。">
+    <link rel="stylesheet" href="../style-github.css">
+    <style>
+        .copilot-banner {
+            background: linear-gradient(135deg, #8250df 0%, #a855f7 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .copilot-banner h1 {
+            color: #fff;
+            border-bottom: none;
+            margin: 0 0 8px;
+        }
+        .copilot-banner p { opacity: 0.9; margin: 0; }
+        .role-section {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .role-section:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .role-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 2em;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .teacher-tag { background: #ddf4ff; color: #0969da; }
+        .student-tag { background: #dafbe1; color: #1a7f37; }
+        .admin-tag { background: #fff8c5; color: #9a6700; }
+        .example-box {
+            background: #f6f8fa;
+            border-left: 3px solid #8250df;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+        }
+        .example-box h4 {
+            margin: 0 0 8px;
+            color: #8250df;
+        }
+        .tip-box {
+            background: #ddf4ff;
+            border: 1px solid #54aeff;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 24px;
+        }
+        .tip-box strong { color: #0550ae; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+
+    <!-- 標題區 -->
+    <div class="copilot-banner">
+        <h1>🤖 GitHub Copilot 非程式碼寫作應用</h1>
+        <p>在 VS Code 中開啟 Markdown (<code style="background:rgba(255,255,255,0.2);color:#fff">.md</code>) 檔案，Copilot 就能化身為超級寫作助手</p>
+    </div>
+
+    <!-- 教師應用 -->
+    <div class="role-section">
+        <span class="role-tag teacher-tag">👩‍🏫 教師應用</span>
+        <h2>快速生成教案大綱與測驗題</h2>
+        <p>英文老師在 Markdown 檔案中輸入標題，Copilot 會根據上下文自動推敲並生成完整的教學素材草稿。</p>
+        <div class="example-box">
+            <h4>📝 實際操作範例</h4>
+            <ol>
+                <li>在 VS Code 中建立一個新的 <code>.md</code> 檔案</li>
+                <li>輸入標題 <code>## 關於全球暖化的英文閱讀測驗設計</code></li>
+                <li>按下 Enter 換行後，Copilot 會自動預測並生成內容</li>
+                <li>生成內容可能包含：<strong>單字表、閱讀文章、A/B/C/D 選擇題</strong></li>
+                <li>只需按下 <code>Tab</code> 鍵接受建議，再進行微調即可</li>
+            </ol>
+            <p>💡 <strong>省時效果：</strong>原本需要 1-2 小時的備課工作，可以縮短到 15 分鐘完成初稿。</p>
+        </div>
+    </div>
+
+    <!-- 學生應用 -->
+    <div class="role-section">
+        <span class="role-tag student-tag">👨‍🎓 學生應用</span>
+        <h2>跨語系資料整理與寫作引導</h2>
+        <p>學生在進行自主學習或專題研究時，可以利用 Copilot 協助處理多語言資料與克服寫作瓶頸。</p>
+        <div class="example-box">
+            <h4>📝 實際操作範例</h4>
+            <ol>
+                <li>學生在進行「自主學習：探討日本高齡化社會」研究</li>
+                <li>將找到的日文資料貼入編輯器中</li>
+                <li>加上註解 <code>&lt;!-- 請將上述資料整理成三個中文重點 --&gt;</code></li>
+                <li>Copilot 會自動生成中文摘要</li>
+                <li>撰寫報告時，只要打出「第一章：」，Copilot 就會順著語境推敲出後續段落</li>
+            </ol>
+            <p>💡 <strong>關鍵優勢：</strong>幫助打破「寫作瓶頸 (Writer's Block)」，讓思路不再卡住。</p>
+        </div>
+    </div>
+
+    <!-- 行政/社團應用 -->
+    <div class="role-section">
+        <span class="role-tag admin-tag">🏫 行政 / 社團</span>
+        <h2>自動生成企劃書與公文模板</h2>
+        <p>學生會幹部在撰寫各類企劃書時，Copilot 可以自動補齊標準化格式與建議文案。</p>
+        <div class="example-box">
+            <h4>📝 實際操作範例</h4>
+            <ol>
+                <li>建立新的 Markdown 檔案</li>
+                <li>輸入 <code># 迎新營隊贊助企劃書</code></li>
+                <li>Copilot 會自動補齊以下內容：
+                    <ul>
+                        <li><strong>活動宗旨</strong> — 說明活動目的與意義</li>
+                        <li><strong>預期效益</strong> — 量化的活動成果預估</li>
+                        <li><strong>贊助回饋方案</strong> — 給贊助商的回饋計畫</li>
+                        <li><strong>預算表</strong> — 分項列出的經費規劃</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 提示小卡 -->
+    <div class="tip-box">
+        <strong>🎓 免費使用提醒：</strong>透過 <strong>GitHub Education</strong> 方案，通過身份驗證的高中教師和學生都能<strong>免費使用</strong> GitHub Copilot 等進階 AI 功能。只需使用學校信箱於 <a href="https://education.github.com/" target="_blank">education.github.com</a> 進行申請即可。
+    </div>
+</div>
+</body>
+</html>

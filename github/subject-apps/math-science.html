@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數學與自然科學 — GitHub 應用</title>
+    <meta name="description" content="GitHub 在高中數學及自然科學領域的應用，包括開源數據集發布、Jupyter Notebook 互動分析、數學建模等實例。">
+    <link rel="stylesheet" href="../style-github.css">
+    <style>
+        .banner {
+            background: linear-gradient(135deg, #1a7f37 0%, #4ac26b 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .banner h1 { color: #fff; border-bottom: none; margin: 0 0 8px; }
+        .banner p { opacity: 0.9; margin: 0; }
+        .scenario {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .scenario:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .role-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 2em;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .teacher-tag { background: #ddf4ff; color: #0969da; }
+        .student-tag { background: #dafbe1; color: #1a7f37; }
+        .example-box {
+            background: #f6f8fa;
+            border-left: 3px solid #1a7f37;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+        }
+        .example-box h4 { margin: 0 0 8px; color: #1a7f37; }
+        .file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .file-item {
+            background: #dafbe1;
+            color: #1a7f37;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-size: 0.88em;
+            font-weight: 600;
+        }
+        .info-callout {
+            background: #fff8c5;
+            border: 1px solid #d4a72c;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 24px;
+        }
+        .info-callout strong { color: #9a6700; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+
+    <div class="banner">
+        <h1>🔬 數學與自然科學 — GitHub 應用</h1>
+        <p>科學研究極度依賴數據分析與結果重現，GitHub 提供了完美的數據與程式碼共享平台</p>
+    </div>
+
+    <!-- 教師：開源數據集 -->
+    <div class="scenario">
+        <span class="role-tag teacher-tag">👩‍🏫 教師教學應用</span>
+        <h2>發布開源數據集與互動式教材</h2>
+        <p>物理老師在進行「單擺實驗」後，可以將全班的實驗數據與分析範例整理成一個完整的教學資源庫。</p>
+        
+        <div class="example-box">
+            <h4>📝 操作步驟</h4>
+            <ol>
+                <li>收集全班的單擺實驗原始測量數據</li>
+                <li>將數據整理為 CSV 格式，上傳至 GitHub Repository</li>
+                <li>撰寫一份 Jupyter Notebook 分析範例，包含：
+                    <ul>
+                        <li>數據讀取與清洗的 Python 程式碼</li>
+                        <li>統計分析與圖表繪製</li>
+                        <li>LaTeX 數學公式推導</li>
+                    </ul>
+                </li>
+                <li>學生可直接在 GitHub 上預覽 Notebook 中的圖表與公式</li>
+                <li>也可下載數據進行二次分析與延伸探究</li>
+            </ol>
+        </div>
+
+        <h3>📂 Repository 建議檔案結構</h3>
+        <div class="file-list">
+            <span class="file-item">📄 README.md</span>
+            <span class="file-item">📊 data/raw_data.csv</span>
+            <span class="file-item">📓 analysis/pendulum.ipynb</span>
+            <span class="file-item">📈 results/figures/</span>
+        </div>
+    </div>
+
+    <!-- 學生：數學建模 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生學習應用</span>
+        <h2>跨學科的數學建模與實驗報告</h2>
+        <p>學生參加「傳染病擴散數學建模」比賽，利用 GitHub 完整管理研究專案。</p>
+
+        <div class="example-box">
+            <h4>🏆 比賽專案範例：SIR 傳染病模型</h4>
+            <ol>
+                <li>利用 Python 撰寫 SIR 模型（Susceptible-Infected-Recovered）的模擬程式</li>
+                <li>將模擬產生的圖表結果存入 <code>results/</code> 資料夾</li>
+                <li>用 Markdown 撰寫完整的實驗報告，包含：
+                    <ul>
+                        <li>研究動機與假設</li>
+                        <li>模型推導與參數設定</li>
+                        <li>模擬結果分析</li>
+                        <li>結論與未來展望</li>
+                    </ul>
+                </li>
+                <li>所有檔案（程式碼、圖表、報告）統整於同一個 GitHub 專案中</li>
+            </ol>
+            <p>💡 <strong>關鍵價值：</strong>報告排版清晰，評審或其他同學能夠<strong>完全重現</strong>實驗結果，展現研究的嚴謹性。</p>
+        </div>
+    </div>
+
+    <div class="info-callout">
+        <strong>💡 進階應用提示：</strong>GitHub 原生支援 <code>.ipynb</code>（Jupyter Notebook）的預覽與 <code>LaTeX</code> 高階數學公式渲染。這代表老師發布的教材與學生提交的報告，都可以直接在網頁上展示互動式圖表與數學公式，無需額外安裝任何軟體。
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社會科學 — GitHub 應用</title>
+    <meta name="description" content="GitHub 在高中社會科學（歷史、地理、公民）的應用，包括 Issues 管理專題、GitHub Pages 數位策展、GIS 互動地圖等實例。">
+    <link rel="stylesheet" href="../style-github.css">
+    <style>
+        .banner {
+            background: linear-gradient(135deg, #bf4b00 0%, #f5a623 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .banner h1 { color: #fff; border-bottom: none; margin: 0 0 8px; }
+        .banner p { opacity: 0.9; margin: 0; }
+        .scenario {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .scenario:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .role-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 2em;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .teacher-tag { background: #ddf4ff; color: #0969da; }
+        .student-tag { background: #dafbe1; color: #1a7f37; }
+        .example-box {
+            background: #f6f8fa;
+            border-left: 3px solid #bf4b00;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+        }
+        .example-box h4 { margin: 0 0 8px; color: #bf4b00; }
+        .task-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .task-column {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .task-column h5 {
+            margin: 0 0 8px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9em;
+        }
+        .task-column .task-item {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+        .col-todo h5 { color: #cf222e; border-color: #cf222e; }
+        .col-doing h5 { color: #bf4b00; border-color: #bf4b00; }
+        .col-done h5 { color: #1a7f37; border-color: #1a7f37; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+
+    <div class="banner">
+        <h1>🌍 社會科學 — GitHub 應用</h1>
+        <p>歷史、地理、公民 — 利用 Issues 與 Pages 功能進行專題探究與數位策展</p>
+    </div>
+
+    <!-- 教師：管理探究專案 -->
+    <div class="scenario">
+        <span class="role-tag teacher-tag">👩‍🏫 教師教學應用</span>
+        <h2>管理大型協作探究專案</h2>
+        <p>公民老師帶領「在地文化保存」專題，利用 GitHub 的 Issues 功能系統化管理各組的任務與進度。</p>
+        
+        <h3>📋 Issue 任務看板模擬</h3>
+        <div class="task-board">
+            <div class="task-column col-todo">
+                <h5>📌 待辦</h5>
+                <div class="task-item">📷 實地訪談記錄</div>
+                <div class="task-item">📊 問卷設計</div>
+            </div>
+            <div class="task-column col-doing">
+                <h5>🔄 進行中</h5>
+                <div class="task-item">📚 文獻蒐集</div>
+                <div class="task-item">🗺️ 地圖標記</div>
+            </div>
+            <div class="task-column col-done">
+                <h5>✅ 已完成</h5>
+                <div class="task-item">📝 研究動機撰寫</div>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <h4>🛠 操作方式</h4>
+            <ol>
+                <li>老師在 GitHub 上建立專案 Repository</li>
+                <li>利用 <strong>Issues</strong> 功能為每項任務建立獨立的議題</li>
+                <li>為每組學生指派不同的 Issue（如：實地訪談、文獻蒐集、問卷設計）</li>
+                <li>學生在對應的 Issue 下方留言回報進度、上傳參考資料</li>
+                <li>老師隨時掌握各組進度，並在 Issue 中給予指導回饋</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 學生：數位策展 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生學習應用</span>
+        <h2>利用 GitHub Pages 建立數位化策展</h2>
+        <p>地理課的 GIS（地理資訊系統）專題，學生將社區歷史地標轉化為互動式導覽網站。</p>
+
+        <div class="example-box">
+            <h4>🗺️ 互動地圖網站建置步驟</h4>
+            <ol>
+                <li>蒐集社區歷史地標的經緯度資料，整理為 <code>GeoJSON</code> 格式</li>
+                <li>結合簡單的 HTML 與開源地圖工具（如 <strong>Leaflet.js</strong>）</li>
+                <li>撰寫每個地點的歷史故事介紹文字</li>
+                <li>利用 <strong>GitHub Pages</strong> 功能，將 Repository 一鍵部署為免費網站</li>
+                <li>成品為「在地歷史文化導覽互動地圖」網站，作為期末成果發表</li>
+            </ol>
+            <p>💡 <strong>成果價值：</strong>不僅是課堂報告，更是一個能實際分享給社區居民使用的數位工具。</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

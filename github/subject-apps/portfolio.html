@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習歷程檔案與專案管理 — GitHub 應用</title>
+    <meta name="description" content="GitHub 在高中學習歷程檔案建置與專案管理的應用，包括 GitHub Pages 個人履歷網站、Projects 看板管理、校刊社流程、辯論稿協作等實例。">
+    <link rel="stylesheet" href="../style-github.css">
+    <style>
+        .banner {
+            background: linear-gradient(135deg, #cf222e 0%, #ff6b6b 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .banner h1 { color: #fff; border-bottom: none; margin: 0 0 8px; }
+        .banner p { opacity: 0.9; margin: 0; }
+        .scenario {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+        .scenario:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .role-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 2em;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .teacher-tag { background: #ddf4ff; color: #0969da; }
+        .student-tag { background: #dafbe1; color: #1a7f37; }
+        .collab-tag { background: #f3f0ff; color: #8250df; }
+        .example-box {
+            background: #f6f8fa;
+            border-left: 3px solid #cf222e;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+        }
+        .example-box h4 { margin: 0 0 8px; color: #cf222e; }
+        .portfolio-preview {
+            background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+            color: #c0caf5;
+            border-radius: 10px;
+            padding: 24px;
+            margin: 16px 0;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-size: 0.88em;
+        }
+        .portfolio-preview .nav {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3b4261;
+        }
+        .portfolio-preview .nav a {
+            color: #7aa2f7;
+            text-decoration: none;
+        }
+        .portfolio-preview h3 {
+            color: #bb9af7;
+            margin: 0 0 8px;
+        }
+        .portfolio-preview .section {
+            margin-bottom: 12px;
+        }
+        .portfolio-preview .tag {
+            display: inline-block;
+            background: rgba(122,162,247,0.15);
+            color: #7aa2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin: 2px;
+        }
+        .kanban-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .kanban-col {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .kanban-col h5 {
+            margin: 0 0 8px;
+            text-align: center;
+            padding-bottom: 6px;
+            border-bottom: 2px solid;
+            font-size: 0.88em;
+        }
+        .kanban-col.col-todo h5 { color: #cf222e; border-color: #cf222e; }
+        .kanban-col.col-doing h5 { color: #bf4b00; border-color: #bf4b00; }
+        .kanban-col.col-done h5 { color: #1a7f37; border-color: #1a7f37; }
+        .kanban-item {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+        .tip-box {
+            background: #ddf4ff;
+            border: 1px solid #54aeff;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 24px;
+        }
+        .tip-box strong { color: #0550ae; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+
+    <div class="banner">
+        <h1>🎓 學習歷程檔案與專案管理</h1>
+        <p>高中生面臨升學需求，GitHub 是極佳的數位履歷平台與協作管理工具</p>
+    </div>
+
+    <!-- 學生：學習歷程網站 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生應用</span>
+        <h2>打造個人專屬的數位學習歷程網站</h2>
+        <p>不依賴學校制式系統，利用 GitHub Pages 免費架設個人專屬的「學習歷程檔案網站」。</p>
+
+        <h3>🖥️ 網站預覽模擬</h3>
+        <div class="portfolio-preview">
+            <div class="nav">
+                <a>🏠 首頁</a>
+                <a>📚 專題報告</a>
+                <a>🎨 作品集</a>
+                <a>🤝 社團活動</a>
+                <a>📜 證書獎項</a>
+            </div>
+            <h3>👋 嗨，我是王小明</h3>
+            <div class="section">就讀 OO 高中三年級 | 對資訊科技與社會科學充滿熱情</div>
+            <div class="section">
+                <span class="tag">Python</span>
+                <span class="tag">GIS</span>
+                <span class="tag">數學建模</span>
+                <span class="tag">英文寫作</span>
+                <span class="tag">志工服務</span>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <h4>📝 建站步驟</h4>
+            <ol>
+                <li>在 GitHub 上尋找開源的 <strong>Jekyll</strong> 或 <strong>Hugo</strong> 履歷模板</li>
+                <li>Fork（複製）模板到自己的帳號</li>
+                <li>修改設定檔，填入個人資訊</li>
+                <li>分類上傳高中三年的成果：
+                    <ul>
+                        <li>📚 專題報告（PDF 或 Markdown）</li>
+                        <li>📷 社團活動照片</li>
+                        <li>💻 程式作品連結</li>
+                        <li>📜 志工證明與獲獎紀錄</li>
+                    </ul>
+                </li>
+                <li>啟用 <strong>GitHub Pages</strong>，網站即刻上線</li>
+            </ol>
+            <p>💡 <strong>升學加分：</strong>在大學申請時附上個人網址，展現資訊能力，讓教授留下深刻且專業的印象。</p>
+        </div>
+    </div>
+
+    <!-- 看板管理 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生應用</span>
+        <h2>GitHub Projects：看板化專案管理</h2>
+        <p>社團成發或校慶攤位籌備，不需要寫一行程式碼，也能完美展現 GitHub 的協作價值。</p>
+
+        <h3>📋 Kanban 看板模擬</h3>
+        <div class="kanban-demo">
+            <div class="kanban-col col-todo">
+                <h5>📌 待辦 (To Do)</h5>
+                <div class="kanban-item">🎵 挑選表演曲目</div>
+                <div class="kanban-item">🍕 購買食材</div>
+            </div>
+            <div class="kanban-col col-doing">
+                <h5>🔄 進行中</h5>
+                <div class="kanban-item">🎨 設計海報</div>
+                <div class="kanban-item">📋 租借場地</div>
+            </div>
+            <div class="kanban-col col-done">
+                <h5>✅ 已完成</h5>
+                <div class="kanban-item">📝 撰寫企劃書</div>
+                <div class="kanban-item">💰 預算估算</div>
+            </div>
+        </div>
+        <p>誰負責哪件事、進度到哪裡，全班一目了然，不再需要在 LINE 群組裡大海撈針。</p>
+    </div>
+
+    <!-- 校刊社 -->
+    <div class="scenario">
+        <span class="role-tag collab-tag">🤝 師生協作</span>
+        <h2>校刊社的編輯部流程 (Editorial Workflow)</h2>
+        <p>告別檔名叫做「期末報告_最終版_真的最後一版_改.docx」的夢魘。</p>
+
+        <div class="example-box">
+            <h4>📰 校刊社專業流程</h4>
+            <ol>
+                <li>將每一期文章以 <strong>Markdown 格式</strong>存在 GitHub</li>
+                <li>記者完成初稿後，提交 <strong>Pull Request</strong></li>
+                <li>編輯長利用 GitHub 介面<strong>逐行審查</strong></li>
+                <li>在需要修改的句子旁直接留言建議</li>
+                <li>一切討論在線上完成，修改歷程清晰可見</li>
+            </ol>
+            <p>💡 這正是<strong>專業出版社與媒體</strong>使用的版本控制流程！</p>
+        </div>
+    </div>
+
+    <!-- 辯論稿 -->
+    <div class="scenario">
+        <span class="role-tag student-tag">👨‍🎓 學生應用</span>
+        <h2>辯論比賽的攻防稿共筆</h2>
+        <p>辯論隊利用 GitHub 管理講稿版本，確保全隊上場前手上的講稿都是最新且同步的。</p>
+
+        <div class="example-box">
+            <h4>🎤 辯論協作流程</h4>
+            <ol>
+                <li>將「一辯稿」、「二辯稿」等放在 Repository 中</li>
+                <li>針對敵方可能提出的論點開 <strong>Issue</strong> 進行腦力激盪</li>
+                <li>有更好的數據支援時，提案修改稿件（Pull Request）</li>
+                <li>所有修改經團隊審閱後合併</li>
+                <li>上場前確保大家手上都是<strong>最新且同步</strong>的版本</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 教師-PBL -->
+    <div class="scenario">
+        <span class="role-tag teacher-tag">👩‍🏫 教師應用</span>
+        <h2>管理學生的「專題式學習 (PBL)」進度</h2>
+        <p>老師要求每組學生在 GitHub 上開一個 Project Board 規劃期末專題。</p>
+
+        <div class="example-box">
+            <h4>📊 評量方式</h4>
+            <ol>
+                <li>老師只要點進各組的頁面，即可看到每位同學的分工與進度</li>
+                <li>能在特定任務卡片下方留言給予指導</li>
+                <li>達到「<strong>過程導向</strong>」的評量方式</li>
+                <li>不僅看最終成果，更重視團隊合作與時間管理的學習歷程</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 知識庫 -->
+    <div class="scenario">
+        <span class="role-tag teacher-tag">👩‍🏫 教師應用</span>
+        <h2>打造共創型「班級維基百科」</h2>
+        <p>歷史老師開啟 Repository 的 Wiki 功能，讓全班學生共同編寫知識庫。</p>
+
+        <div class="example-box">
+            <h4>📖 班級 Wiki 範例：台灣近代史大辭典</h4>
+            <ol>
+                <li>開啟 Repository 的 <strong>Wiki</strong> 功能</li>
+                <li>每個學生負責撰寫幾個歷史名詞的條目</li>
+                <li>Wiki 支援 Markdown，可輕鬆插入圖片與超連結</li>
+                <li>共同打造出一本屬於該班級的數位專書</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <strong>🎯 推廣建議：</strong>以上所有應用案例<strong>完全不需要寫任何程式碼</strong>。建議從 GitHub 網頁版介面入手，搭配 GitHub Desktop 圖形化工具，並強調 <strong>Markdown 語法</strong>的簡單易學，讓師生在 10 分鐘內就能上手。
+    </div>
+</div>
+</body>
+</html>
