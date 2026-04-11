@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排列組合計算器 | 數學互動模擬</title>
+    <meta name="description" content="互動式樹狀圖展開排列組合，視覺化 P(n,r) 與 C(n,r) 的計算過程與公式推導。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="../../nav-global.css">
+    <style>
+        .page-container{max-width:var(--max-width-xl);margin:0 auto;padding:var(--space-6)}
+        .page-hero{text-align:center;padding:var(--space-8) var(--space-4);margin-bottom:var(--space-6)}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(1.6rem,3.5vw,var(--text-3xl));color:var(--text-primary);margin-bottom:var(--space-2)}
+        .page-hero p{color:var(--text-secondary);font-size:var(--text-base);max-width:600px;margin:0 auto}
+
+        .sim-layout{display:grid;grid-template-columns:1fr 340px;gap:var(--space-6);margin-bottom:var(--space-8)}
+        @media(max-width:900px){.sim-layout{grid-template-columns:1fr}}
+
+        .canvas-wrap{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);overflow:hidden}
+        .canvas-wrap canvas{display:block;width:100%}
+
+        .ctrl-panel{display:flex;flex-direction:column;gap:var(--space-4)}
+        .ctrl-card{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-5)}
+        .ctrl-card h3{font-family:var(--font-heading);font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2)}
+        .ctrl-row{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3)}
+        .ctrl-row label{font-size:var(--text-sm);color:var(--text-secondary);min-width:28px;font-family:var(--font-mono);font-weight:600}
+        .ctrl-row input[type=range]{flex:1;accent-color:var(--color-accent)}
+        .ctrl-row .val{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--color-accent);min-width:40px;text-align:right}
+
+        .mode-btns{display:flex;gap:var(--space-2);margin-bottom:var(--space-3)}
+        .mode-btn{flex:1;padding:var(--space-2) var(--space-3);border:1px solid var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-surface);color:var(--text-secondary);font-size:var(--text-sm);cursor:pointer;font-family:var(--font-body);transition:all var(--transition-fast);font-weight:600;text-align:center}
+        .mode-btn.active{background:var(--color-accent);color:white;border-color:var(--color-accent)}
+
+        .result-box{background:var(--bg-color);border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:var(--space-4);text-align:center;margin-top:var(--space-3)}
+        .result-box__formula{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:var(--space-2);line-height:1.8}
+        .result-box__answer{font-family:var(--font-heading);font-size:var(--text-3xl);font-weight:900;color:var(--color-accent)}
+
+        .items-display{display:flex;gap:var(--space-2);flex-wrap:wrap;justify-content:center;margin-bottom:var(--space-4)}
+        .item-ball{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--text-sm);color:white;transition:all var(--transition-fast)}
+        .item-ball.selected{transform:scale(1.2);box-shadow:0 0 12px rgba(0,0,0,0.3)}
+
+        .quiz-section{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);margin-bottom:var(--space-8)}
+        .quiz-section h2{font-family:var(--font-heading);font-size:var(--text-xl);margin-bottom:var(--space-5)}
+        .quiz-q{margin-bottom:var(--space-5);padding:var(--space-4);background:var(--bg-color);border-radius:var(--border-radius-md)}
+        .quiz-q p{font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+        .quiz-q label{display:block;padding:var(--space-2) var(--space-3);border-radius:var(--border-radius-md);cursor:pointer;font-size:var(--text-sm);color:var(--text-secondary);transition:background var(--transition-fast)}
+        .quiz-q label:hover{background:var(--color-accent-light)}
+        .quiz-q input[type=radio]{margin-right:var(--space-2)}
+        .quiz-result{padding:var(--space-4);border-radius:var(--border-radius-md);text-align:center;font-weight:700;font-size:var(--text-lg);display:none}
+        .quiz-result.show{display:block}
+        .quiz-submit{padding:var(--space-3) var(--space-6);background:var(--color-accent);color:white;border:none;border-radius:var(--border-radius-md);font-weight:600;cursor:pointer;font-family:var(--font-body);font-size:var(--text-sm)}
+        .site-footer{text-align:center;padding:var(--space-8);border-top:1px solid var(--border-color);color:var(--text-tertiary);font-size:var(--text-sm)}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>🎯 排列組合計算器</h1>
+            <p>視覺化排列 P(n,r) 與組合 C(n,r) 的計算過程，搭配互動式樹狀圖</p>
+        </section>
+
+        <div class="sim-layout">
+            <div class="canvas-wrap">
+                <canvas id="treeCanvas" width="700" height="560"></canvas>
+            </div>
+            <div class="ctrl-panel">
+                <div class="ctrl-card">
+                    <h3>📌 模式</h3>
+                    <div class="mode-btns">
+                        <button class="mode-btn active" onclick="setMode('P',this)">P 排列</button>
+                        <button class="mode-btn" onclick="setMode('C',this)">C 組合</button>
+                    </div>
+                </div>
+                <div class="ctrl-card">
+                    <h3>🎛️ 參數</h3>
+                    <div class="ctrl-row"><label>n</label><input type="range" id="nVal" min="2" max="8" value="5" oninput="update()"><span class="val" id="nV">5</span></div>
+                    <div class="ctrl-row"><label>r</label><input type="range" id="rVal" min="1" max="5" value="3" oninput="update()"><span class="val" id="rV">3</span></div>
+                </div>
+                <div class="ctrl-card">
+                    <h3>🎨 元素預覽</h3>
+                    <div class="items-display" id="itemsDisplay"></div>
+                </div>
+                <div class="ctrl-card">
+                    <h3>📊 計算結果</h3>
+                    <div class="result-box">
+                        <div class="result-box__formula" id="formulaText">P(5,3) = 5! / (5-3)!</div>
+                        <div class="result-box__answer" id="answerText">60</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 測驗 -->
+        <section class="quiz-section">
+            <h2>📝 隨堂測驗</h2>
+            <div class="quiz-q"><p>1. P(5, 2) = ?</p>
+                <label><input type="radio" name="q1" value="a"> 10</label>
+                <label><input type="radio" name="q1" value="b"> 20</label>
+                <label><input type="radio" name="q1" value="c"> 25</label>
+                <label><input type="radio" name="q1" value="d"> 60</label>
+            </div>
+            <div class="quiz-q"><p>2. C(6, 2) = ?</p>
+                <label><input type="radio" name="q2" value="a"> 12</label>
+                <label><input type="radio" name="q2" value="b"> 15</label>
+                <label><input type="radio" name="q2" value="c"> 30</label>
+                <label><input type="radio" name="q2" value="d"> 36</label>
+            </div>
+            <div class="quiz-q"><p>3. 排列與組合的差異在於？</p>
+                <label><input type="radio" name="q3" value="a"> 排列考慮順序，組合不考慮</label>
+                <label><input type="radio" name="q3" value="b"> 組合考慮順序，排列不考慮</label>
+                <label><input type="radio" name="q3" value="c"> 兩者完全相同</label>
+                <label><input type="radio" name="q3" value="d"> 排列只能取全部</label>
+            </div>
+            <div class="quiz-q"><p>4. C(n, r) = C(n, ?) 也成立</p>
+                <label><input type="radio" name="q4" value="a"> r + 1</label>
+                <label><input type="radio" name="q4" value="b"> n - r</label>
+                <label><input type="radio" name="q4" value="c"> n + r</label>
+                <label><input type="radio" name="q4" value="d"> r - 1</label>
+            </div>
+            <div class="quiz-q"><p>5. 從 7 人中選 3 人組隊，有幾種選法？</p>
+                <label><input type="radio" name="q5" value="a"> 21</label>
+                <label><input type="radio" name="q5" value="b"> 35</label>
+                <label><input type="radio" name="q5" value="c"> 210</label>
+                <label><input type="radio" name="q5" value="d"> 42</label>
+            </div>
+            <button class="quiz-submit" onclick="submitQuiz()">✅ 提交答案</button>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+        <footer class="site-footer"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="../../nav-global.js"></script>
+    <script>
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+        let mode = 'P';
+        const COLORS = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#e91e63'];
+        const LABELS = ['A','B','C','D','E','F','G','H'];
+
+        function setMode(m, btn) {
+            mode = m;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            update();
+        }
+
+        function factorial(n) { return n <= 1 ? 1 : n * factorial(n-1); }
+        function P(n, r) { return factorial(n) / factorial(n - r); }
+        function C(n, r) { return factorial(n) / (factorial(r) * factorial(n - r)); }
+
+        function update() {
+            let n = parseInt(document.getElementById('nVal').value);
+            let r = parseInt(document.getElementById('rVal').value);
+            // 確保 r <= n
+            if (r > n) { r = n; document.getElementById('rVal').value = r; }
+            document.getElementById('rVal').max = n;
+            document.getElementById('nV').textContent = n;
+            document.getElementById('rV').textContent = r;
+
+            // 元素預覽
+            const itemsEl = document.getElementById('itemsDisplay');
+            itemsEl.innerHTML = '';
+            for (let i = 0; i < n; i++) {
+                const ball = document.createElement('div');
+                ball.className = 'item-ball';
+                ball.style.background = COLORS[i % COLORS.length];
+                ball.textContent = LABELS[i];
+                itemsEl.appendChild(ball);
+            }
+
+            // 計算
+            let result, formula;
+            if (mode === 'P') {
+                result = P(n, r);
+                formula = `P(${n}, ${r}) = ${n}! / (${n}-${r})! = ${n}! / ${n-r}!`;
+            } else {
+                result = C(n, r);
+                formula = `C(${n}, ${r}) = ${n}! / (${r}! × ${n-r}!) = ${n}! / (${r}! × ${n-r}!)`;
+            }
+            document.getElementById('formulaText').textContent = formula;
+            document.getElementById('answerText').textContent = result.toLocaleString();
+
+            drawTree(n, r);
+        }
+
+        function drawTree(n, r) {
+            const W = canvas.width = canvas.offsetWidth * 2;
+            const H = canvas.height = Math.round(W * 0.8);
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            ctx.fillStyle = isDark ? '#1a1a2e' : '#fafbfc';
+            ctx.fillRect(0, 0, W, H);
+
+            // 限制樹狀圖深度以避免過多節點
+            const maxBranches = mode === 'P' ? Math.min(P(n, r), 120) : Math.min(C(n, r), 120);
+            const showTree = r <= 3 && n <= 6;
+
+            if (!showTree) {
+                // 太大了，改用圓餅圖/表格呈現
+                drawLargeResult(W, H, n, r, isDark);
+                return;
+            }
+
+            // 生成所有排列或組合
+            const results = [];
+            function generate(chosen, remaining, depth) {
+                if (depth === r) { results.push([...chosen]); return; }
+                for (let i = 0; i < remaining.length; i++) {
+                    if (results.length >= 120) return;
+                    const next = [...remaining];
+                    const item = next.splice(i, 1)[0];
+                    if (mode === 'C' && chosen.length > 0 && item < chosen[chosen.length-1]) continue;
+                    chosen.push(item);
+                    generate(chosen, next, depth + 1);
+                    chosen.pop();
+                }
+            }
+            const items = Array.from({length: n}, (_, i) => i);
+            generate([], items, 0);
+
+            // 繪製樹狀圖
+            const levelH = H / (r + 2);
+            const startY = 40;
+
+            // 標題
+            ctx.fillStyle = isDark ? '#fff' : '#2c3e50';
+            ctx.font = `bold ${Math.max(16, W/50)}px Outfit`;
+            ctx.textAlign = 'center';
+            ctx.fillText(`${mode === 'P' ? '排列' : '組合'} — 共 ${results.length} 種`, W/2, startY);
+
+            // 繪製結果行
+            const rowH = (H - 100) / Math.min(results.length, 20);
+            const maxShow = Math.min(results.length, 20);
+
+            for (let i = 0; i < maxShow; i++) {
+                const y = 70 + i * rowH;
+                const combo = results[i];
+                const totalW = combo.length * 44;
+                const sx = W/2 - totalW/2;
+
+                for (let j = 0; j < combo.length; j++) {
+                    const cx = sx + j * 44 + 18;
+                    const cy = y + 16;
+                    const idx = combo[j];
+
+                    // 圓圈
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, 16, 0, Math.PI*2);
+                    ctx.fillStyle = COLORS[idx % COLORS.length];
+                    ctx.fill();
+
+                    // 文字
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 14px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(LABELS[idx], cx, cy);
+                }
+
+                // 連接線
+                if (combo.length > 1) {
+                    ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(sx + 34, y + 16);
+                    ctx.lineTo(sx + (combo.length-1)*44 + 2, y + 16);
+                    ctx.stroke();
+                }
+            }
+
+            if (results.length > 20) {
+                ctx.fillStyle = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)';
+                ctx.font = '14px Noto Sans TC';
+                ctx.fillText(`... 還有 ${results.length - 20} 種（僅顯示前 20 種）`, W/2, H - 30);
+            }
+        }
+
+        function drawLargeResult(W, H, n, r, isDark) {
+            const result = mode === 'P' ? P(n, r) : C(n, r);
+            ctx.fillStyle = isDark ? '#fff' : '#2c3e50';
+            ctx.font = `bold ${Math.max(20, W/30)}px Outfit`;
+            ctx.textAlign = 'center';
+            ctx.fillText(`${mode}(${n}, ${r})`, W/2, H/2 - 60);
+
+            ctx.font = `bold ${Math.max(48, W/15)}px Outfit`;
+            ctx.fillStyle = '#3498db';
+            ctx.fillText(result.toLocaleString(), W/2, H/2 + 20);
+
+            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
+            ctx.font = `${Math.max(14, W/50)}px JetBrains Mono`;
+            if (mode === 'P') {
+                ctx.fillText(`= ${n}! / ${n-r}! = ${factorial(n).toLocaleString()} / ${factorial(n-r).toLocaleString()}`, W/2, H/2 + 80);
+            } else {
+                ctx.fillText(`= ${n}! / (${r}! × ${n-r}!) = ${factorial(n).toLocaleString()} / (${factorial(r)} × ${factorial(n-r)})`, W/2, H/2 + 80);
+            }
+
+            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)';
+            ctx.font = '13px Noto Sans TC';
+            ctx.fillText('（n 或 r 過大，省略樹狀圖，改為數值呈現）', W/2, H/2 + 120);
+        }
+
+        // === 測驗 ===
+        const ANSWERS = { q1: 'b', q2: 'b', q3: 'a', q4: 'b', q5: 'b' };
+        function submitQuiz() {
+            let correct = 0, total = Object.keys(ANSWERS).length;
+            for (const [q, ans] of Object.entries(ANSWERS)) {
+                const sel = document.querySelector(`input[name="${q}"]:checked`);
+                if (sel && sel.value === ans) correct++;
+            }
+            const score = Math.round(correct / total * 100);
+            const el = document.getElementById('quizResult');
+            el.className = 'quiz-result show';
+            el.style.background = score >= 60 ? 'var(--color-success-light)' : 'var(--color-danger-light)';
+            el.style.color = score >= 60 ? '#2e7d32' : '#c62828';
+            el.textContent = `得分：${score} 分（${correct}/${total}）${score >= 80 ? ' 🎉' : score >= 60 ? ' 👍' : ' 💪 再加油！'}`;
+
+            const progress = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            progress['math-combinatorics'] = { score, correct, total, date: new Date().toISOString() };
+            localStorage.setItem('teach-progress', JSON.stringify(progress));
+        }
+
+        update();
+        window.addEventListener('resize', update);
+    </script>
+</body>
+</html>

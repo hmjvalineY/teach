@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣歷史時間軸 | 社會領域互動模擬</title>
+    <meta name="description" content="互動式台灣歷史時間軸，涵蓋荷西時期、明鄭、清領、日治至戰後各階段的關鍵事件。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="../../nav-global.css">
+    <style>
+        .page-container{max-width:var(--max-width-xl);margin:0 auto;padding:var(--space-6)}
+        .page-hero{text-align:center;padding:var(--space-8) var(--space-4);margin-bottom:var(--space-6)}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(1.6rem,3.5vw,var(--text-3xl));color:#d35400;margin-bottom:var(--space-2)}
+        .page-hero p{color:var(--text-secondary);font-size:var(--text-base);max-width:600px;margin:0 auto}
+
+        .timeline-container{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);overflow-x:auto;position:relative;min-height:500px;display:flex;align-items:center}
+        
+        .timeline-line{position:absolute;top:50%;left:50px;right:50px;height:4px;background:var(--border-color);border-radius:2px;z-index:1}
+        .timeline-events{display:flex;gap:120px;position:relative;z-index:2;padding:0 80px}
+        
+        .t-event{display:flex;flex-direction:column;align-items:center;min-width:180px;position:relative;transition:all var(--transition-md)}
+        
+        /* 交互排列上下 */
+        .t-event:nth-child(odd) { justify-content: flex-end; padding-bottom: 20px; margin-top: -100px; }
+        .t-event:nth-child(even){ justify-content: flex-start; padding-top: 20px; margin-top: 100px; }
+        
+        .t-dot{width:20px;height:20px;background:var(--bg-surface);border:4px solid #d35400;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);transition:all var(--transition-fast)}
+        .t-event:nth-child(odd) .t-dot { bottom: -10px; }
+        .t-event:nth-child(even) .t-dot{ top: -10px; }
+        
+        .t-card{background:var(--bg-color);border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:var(--space-4);width:100%;box-shadow:var(--shadow-sm);cursor:pointer;transition:all var(--transition-fast)}
+        .t-card:hover{transform:translateY(-5px);border-color:#d35400;box-shadow:var(--shadow-md)}
+        .t-event.active .t-card{border-color:#d35400;background:rgba(211, 84, 0, 0.05)}
+        .t-event.active .t-dot{background:#d35400;transform:translateX(-50%) scale(1.3)}
+        
+        .t-year{font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:#d35400;margin-bottom:var(--space-1)}
+        .t-title{font-family:var(--font-heading);font-size:var(--text-base);font-weight:700;color:var(--text-primary);margin-bottom:var(--space-2)}
+        .t-desc{font-size:var(--text-xs);color:var(--text-secondary);line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+        .details-panel{margin-top:var(--space-6);background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);min-height:300px}
+        @media(max-width:800px){.details-panel{grid-template-columns:1fr}}
+        
+        .details-text h2{font-family:var(--font-heading);font-size:var(--text-2xl);color:#d35400;margin-bottom:var(--space-2)}
+        .details-text .d-period{display:inline-block;padding:2px 8px;background:var(--bg-color);border:1px solid var(--border-color);border-radius:var(--border-radius-sm);font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-4)}
+        .details-text p{font-size:var(--text-base);color:var(--text-secondary);line-height:1.6}
+        
+        .details-map{background:var(--bg-color);border-radius:var(--border-radius-md);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;font-size:var(--text-3xl);color:var(--text-tertiary)}
+
+        .empty-state{grid-column:1 / -1;text-align:center;padding:var(--space-8) 0;color:var(--text-secondary)}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>📜 台灣歷史時間軸</h1>
+            <p>橫跨 17 世紀至今，回顧台灣在不同政權下的關鍵歷史時刻與轉捩點。點擊卡片查看詳細內容。</p>
+        </section>
+
+        <!-- 時間軸互動區 -->
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            <div class="timeline-events" id="eventList">
+                <!-- JS 生成 -->
+            </div>
+        </div>
+
+        <!-- 選擇後的詳細說明面板 -->
+        <div class="details-panel" id="focusPanel">
+            <div class="empty-state">
+                ☝️ 請點擊上方時間軸的歷史事件卡片，以查看詳細解說。
+            </div>
+        </div>
+        
+        <footer class="site-footer"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="../../nav-global.js"></script>
+    <script>
+        const historyData = [
+            { year: '1624', title: '荷蘭東印度公司進駐', period: '荷西時期', desc: '荷蘭人於大員（今安平）建立熱蘭遮城，成為台灣進入世界貿易體系的開端。', 
+              full: '1624 年，荷蘭東印度公司 (VOC) 在澎湖被明朝軍隊擊退後，轉移至台灣南部的大員（今台南安平），建立熱蘭遮城。這是台灣歷史上首次受到現代意義的國家組織統治，台灣因此被納入十七世紀全球重商主義的海洋貿易體系中，出口鹿皮與蔗糖。', icon:'🚢' },
+            
+            { year: '1662', title: '鄭成功驅逐荷蘭人', period: '明鄭時期', desc: '鄭成功軍隊圍攻熱蘭遮城，結束荷蘭在台 38 年的統治，建立華人政權。', 
+              full: '明朝滅亡後，鄭成功在中國沿海抗清受挫。1661 年率軍橫渡台灣海峽，於鹿耳門登陸，成功包圍熱蘭遮城。1662 年荷蘭長官揆一投降，結束了荷蘭在台 38 年統治。鄭氏政權在台設立一府二縣，並實施屯墾制度以解決軍糧問題。', icon:'⚔️' },
+              
+            { year: '1683', title: '施琅攻台，清朝統治', period: '清領時期', desc: '清軍將領施琅於澎湖海戰擊敗鄭軍，鄭克塽投降，台灣正式納入大清版圖。', 
+              full: '1683 年（康熙22年），清朝將領施琅率領水師在澎湖海戰中擊敗明鄭將領劉國軒。年幼的延平王鄭克塽決定投降，明鄭政權滅亡。次年，清廷聽從施琅的建議，將台灣正式收入版圖，隸屬福建省台灣府，為台灣歷史上長達 212 年清領時期的開端。', icon:'📜' },
+              
+            { year: '1895', title: '馬關條約與乙未戰爭', period: '日治時期', desc: '甲午戰爭清朝戰敗，台灣割讓給日本，隨後爆發激烈的乙未抗日戰爭。', 
+              full: '清朝在甲午戰爭遭到挫敗，與日本簽訂《馬關條約》，將台灣及澎湖群島割讓給日本。此舉引發島內官民震驚與反抗，短暫成立了「台灣民主國」。然而日軍從北到南推進，歷經數月的「乙未戰爭」，最終日軍攻陷台南，確立了日本對台灣 50 年的殖民統治。', icon:'📝' },
+              
+            { year: '1945', title: '二戰結束與台灣光復', period: '戰後時期', desc: '第二次世界大戰結束，日本無條件投降，中華民國政府接收台灣。', 
+              full: '1945 年 8 月，日本帝國宣布無條件投降。同年 10 月 25 日，中華民國政府代表同盟國在台北公會堂（今中山堂）接受日本台灣總督的投降，台灣自此脫離日本統治，史稱「台灣光復」。隨即台灣進入了中華民國的統治時期。', icon:'🕊️' },
+              
+            { year: '1947', title: '二二八事件', period: '戰後時期', desc: '因查緝私菸爆發大規模流血衝突與政府鎮壓，對台灣社會影響深遠。', 
+              full: '1947 年 2 月 27 日，專賣局查緝員在台北圓環查緝私菸時的暴力行為，引發民眾大規模抗議。加上戰後經濟崩潰、物價飛漲與政治貪腐，引爆了全島性的反抗運動。隨後國民政府派遣軍隊鎮壓，造成大量本省籍菁英與平民傷亡，為台灣歷史上傷痕深重的一頁。', icon:'🥀' },
+              
+            { year: '1987', title: '宣布解嚴', period: '現代', desc: '蔣經國總統宣布解除長達 38 年的戒嚴令，開啟台灣民主化的進程。', 
+              full: '自 1949 年頒布令起，台灣經歷了長達 38 年的戒嚴。隨著黨外運動的推進與國際局勢的改變，時任總統蔣經國於 1987 年 7 月 15 日正式宣布解除戒嚴令。這象徵著台灣解除黨禁、報禁，公民權利逐漸恢復，是台灣走向民主化與自由化的關鍵里程碑。', icon:'🔓' }
+        ];
+
+        function renderTimeline() {
+            const list = document.getElementById('eventList');
+            historyData.forEach((ev, idx) => {
+                const el = document.createElement('div');
+                el.className = 't-event';
+                el.onclick = () => showDetails(idx);
+                
+                el.innerHTML = `
+                    <div class="t-dot"></div>
+                    <div class="t-card">
+                        <div class="t-year">${ev.year}</div>
+                        <div class="t-title">${ev.title}</div>
+                        <div class="t-desc">${ev.desc}</div>
+                    </div>
+                `;
+                list.appendChild(el);
+            });
+        }
+
+        function showDetails(idx) {
+            // Update active state
+            document.querySelectorAll('.t-event').forEach((el, i) => {
+                el.classList.toggle('active', i === idx);
+            });
+            
+            const data = historyData[idx];
+            const panel = document.getElementById('focusPanel');
+            panel.innerHTML = `
+                <div class="details-text">
+                    <h2>${data.year} - ${data.title}</h2>
+                    <span class="d-period">${data.period}</span>
+                    <p>${data.full}</p>
+                </div>
+                <div class="details-map">
+                    <div style="text-align:center">
+                        <div style="font-size:80px;margin-bottom:20px">${data.icon}</div>
+                        <div style="font-size:18px;color:var(--text-secondary)">時代象徵</div>
+                    </div>
+                </div>
+            `;
+            // Scroll to the item to ensure visibility
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Init
+        setTimeout(renderTimeline, 50);
+    </script>
+</body>
+</html>

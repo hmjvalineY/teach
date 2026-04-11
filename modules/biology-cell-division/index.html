@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>細胞分裂：有絲分裂 vs 減數分裂 | 生物互動模擬</title>
+    <meta name="description" content="細胞分裂動畫：比較有絲分裂與減數分裂各階段染色體的動態變化與結果差異。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="../../nav-global.css">
+    <style>
+        .page-container{max-width:var(--max-width-xl);margin:0 auto;padding:var(--space-6)}
+        .page-hero{text-align:center;padding:var(--space-8) var(--space-4);margin-bottom:var(--space-6)}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(1.6rem,3.5vw,var(--text-3xl));color:var(--color-biology);margin-bottom:var(--space-2)}
+        .page-hero p{color:var(--text-secondary);font-size:var(--text-base);max-width:600px;margin:0 auto}
+
+        .sim-layout{display:grid;grid-template-columns:1fr 340px;gap:var(--space-6);margin-bottom:var(--space-8)}
+        @media(max-width:900px){.sim-layout{grid-template-columns:1fr}}
+
+        .canvas-wrap{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-4);position:relative}
+        .anim-box{width:100%;background:var(--bg-color);border-radius:var(--border-radius-md);overflow:hidden;border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;min-height:500px}
+        .anim-box canvas{display:block;width:100%;height:100%}
+        
+        .timeline-ctrl{display:flex;flex-direction:column;gap:var(--space-2)}
+        .phase-name{font-family:var(--font-heading);font-size:var(--text-lg);font-weight:700;color:var(--text-primary);text-align:center}
+        .phase-slider{width:100%;accent-color:var(--color-biology)}
+        
+        .phase-markers{display:flex;justify-content:space-between;width:100%;padding:0 10px;margin-top:-10px}
+        .marker{font-size:var(--text-xs);color:var(--text-secondary);position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer}
+        .marker::before{content:'';width:2px;height:10px;background:var(--border-color);margin-bottom:4px}
+        
+        .ctrl-panel{display:flex;flex-direction:column;gap:var(--space-4)}
+        .ctrl-card{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-5)}
+        .ctrl-card h3{font-family:var(--font-heading);font-size:var(--text-base);font-weight:600;color:var(--color-biology);margin-bottom:var(--space-3)}
+        
+        .mode-toggle{display:flex;border-radius:var(--border-radius-md);overflow:hidden;border:1px solid var(--color-biology);margin-bottom:var(--space-4)}
+        .mode-btn{flex:1;padding:var(--space-3);background:transparent;color:var(--color-biology);font-weight:600;border:none;cursor:pointer;transition:all var(--transition-fast)}
+        .mode-btn.active{background:var(--color-biology);color:white}
+
+        .btn-row{display:flex;gap:var(--space-2);margin-bottom:var(--space-4)}
+        .action-btn{flex:1;padding:var(--space-2);border:1px solid var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-color);color:var(--text-primary);cursor:pointer;font-weight:600;transition:all var(--transition-fast)}
+        .action-btn:hover{background:var(--color-biology);color:white;border-color:var(--color-biology)}
+
+        .info-card{background:var(--bg-color);border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:var(--space-4);margin-top:var(--space-4)}
+        .info-card h4{font-size:var(--text-sm);color:var(--text-primary);margin-bottom:var(--space-2)}
+        .info-card p{font-size:var(--text-xs);color:var(--text-secondary);line-height:1.5;margin-bottom:var(--space-2)}
+        .info-card ul{font-size:var(--text-xs);color:var(--text-secondary);padding-left:var(--space-4)}
+
+        /* 測驗區 */
+        .quiz-section{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);margin-bottom:var(--space-8)}
+        .quiz-section h2{font-family:var(--font-heading);font-size:var(--text-xl);margin-bottom:var(--space-5)}
+        .quiz-q{margin-bottom:var(--space-5);padding:var(--space-4);background:var(--bg-color);border-radius:var(--border-radius-md)}
+        .quiz-q p{font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+        .quiz-q label{display:block;padding:var(--space-2) var(--space-3);border-radius:var(--border-radius-md);cursor:pointer;font-size:var(--text-sm);color:var(--text-secondary);transition:background var(--transition-fast)}
+        .quiz-q label:hover{background:var(--color-biology-light);color:#1b5e20}
+        .quiz-q input[type=radio]{margin-right:var(--space-2)}
+        .quiz-submit{padding:var(--space-3) var(--space-6);background:var(--color-biology);color:white;border:none;border-radius:var(--border-radius-md);font-weight:600;cursor:pointer}
+        .quiz-result{padding:var(--space-4);border-radius:var(--border-radius-md);text-align:center;font-weight:700;font-size:var(--text-lg);display:none;margin-top:var(--space-4)}
+        .quiz-result.show{display:block}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>🔬 細胞分裂：有絲分裂 vs 減數分裂</h1>
+            <p>透過拖曳時間線，觀察細胞在不同分裂階段中，染色體的動態變化、紡錘絲牽引與細胞質分裂。</p>
+        </section>
+
+        <div class="sim-layout">
+            <div class="canvas-wrap">
+                <div class="anim-box">
+                    <canvas id="simCanvas"></canvas>
+                </div>
+                
+                <div class="timeline-ctrl">
+                    <div class="phase-name" id="phaseTitle">間期 (Interphase)</div>
+                    <!-- value 0-100 -->
+                    <input type="range" class="phase-slider" id="timeSlider" min="0" max="100" value="0" oninput="seek()">
+                    <div class="phase-markers" id="markers">
+                        <!-- JS 動態產生 -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="ctrl-panel">
+                <div class="ctrl-card">
+                    <h3>🧬 選擇分裂模式</h3>
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" id="btnMitosis" onclick="setMode('mitosis')">有絲分裂</button>
+                        <button class="mode-btn" id="btnMeiosis" onclick="setMode('meiosis')">減數分裂</button>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="action-btn" onclick="togglePlay()" id="btnPlay">▶️ 播放 / 暫停</button>
+                    </div>
+                    
+                    <div class="info-card" id="infoBox">
+                        <h4>有絲分裂 (Mitosis)</h4>
+                        <p>體細胞的分裂方式，產生兩個與母細胞遺傳物質完全相同的子細胞。</p>
+                        <ul>
+                            <li>分裂次數：1次</li>
+                            <li>子細胞數：2個</li>
+                            <li>染色體數：不變 (2n → 2n)</li>
+                            <li>主要功能：生長、修補與無性生殖</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="quiz-section">
+            <h2>📝 隨堂測驗</h2>
+            <div class="quiz-q"><p>1. 減數分裂與有絲分裂最大的不同在於，減數分裂會連續進行幾次分裂？產生幾個子細胞？</p>
+                <label><input type="radio" name="q1" value="a"> 1 次分裂，2 個子細胞</label>
+                <label><input type="radio" name="q1" value="b"> 2 次分裂，4 個子細胞</label>
+                <label><input type="radio" name="q1" value="c"> 2 次分裂，2 個子細胞</label>
+                <label><input type="radio" name="q1" value="d"> 1 次分裂，4 個子細胞</label>
+            </div>
+            <div class="quiz-q"><p>2. 在有絲分裂的「中期 (Metaphase)」，染色體有何特徵？</p>
+                <label><input type="radio" name="q2" value="a"> 姊妹染色分體已經分離並移向兩極</label>
+                <label><input type="radio" name="q2" value="b"> 同源染色體聯會，產生互換現象</label>
+                <label><input type="radio" name="q2" value="c"> 染色體整齊排列於細胞中央的赤道板上</label>
+                <label><input type="radio" name="q2" value="d"> 核膜重新形成</label>
+            </div>
+            <div class="quiz-q"><p>3. 發生同源染色體「聯會 (Synapsis)」與可能產生「互換 (Crossing over)」現象的是哪個階段？</p>
+                <label><input type="radio" name="q3" value="a"> 有絲分裂前期</label>
+                <label><input type="radio" name="q3" value="b"> 減數分裂第一前期</label>
+                <label><input type="radio" name="q3" value="c"> 減數分裂第二前期</label>
+                <label><input type="radio" name="q3" value="d"> 間期</label>
+            </div>
+            <div class="quiz-q"><p>4. 若一個生物的體細胞染色體數為 2n = 46。它進行減數分裂產生的精子或卵子，染色體數量為何？</p>
+                <label><input type="radio" name="q4" value="a"> n = 46</label>
+                <label><input type="radio" name="q4" value="b"> n = 23</label>
+                <label><input type="radio" name="q4" value="c"> 2n = 46</label>
+                <label><input type="radio" name="q4" value="d"> 2n = 92</label>
+            </div>
+            <div class="quiz-q"><p>5. 在細胞分裂的後期 (Anaphase)，分離並被拉向兩極的是什麼？</p>
+                <label><input type="radio" name="q5" value="a"> 有絲分裂中為同源染色體，減數分裂中為姊妹染色分體</label>
+                <label><input type="radio" name="q5" value="b"> 有絲分裂中為姊妹染色分體，減數第一分裂中為同源染色體</label>
+                <label><input type="radio" name="q5" value="c"> 兩者皆為同源染色體分離</label>
+                <label><input type="radio" name="q5" value="d"> 兩者皆為核仁分離</label>
+            </div>
+            <button class="quiz-submit" onclick="submitQuiz()">✅ 提交答案</button>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+        
+        <footer class="site-footer"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="../../nav-global.js"></script>
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const slider = document.getElementById('timeSlider');
+        let mode = 'mitosis';
+        let progress = 0; // 0 to 100
+        let isPlaying = false;
+        
+        let reqId;
+
+        const phasesMitosis = [
+            { t: 0,  label: "間期",   len: 12 },
+            { t: 20, label: "前期",   len: 20 },
+            { t: 40, label: "中期",   len: 20 },
+            { t: 60, label: "後期",   len: 20 },
+            { t: 80, label: "末期",   len: 20 }
+        ];
+
+        const phasesMeiosis = [
+            { t: 0,  label: "間期",     len: 0 },
+            { t: 15, label: "前I/中I", len: 15 },
+            { t: 30, label: "後I",     len: 15 },
+            { t: 45, label: "末I",     len: 15 },
+            { t: 65, label: "前II/中II",len:20 },
+            { t: 80, label: "後II",    len: 15 },
+            { t: 95, label: "末II",    len: 5 }
+        ];
+
+        function resize() {
+            const wrap = document.querySelector('.anim-box');
+            canvas.width = wrap.clientWidth * 2;
+            canvas.height = wrap.clientHeight * 2;
+            draw();
+        }
+
+        function buildMarkers() {
+            const markers = document.getElementById('markers');
+            markers.innerHTML = '';
+            const phases = mode === 'mitosis' ? phasesMitosis : phasesMeiosis;
+            
+            phases.forEach(p => {
+                const el = document.createElement('div');
+                el.className = 'marker';
+                el.style.position = 'absolute';
+                el.style.left = `calc(${p.t}% - 20px)`;
+                el.style.width = '40px';
+                el.textContent = p.label;
+                el.onclick = () => {
+                    progress = p.t;
+                    slider.value = progress;
+                    draw();
+                };
+                markers.appendChild(el);
+            });
+        }
+
+        function setMode(newMode) {
+            mode = newMode;
+            document.getElementById('btnMitosis').classList.toggle('active', mode==='mitosis');
+            document.getElementById('btnMeiosis').classList.toggle('active', mode==='meiosis');
+            
+            if(mode === 'mitosis') {
+                document.getElementById('infoBox').innerHTML = `
+                    <h4>有絲分裂 (Mitosis)</h4>
+                    <p>體細胞的分裂方式，產生兩個與母細胞遺傳物質完全相同的子細胞。</p>
+                    <ul>
+                        <li>分裂次數：1次</li>
+                        <li>子細胞數：2個</li>
+                        <li>染色體數：不變 (2n → 2n)</li>
+                        <li>發生部位：所有生長組織</li>
+                    </ul>`;
+            } else {
+                document.getElementById('infoBox').innerHTML = `
+                    <h4>減數分裂 (Meiosis)</h4>
+                    <p>生殖母細胞的分裂方式，產生四個染色體減半的配子細胞。</p>
+                    <ul>
+                        <li>分裂次數：2次</li>
+                        <li>子細胞數：4個</li>
+                        <li>染色體數：減半 (2n → n)</li>
+                        <li>同源染色體會配對(聯會)與分離</li>
+                    </ul>`;
+            }
+            
+            progress = 0;
+            slider.value = 0;
+            buildMarkers();
+            draw();
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if(isPlaying) animate();
+            else cancelAnimationFrame(reqId);
+        }
+
+        function seek() {
+            progress = parseFloat(slider.value);
+            draw();
+        }
+
+        function animate() {
+            progress += 0.2;
+            if(progress > 100) { progress = 0; isPlaying = false; }
+            slider.value = progress;
+            draw();
+            if(isPlaying) reqId = requestAnimationFrame(animate);
+        }
+
+        function updateTitle() {
+            const phases = mode === 'mitosis' ? phasesMitosis : phasesMeiosis;
+            let current = phases[0].label;
+            for(let i=phases.length-1; i>=0; i--) {
+                if(progress >= phases[i].t - 5) {
+                    current = phases[i].label;
+                    break;
+                }
+            }
+            document.getElementById('phaseTitle').textContent = current;
+        }
+
+        // 簡化版的繪製系統
+        function draw() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            updateTitle();
+            
+            const cx = canvas.width/2;
+            const cy = canvas.height/2;
+            
+            ctx.strokeStyle = isDark ? '#ffffff' : '#000000';
+            ctx.lineWidth = 4;
+            
+            // 根據進度變化繪製細胞外形
+            if(mode === 'mitosis') {
+                drawMitosisCell(cx, cy, progress, isDark);
+            } else {
+                drawMeiosisCell(cx, cy, progress, isDark);
+            }
+        }
+        
+        // 畫一個有 XX 形狀的染色體，pos=(X,Y)
+        function drawChr(x, y, angle, color, splitDist = 0) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            
+            if (splitDist === 0) { // 複製好的完整染色體 (X型)
+                ctx.beginPath(); ctx.moveTo(-15, -25); ctx.lineTo(15, 25); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(15, -25); ctx.lineTo(-15, 25); ctx.stroke();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath(); ctx.arc(0,0, 4, 0, Math.PI*2); ctx.fill(); ctx.stroke(); // 中節
+            } else { // 被拉開的姊妹染色分體 (V型)
+                // 上半部往左拉
+                ctx.beginPath(); ctx.moveTo(-splitDist - 10, -20); ctx.lineTo(-splitDist, 0); ctx.lineTo(-splitDist - 10, 20); ctx.stroke();
+                // 下半部往右拉
+                ctx.beginPath(); ctx.moveTo(splitDist + 10, -20); ctx.lineTo(splitDist, 0); ctx.lineTo(splitDist + 10, 20); ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+
+        function drawMitosisCell(cx, cy, p, isDark) {
+            // 背景細胞膜，後期/末期拉長並內凹
+            let cellW = 120, cellH = 120, oC = 0;
+            if(p > 50) {
+                const extend = Math.min((p-50)*2, 100); // 0 to 100
+                cellW = 120 + extend;
+                if(p > 70) oC = (p-70)*1.2; // 0 to 36 內凹
+            }
+            
+            ctx.fillStyle = isDark ? 'rgba(76, 175, 80, 0.1)' : 'rgba(76, 175, 80, 0.15)';
+            ctx.strokeStyle = '#4caf50';
+            ctx.lineWidth = 4;
+            
+            if (p < 85) {
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - cellH + oC); // 上內凹
+                ctx.bezierCurveTo(cx + cellW, cy - cellH, cx + cellW, cy + cellH, cx, cy + cellH - oC); // 下內凹
+                ctx.bezierCurveTo(cx - cellW, cy + cellH, cx - cellW, cy - cellH, cx, cy - cellH + oC);
+                ctx.fill(); ctx.stroke();
+            } else {
+                // 完全分裂成兩個
+                const gap = (p-85) * 2 + 10;
+                ctx.beginPath(); ctx.arc(cx - 80 - gap, cy, 90, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.arc(cx + 80 + gap, cy, 90, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                
+                // 畫末期細胞核膜
+                ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.setLineDash([5,5]);
+                ctx.beginPath(); ctx.arc(cx-80-gap, cy, 50, 0, Math.PI*2); ctx.stroke();
+                ctx.beginPath(); ctx.arc(cx+80+gap, cy, 50, 0, Math.PI*2); ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            // ===== 染色體與核膜動態 =====
+            const cRed = '#e74c3c', cBlue = '#3498db';
+            
+            if (p < 15) { // 間期 - 散亂染色質
+                ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.setLineDash([5,5]);
+                ctx.beginPath(); ctx.arc(cx, cy, 60, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+                ctx.strokeStyle = cRed; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx-20, cy-10); ctx.bezierCurveTo(cx+30, cy-40, cx-40, cy+30, cx+10, cy+20); ctx.stroke();
+                ctx.strokeStyle = cBlue; ctx.beginPath(); ctx.moveTo(cx-10, cy+20); ctx.bezierCurveTo(cx+40, cy+20, cx-30, cy-20, cx+15, cy-10); ctx.stroke();
+            } 
+            else if (p < 35) { // 前期 - 染色體濃縮，核膜消失中
+                ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.setLineDash([5,10]);
+                ctx.beginPath(); ctx.arc(cx, cy, 60, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+                drawChr(cx - 20, cy - 15, 0.2, cRed, 0);
+                drawChr(cx + 10, cy + 15, -0.2, cBlue, 0);
+            }
+            else if (p < 55) { // 中期 - 排列在赤道板
+                const y1 = cy - 25, y2 = cy + 25;
+                drawChr(cx, y1, Math.PI/2, cRed, 0);
+                drawChr(cx, y2, Math.PI/2, cBlue, 0);
+                // 紡錘絲
+                ctx.strokeStyle = isDark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.2)'; ctx.lineWidth=2;
+                ctx.beginPath(); ctx.moveTo(cx-100, cy); ctx.lineTo(cx, y1); ctx.lineTo(cx+100, cy); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(cx-100, cy); ctx.lineTo(cx, y2); ctx.lineTo(cx+100, cy); ctx.stroke();
+                // 中心體
+                ctx.fillStyle='#f1c40f'; ctx.fillRect(cx-105, cy-5, 10, 10); ctx.fillRect(cx+95, cy-5, 10, 10);
+            }
+            else if (p < 75) { // 後期 - 姊妹染色分體分離
+                const dist = (p - 50) * 1.5; // 分離距離
+                drawChr(cx, cy - 25, Math.PI/2, cRed, dist);
+                drawChr(cx, cy + 25, Math.PI/2, cBlue, dist);
+                // 紡錘絲變短
+                ctx.strokeStyle = isDark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.2)'; ctx.lineWidth=2;
+                ctx.beginPath(); ctx.moveTo(cx-100, cy); ctx.lineTo(cx-dist, cy-25); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(cx+100, cy); ctx.lineTo(cx+dist, cy-25); ctx.stroke();
+                ctx.fillStyle='#f1c40f'; ctx.fillRect(cx-105, cy-5, 10, 10); ctx.fillRect(cx+95, cy-5, 10, 10);
+            }
+            else if (p <= 100) { // 末期 - 變成單股染色體
+                if(p < 85) {
+                    drawChr(cx - 50, cy - 15, Math.PI/3, cRed, 0); // 在這邊僅畫一半 (V型) 比較複雜，我們畫較細的單條代替
+                    ctx.fillStyle=cRed; ctx.fillRect(cx-60, cy-10, 30, 4); ctx.fillRect(cx-60, cy+10, 30, 4);
+                    ctx.fillStyle=cBlue; ctx.fillRect(cx+40, cy-10, 30, 4); ctx.fillRect(cx+40, cy+10, 30, 4);
+                } else {
+                    const gap = (p-85) * 2 + 10;
+                    ctx.fillStyle=cRed; 
+                    ctx.beginPath(); ctx.arc(cx-80-gap-10, cy-10, 3, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(cx-80-gap+10, cy+10, 3, 0, Math.PI*2); ctx.fill(); // 示意散開
+                    
+                    ctx.fillStyle=cBlue;
+                    ctx.beginPath(); ctx.arc(cx+80+gap-10, cy-10, 3, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(cx+80+gap+10, cy+10, 3, 0, Math.PI*2); ctx.fill(); // 示意散開
+                }
+            }
+        }
+
+        // 用於簡易展示減數分裂，只畫重點
+        function drawMeiosisCell(cx, cy, p, isDark) {
+            // 背景細胞膜處理
+            let cellW = 120, cellH = 120, oC = 0;
+            ctx.fillStyle = isDark ? 'rgba(156, 39, 176, 0.1)' : 'rgba(156, 39, 176, 0.15)';
+            ctx.strokeStyle = '#9c27b0';
+            ctx.lineWidth = 4;
+            
+            const cRed = '#e74c3c', cBlue = '#3498db';
+
+            if(p < 30) { // MI 階段
+                ctx.beginPath(); ctx.arc(cx, cy, 110, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                if(p < 15) { // 聯會(前I) / 排列(中I)
+                    drawChr(cx - 15, cy, 0, cRed, 0);
+                    drawChr(cx + 15, cy, 0, cBlue, 0); // 並排
+                } else { // 後I：同源染色體分離，不發生中節斷裂
+                    const dist = (p-15)*2;
+                    drawChr(cx - 15 - dist, cy, 0, cRed, 0); // 完整X型左移
+                    drawChr(cx + 15 + dist, cy, 0, cBlue, 0); // 完整X型右移
+                }
+            } else if (p < 55) { // 末I - 分成兩個細胞
+                const gap = (p-30) * 1.5;
+                ctx.beginPath(); ctx.arc(cx - 60 - gap, cy, 80, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.arc(cx + 60 + gap, cy, 80, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                
+                drawChr(cx - 60 - gap, cy, 0, cRed, 0);
+                drawChr(cx + 60 + gap, cy, 0, cBlue, 0);
+            } else if (p < 80) { // 前II/中II/後II
+                const gapX = 40;
+                ctx.beginPath(); ctx.arc(cx - 80 - gapX, cy, 80, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.arc(cx + 80 + gapX, cy, 80, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+
+                if (p < 65) { // 中II
+                    drawChr(cx - 80 - gapX, cy, Math.PI/2, cRed, 0);
+                    drawChr(cx + 80 + gapX, cy, Math.PI/2, cBlue, 0);
+                } else { // 後II：姊妹染色分體分離
+                    const dist = (p-65)*1.5;
+                    drawChr(cx - 80 - gapX, cy, Math.PI/2, cRed, dist);
+                    drawChr(cx + 80 + gapX, cy, Math.PI/2, cBlue, dist);
+                }
+            } else { // 末II：產生4個細胞
+                const gapX = 100, gapY = (p-80)*1.5;
+                for(let dx of [-1, 1]) {
+                    for(let dy of [-1, 1]) {
+                        ctx.beginPath(); ctx.arc(cx + dx*gapX, cy + dy*gapY, 50, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                        // 畫細胞核內的單條染色分體
+                        ctx.fillStyle = dx===-1 ? cRed : cBlue;
+                        ctx.fillRect(cx + dx*gapX - 5, cy + dy*gapY - 15, 10, 30);
+                    }
+                }
+            }
+        }
+
+        // 測驗系統
+        const ANSWERS = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
+        function submitQuiz() {
+            let correct = 0, total = Object.keys(ANSWERS).length;
+            for(let [q, ans] of Object.entries(ANSWERS)) {
+                let sel = document.querySelector(`input[name="${q}"]:checked`);
+                if(sel && sel.value === ans) correct++;
+            }
+            const score = Math.round(correct/total*100);
+            const el = document.getElementById('quizResult');
+            el.className = 'quiz-result show';
+            el.style.background = score >= 60 ? 'var(--color-success-light)' : 'var(--color-danger-light)';
+            el.style.color = score >= 60 ? '#2e7d32' : '#c62828';
+            el.textContent = `得分：${score} 分（${correct}/${total}）${score >= 80?' 🎉':score>=60?' 👍':' 💪 再加油！'}`;
+            
+            let prog = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            prog['biology-cell-division'] = { score, correct, total, date: new Date().toISOString() };
+            localStorage.setItem('teach-progress', JSON.stringify(prog));
+        }
+
+        window.addEventListener('resize', resize);
+        // 初始化
+        setTimeout(() => {
+            setMode('mitosis');
+            resize();
+        }, 100);
+    </script>
+</body>
+</html>
