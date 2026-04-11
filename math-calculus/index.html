@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微積分初步：極限、導數與積分 | 數學互動模擬</title>
+    <meta name="description" content="互動式視覺化微積分基礎：割線逼近切線斜率、黎曼和計算曲線下面積，直觀理解導數與積分的幾何意義。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <style>
+        .page-container{max-width:var(--max-width-xl);margin:0 auto;padding:var(--space-6)}
+        .page-hero{text-align:center;padding:var(--space-8) var(--space-4);margin-bottom:var(--space-6)}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(1.6rem,3.5vw,var(--text-3xl));color:var(--text-primary);margin-bottom:var(--space-2)}
+        .page-hero p{color:var(--text-secondary);font-size:var(--text-base);max-width:600px;margin:0 auto}
+        
+        .sim-layout{display:grid;grid-template-columns:1fr 340px;gap:var(--space-6);margin-bottom:var(--space-8)}
+        @media(max-width:900px){.sim-layout{grid-template-columns:1fr}}
+
+        .canvas-wrap{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);overflow:hidden;position:relative}
+        .canvas-wrap canvas{display:block;width:100%;cursor:ew-resize}
+
+        .ctrl-panel{display:flex;flex-direction:column;gap:var(--space-4)}
+        .ctrl-card{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-5)}
+        .ctrl-card h3{font-family:var(--font-heading);font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2)}
+        .ctrl-row{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3)}
+        .ctrl-row label{font-size:var(--text-sm);color:var(--text-secondary);min-width:28px;font-family:var(--font-mono);font-weight:600}
+        .ctrl-row input[type=range]{flex:1;accent-color:var(--color-accent)}
+        .ctrl-row .val{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--color-accent);min-width:40px;text-align:right}
+
+        .mode-btns{display:flex;gap:var(--space-2);margin-bottom:var(--space-3)}
+        .mode-btn{flex:1;padding:var(--space-2) var(--space-3);border:1px solid var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-surface);color:var(--text-secondary);font-size:var(--text-sm);cursor:pointer;font-family:var(--font-body);transition:all var(--transition-fast);font-weight:600;text-align:center}
+        .mode-btn.active{background:var(--color-accent);color:white;border-color:var(--color-accent)}
+
+        .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
+        .info-item{background:var(--bg-color);padding:var(--space-3);border-radius:var(--border-radius-md);text-align:center}
+        .info-item__label{font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:2px}
+        .info-item__value{font-family:var(--font-mono);font-size:var(--text-sm);font-weight:700;color:var(--text-primary)}
+
+        .formula-box{background:var(--bg-color);border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:var(--space-4);text-align:center;margin-top:var(--space-3);font-family:var(--font-mono);font-size:var(--text-sm);line-height:1.6}
+        .formula-box .math{color:var(--color-accent);font-weight:600}
+
+        /* 測驗區 */
+        .quiz-section{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);margin-bottom:var(--space-8)}
+        .quiz-section h2{font-family:var(--font-heading);font-size:var(--text-xl);margin-bottom:var(--space-5)}
+        .quiz-q{margin-bottom:var(--space-5);padding:var(--space-4);background:var(--bg-color);border-radius:var(--border-radius-md)}
+        .quiz-q p{font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+        .quiz-q label{display:block;padding:var(--space-2) var(--space-3);border-radius:var(--border-radius-md);cursor:pointer;font-size:var(--text-sm);color:var(--text-secondary);transition:background var(--transition-fast)}
+        .quiz-q label:hover{background:var(--color-accent-light)}
+        .quiz-q input[type=radio]{margin-right:var(--space-2)}
+        .quiz-result{padding:var(--space-4);border-radius:var(--border-radius-md);text-align:center;font-weight:700;font-size:var(--text-lg);display:none}
+        .quiz-result.show{display:block}
+        .quiz-submit{padding:var(--space-3) var(--space-6);background:var(--color-accent);color:white;border:none;border-radius:var(--border-radius-md);font-weight:600;cursor:pointer;font-family:var(--font-body);font-size:var(--text-sm)}
+        .site-footer{text-align:center;padding:var(--space-8);border-top:1px solid var(--border-color);color:var(--text-tertiary);font-size:var(--text-sm)}
+
+        .fn-select{width:100%;padding:var(--space-2);border:1px solid var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-color);color:var(--text-primary);font-family:var(--font-mono);margin-bottom:var(--space-3)}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>📉 微積分初步：極限、導數與積分</h1>
+            <p>透過滑鼠拖曳點位，觀察切線斜率的極限逼近，或利用黎曼和算出曲線下面積。</p>
+        </section>
+
+        <div class="sim-layout">
+            <div class="canvas-wrap">
+                <canvas id="calcCanvas" width="700" height="560"></canvas>
+            </div>
+            
+            <div class="ctrl-panel">
+                <div class="ctrl-card">
+                    <h3>📌 研習模式</h3>
+                    <div class="mode-btns">
+                        <button class="mode-btn active" onclick="setMode('deriv', this)">導數 (切線)</button>
+                        <button class="mode-btn" onclick="setMode('integ', this)">積分 (面積)</button>
+                    </div>
+                    
+                    <select class="fn-select" id="fnSelect" onchange="update()">
+                        <option value="parabola">f(x) = x² / 4</option>
+                        <option value="cubic">f(x) = x³ / 10</option>
+                        <option value="sine">f(x) = 4 * sin(x)</option>
+                    </select>
+                </div>
+
+                <!-- 導數控制 -->
+                <div id="derivCtrl" class="ctrl-card">
+                    <h3>📐 割線逼近切線</h3>
+                    <p style="font-size:var(--text-xs);color:var(--text-secondary);margin-bottom:var(--space-3)">滑動 dx，讓 B 點逼近 A 點，觀察割線斜率收斂成切線斜率。</p>
+                    <div class="ctrl-row"><label>x₀</label><input type="range" id="x0Val" min="-5" max="5" value="2" step="0.1" oninput="update()"><span class="val" id="x0V">2.0</span></div>
+                    <div class="ctrl-row"><label>dx</label><input type="range" id="dxVal" min="0.01" max="4" value="2" step="0.01" oninput="update()"><span class="val" id="dxV">2.00</span></div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item"><div class="info-item__label">割線斜率 (m)</div><div class="info-item__value" id="secantM">—</div></div>
+                        <div class="info-item"><div class="info-item__label">切線斜率 f'(x₀)</div><div class="info-item__value" id="tangentM">—</div></div>
+                    </div>
+                </div>
+
+                <!-- 積分控制 -->
+                <div id="integCtrl" class="ctrl-card" style="display:none">
+                    <h3>📊 黎曼和 (面積逼近)</h3>
+                    <p style="font-size:var(--text-xs);color:var(--text-secondary);margin-bottom:var(--space-3)">增加切割數量 n，長方形總面積將更接近真實定積分。</p>
+                    <div class="ctrl-row"><label>開始</label><input type="range" id="intStart" min="-8" max="0" value="-2" step="0.5" oninput="update()"><span class="val" id="intStartV">-2.0</span></div>
+                    <div class="ctrl-row"><label>結束</label><input type="range" id="intEnd" min="0" max="8" value="4" step="0.5" oninput="update()"><span class="val" id="intEndV">4.0</span></div>
+                    <div class="ctrl-row"><label>n</label><input type="range" id="nRect" min="1" max="50" value="4" step="1" oninput="update()"><span class="val" id="nRectV">4</span></div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item"><div class="info-item__label">黎曼和面積</div><div class="info-item__value" id="riemannSum">—</div></div>
+                        <div class="info-item"><div class="info-item__label">真實積分值</div><div class="info-item__value" id="exactInt">—</div></div>
+                    </div>
+                </div>
+
+                <div class="formula-box" id="formulaDisplay"></div>
+            </div>
+        </div>
+
+        <section class="quiz-section">
+            <h2>📝 隨堂測驗</h2>
+            <div class="quiz-q"><p>1. 導數的幾何意義為何？</p>
+                <label><input type="radio" name="q1" value="a"> 函數與 X 軸圍成的面積</label>
+                <label><input type="radio" name="q1" value="b"> 函數在一點上的切線斜率</label>
+                <label><input type="radio" name="q1" value="c"> 函數的根 (X交點)</label>
+                <label><input type="radio" name="q1" value="d"> 函數的最大值</label>
+            </div>
+            <div class="quiz-q"><p>2. 當 dx (Δx) 趨近於 0 時，割線會變成什麼？</p>
+                <label><input type="radio" name="q2" value="a"> 法線</label>
+                <label><input type="radio" name="q2" value="b"> 水平線</label>
+                <label><input type="radio" name="q2" value="c"> 切線</label>
+                <label><input type="radio" name="q2" value="d"> 漸近線</label>
+            </div>
+            <div class="quiz-q"><p>3. f(x) = x² 的導數 f'(x) 是什麼？</p>
+                <label><input type="radio" name="q3" value="a"> x</label>
+                <label><input type="radio" name="q3" value="b"> 2x</label>
+                <label><input type="radio" name="q3" value="c"> x²/2</label>
+                <label><input type="radio" name="q3" value="d"> 2</label>
+            </div>
+            <div class="quiz-q"><p>4. 黎曼和 (Riemann Sum) 主要是用來逼近什麼？</p>
+                <label><input type="radio" name="q4" value="a"> 導數</label>
+                <label><input type="radio" name="q4" value="b"> 定積分 (面積)</label>
+                <label><input type="radio" name="q4" value="c"> 不定積分</label>
+                <label><input type="radio" name="q4" value="d"> 極限值</label>
+            </div>
+            <div class="quiz-q"><p>5. 在黎曼和中，當切割的長方形數量 n 趨近無限大時：</p>
+                <label><input type="radio" name="q5" value="a"> 總面積趨近於真實的定積分</label>
+                <label><input type="radio" name="q5" value="b"> 總面積趨近於 0</label>
+                <label><input type="radio" name="q5" value="c"> 總面積趨近於無限大</label>
+                <label><input type="radio" name="q5" value="d"> 無法計算</label>
+            </div>
+            <button class="quiz-submit" onclick="submitQuiz()">✅ 提交答案</button>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+        <footer class="site-footer"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="../nav-global.js"></script>
+    <script>
+        const canvas = document.getElementById('calcCanvas');
+        const ctx = canvas.getContext('2d');
+        let mode = 'deriv';
+        let SCALE = 40; // 每單位對應畫布像素
+        
+        let cx, cy; // 原點
+
+        // 函數定義
+        const funcs = {
+            parabola: {
+                f: x => x*x/4,
+                df: x => x/2,
+                intF: x => (x*x*x)/12,
+                str: 'f(x) = x²/4'
+            },
+            cubic: {
+                f: x => (x*x*x)/10,
+                df: x => (3*x*x)/10,
+                intF: x => (x*x*x*x)/40,
+                str: 'f(x) = x³/10'
+            },
+            sine: {
+                f: x => 4 * Math.sin(x/2),
+                df: x => 2 * Math.cos(x/2),
+                intF: x => -8 * Math.cos(x/2),
+                str: 'f(x) = 4sin(x/2)'
+            }
+        };
+
+        function setMode(newMode, btn) {
+            mode = newMode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.getElementById('derivCtrl').style.display = mode === 'deriv' ? 'flex' : 'none';
+            document.getElementById('integCtrl').style.display = mode === 'integ' ? 'flex' : 'none';
+            
+            update();
+        }
+
+        function wX(x) { return cx + x * SCALE; }
+        function wY(y) { return cy - y * SCALE; }
+
+        function update() {
+            const fnType = document.getElementById('fnSelect').value;
+            const fnObj = funcs[fnType];
+            const f = fnObj.f;
+            
+            const W = canvas.width = canvas.offsetWidth * 2;
+            const H = canvas.height = Math.round(W * 0.8);
+            cx = W / 2; cy = H / 2;
+            SCALE = W / 20; // 讓 X 軸大約有 -10 到 10
+
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            ctx.fillStyle = isDark ? '#1a1a2e' : '#fafbfc';
+            ctx.fillRect(0, 0, W, H);
+
+            // 畫網格和座標軸
+            ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+            ctx.lineWidth = 1;
+            for(let x=cx%SCALE; x<W; x+=SCALE) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke();}
+            for(let y=cy%SCALE; y<H; y+=SCALE) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();}
+            
+            ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+            ctx.font='14px JetBrains Mono'; ctx.fillStyle=isDark?'#888':'#777';
+            ctx.fillText('x', W-20, cy+18); ctx.fillText('y', cx-18, 20);
+
+            // 畫函數曲線
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let started = false;
+            for(let x=-10; x<=10; x+=0.1) {
+                const px = wX(x), py = wY(f(x));
+                if(py < -50 || py > H+50) { started = false; continue; }
+                if(!started) { ctx.moveTo(px, py); started = true; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            if (mode === 'deriv') {
+                const x0 = parseFloat(document.getElementById('x0Val').value);
+                const dx = parseFloat(document.getElementById('dxVal').value);
+                document.getElementById('x0V').textContent = x0.toFixed(1);
+                document.getElementById('dxV').textContent = dx.toFixed(2);
+                
+                const y0 = f(x0);
+                const x1 = x0 + dx;
+                const y1 = f(x1);
+                
+                // 割線
+                const secantM = (y1 - y0) / dx;
+                ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 2; ctx.setLineDash([5,5]);
+                ctx.beginPath();
+
+                // 延伸割線
+                const lineX0 = -10; const lineY0 = y0 + secantM * (lineX0 - x0);
+                const lineX1 = 10;  const lineY1 = y0 + secantM * (lineX1 - x0);
+                ctx.moveTo(wX(lineX0), wY(lineY0)); ctx.lineTo(wX(lineX1), wY(lineY1));
+                ctx.stroke(); ctx.setLineDash([]);
+                
+                // 切線
+                const tangentM = fnObj.df(x0);
+                ctx.strokeStyle = '#2ecc71'; ctx.lineWidth = 2;
+                ctx.beginPath();
+                const tLineY0 = y0 + tangentM * (lineX0 - x0);
+                const tLineY1 = y0 + tangentM * (lineX1 - x0);
+                ctx.moveTo(wX(lineX0), wY(tLineY0)); ctx.lineTo(wX(lineX1), wY(tLineY1));
+                ctx.stroke();
+
+                // 畫點
+                ctx.fillStyle = '#2ecc71'; ctx.beginPath(); ctx.arc(wX(x0), wY(y0), 6, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#e74c3c'; ctx.beginPath(); ctx.arc(wX(x1), wY(y1), 6, 0, Math.PI*2); ctx.fill();
+
+                // 輔助線 dx, dy
+                ctx.strokeStyle='rgba(231,76,60,0.4)'; ctx.fillStyle='rgba(231,76,60,0.6)'; ctx.lineWidth=1;
+                ctx.beginPath(); ctx.moveTo(wX(x0), wY(y0)); ctx.lineTo(wX(x1), wY(y0)); ctx.lineTo(wX(x1), wY(y1)); ctx.stroke();
+                ctx.fillText('dx', wX(x0 + dx/2)-8, wY(y0)+16);
+                ctx.fillText('dy', wX(x1)+6, wY((y0+y1)/2));
+
+                document.getElementById('secantM').textContent = secantM.toFixed(3);
+                document.getElementById('tangentM').textContent = tangentM.toFixed(3);
+                
+                document.getElementById('formulaDisplay').innerHTML = `
+                    極限：<span class="math">f'(x) = lim<sub>dx→0</sub> [f(x+dx)-f(x)] / dx</span><br>
+                    目前的 dx = ${dx.toFixed(2)},  割線斜率 = ${(secantM).toFixed(3)}
+                `;
+            } else {
+                const a = parseFloat(document.getElementById('intStart').value);
+                const b = parseFloat(document.getElementById('intEnd').value);
+                let n = parseInt(document.getElementById('nRect').value);
+                
+                if(a >= b) { document.getElementById('intEnd').value = a+0.5; update(); return; }
+                
+                document.getElementById('intStartV').textContent = a.toFixed(1);
+                document.getElementById('intEndV').textContent = b.toFixed(1);
+                document.getElementById('nRectV').textContent = n;
+
+                const dx = (b - a) / n;
+                let riemannSum = 0;
+                
+                // 畫長方形 (左端點黎曼和)
+                for(let i=0; i<n; i++) {
+                    const xi = a + i*dx;
+                    const yi = f(xi);
+                    riemannSum += yi * dx;
+                    
+                    ctx.fillStyle = yi > 0 ? 'rgba(46,204,113,0.3)' : 'rgba(231,76,60,0.3)';
+                    ctx.strokeStyle = yi > 0 ? '#2ecc71' : '#e74c3c';
+                    ctx.lineWidth = 1;
+                    
+                    const pX = wX(xi), pY = wY(yi), pZero = wY(0), pW = dx * SCALE;
+                    ctx.fillRect(pX, pZero, pW, pY - pZero);
+                    ctx.strokeRect(pX, pZero, pW, pY - pZero);
+                }
+
+                const exact = fnObj.intF(b) - fnObj.intF(a);
+                document.getElementById('riemannSum').textContent = riemannSum.toFixed(3);
+                document.getElementById('exactInt').textContent = exact.toFixed(3);
+                
+                document.getElementById('formulaDisplay').innerHTML = `
+                    <span class="math">∫<sub>${a}</sub><sup>${b}</sup> f(x) dx ≈ Σ f(x_i) Δx</span><br>
+                    Δx = ${dx.toFixed(3)},  n = ${n} (長方形數量)
+                `;
+            }
+        }
+
+        // 滑鼠互動
+        let isDragging = false;
+        canvas.addEventListener('mousedown', () => isDragging = true);
+        canvas.addEventListener('mouseup', () => isDragging = false);
+        canvas.addEventListener('mouseleave', () => isDragging = false);
+        canvas.addEventListener('mousemove', (e) => {
+            if(!isDragging) return;
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = (e.clientX - rect.left) / (rect.width / canvas.width);
+            const graphX = (mouseX - cx) / SCALE;
+            
+            if (mode === 'deriv') {
+                const x0Input = document.getElementById('x0Val');
+                let newX0 = graphX;
+                if(newX0 < -5) newX0 = -5; if(newX0 > 5) newX0 = 5;
+                x0Input.value = newX0;
+            }
+            update();
+        });
+
+        // === 測驗 ===
+        const ANSWERS = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'a' };
+        function submitQuiz() {
+            let correct = 0, total = Object.keys(ANSWERS).length;
+            for(let [q, ans] of Object.entries(ANSWERS)) {
+                let sel = document.querySelector(`input[name="${q}"]:checked`);
+                if(sel && sel.value === ans) correct++;
+            }
+            const score = Math.round(correct/total*100);
+            const el = document.getElementById('quizResult');
+            el.className = 'quiz-result show';
+            el.style.background = score >= 60 ? 'var(--color-success-light)' : 'var(--color-danger-light)';
+            el.style.color = score >= 60 ? '#2e7d32' : '#c62828';
+            el.textContent = `得分：${score} 分（${correct}/${total}）${score >= 80?' 🎉':score>=60?' 👍':' 💪 再加油！'}`;
+            
+            let progress = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            progress['math-calculus'] = { score, correct, total, date: new Date().toISOString() };
+            localStorage.setItem('teach-progress', JSON.stringify(progress));
+        }
+
+        update();
+        window.addEventListener('resize', update);
+    </script>
+</body>
+</html>

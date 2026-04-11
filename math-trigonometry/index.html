@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角函數視覺化 | 數學互動實驗室</title>
+    <meta name="description" content="透過互動式單位圓與波形同步動畫，直觀理解 sin、cos、tan 三角函數的幾何意義與圖形特性。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <style>
+        .page-container { max-width: var(--max-width-xl); margin: 0 auto; padding: var(--space-6); }
+        .sim-hero { text-align: center; padding: var(--space-10) var(--space-4); margin-bottom: var(--space-8); }
+        .sim-hero__badge { display: inline-flex; align-items: center; gap: var(--space-2); background: var(--color-math-light); color: var(--color-math); padding: var(--space-2) var(--space-4); border-radius: var(--border-radius-full); font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-4); }
+        .sim-hero h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, var(--text-4xl)); color: var(--text-primary); margin-bottom: var(--space-3); }
+        .sim-hero p { color: var(--text-secondary); font-size: var(--text-lg); max-width: 600px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); color: var(--text-secondary); font-size: var(--text-sm); }
+        .back-link:hover { color: var(--color-math); }
+
+        /* 雙 Canvas 佈局 */
+        .trig-layout { display: grid; grid-template-columns: 350px 1fr; gap: var(--space-6); margin-bottom: var(--space-8); align-items: start; }
+        @media (max-width: 900px) { .trig-layout { grid-template-columns: 1fr; } }
+
+        .canvas-wrap { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); overflow: hidden; }
+        .canvas-wrap canvas { display: block; width: 100%; }
+
+        /* 控制區 */
+        .ctrl-row { display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: end; margin-bottom: var(--space-6); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: var(--space-5); }
+        .ctrl-item { flex: 1; min-width: 160px; }
+        .ctrl-item label { display: block; font-size: var(--text-sm); font-weight: 500; color: var(--text-primary); margin-bottom: var(--space-1); }
+        .ctrl-item input[type="range"] { width: 100%; accent-color: var(--color-math); }
+        .ctrl-item .val { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-math); font-weight: 700; }
+        .ctrl-item select { width: 100%; padding: var(--space-2); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); background: var(--bg-surface); color: var(--text-primary); font-family: var(--font-body); font-size: var(--text-sm); }
+
+        .toggle-row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-6); }
+        .toggle-btn { padding: var(--space-2) var(--space-4); border: 2px solid var(--border-color); border-radius: var(--border-radius-full); background: var(--bg-surface); color: var(--text-secondary); font-weight: 600; font-size: var(--text-sm); cursor: pointer; transition: all var(--transition-fast); font-family: var(--font-body); }
+        .toggle-btn.active-sin { border-color: #e74c3c; color: #e74c3c; background: rgba(231,76,60,0.08); }
+        .toggle-btn.active-cos { border-color: #3498db; color: #3498db; background: rgba(52,152,219,0.08); }
+        .toggle-btn.active-tan { border-color: #2ecc71; color: #2ecc71; background: rgba(46,204,113,0.08); }
+
+        /* 數值面板 */
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
+        .val-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: var(--space-4); text-align: center; }
+        .val-card__label { font-size: var(--text-xs); color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; margin-bottom: var(--space-1); }
+        .val-card__num { font-family: var(--font-mono); font-size: var(--text-xl); font-weight: 700; }
+        .val-sin { color: #e74c3c; }
+        .val-cos { color: #3498db; }
+        .val-tan { color: #2ecc71; }
+        .val-deg { color: var(--color-math); }
+
+        /* 測驗 */
+        .quiz-section { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: var(--space-8); margin-bottom: var(--space-8); }
+        .quiz-section h2 { font-family: var(--font-heading); font-size: var(--text-2xl); margin-bottom: var(--space-2); }
+        .quiz-section > p { color: var(--text-secondary); margin-bottom: var(--space-6); }
+        .quiz-question { background: var(--bg-color); border-radius: var(--border-radius-md); padding: var(--space-5); margin-bottom: var(--space-4); }
+        .quiz-question__text { font-weight: 600; margin-bottom: var(--space-3); }
+        .quiz-options { display: flex; flex-direction: column; gap: var(--space-2); }
+        .quiz-option { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); cursor: pointer; transition: all var(--transition-fast); font-size: var(--text-sm); }
+        .quiz-option:hover { border-color: var(--color-math); background: var(--color-math-light); }
+        .quiz-option.correct { border-color: var(--color-success); background: var(--color-success-light); }
+        .quiz-option.wrong { border-color: var(--color-danger); background: var(--color-danger-light); }
+        .quiz-option input[type="radio"] { accent-color: var(--color-math); }
+        .quiz-submit { margin-top: var(--space-4); padding: var(--space-3) var(--space-6); background: var(--color-math); color: white; border: none; border-radius: var(--border-radius-md); font-size: var(--text-sm); font-weight: 600; cursor: pointer; font-family: var(--font-body); }
+        .quiz-submit:hover { opacity: 0.9; }
+        .quiz-result { margin-top: var(--space-4); padding: var(--space-4); border-radius: var(--border-radius-md); font-weight: 600; text-align: center; display: none; }
+        .quiz-result.show { display: block; }
+        .quiz-result.pass { background: var(--color-success-light); color: #2e7d32; }
+        .quiz-result.fail { background: var(--color-danger-light); color: #c62828; }
+
+        .sim-footer { text-align: center; padding: var(--space-6); border-top: 1px solid var(--border-color); color: var(--text-tertiary); font-size: var(--text-sm); }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <a href="../courses.html" class="back-link">← 返回課程列表</a>
+
+        <section class="sim-hero">
+            <div class="sim-hero__badge">📏 數學互動實驗室</div>
+            <h1>三角函數視覺化</h1>
+            <p>拖動角度觀察單位圓上的投影，同步顯示 sin / cos / tan 波形</p>
+        </section>
+
+        <!-- 函數切換 -->
+        <div class="toggle-row">
+            <button class="toggle-btn active-sin" data-fn="sin" onclick="toggleFn(this)">sin θ</button>
+            <button class="toggle-btn active-cos" data-fn="cos" onclick="toggleFn(this)">cos θ</button>
+            <button class="toggle-btn" data-fn="tan" onclick="toggleFn(this)">tan θ</button>
+        </div>
+
+        <!-- 控制列 -->
+        <div class="ctrl-row">
+            <div class="ctrl-item">
+                <label>角度 θ：<span class="val" id="angleVal">45°</span> (<span class="val" id="radVal">π/4</span>)</label>
+                <input type="range" id="angleSlider" min="0" max="720" value="45">
+            </div>
+            <div class="ctrl-item">
+                <label>振幅 A：<span class="val" id="ampVal">1.0</span></label>
+                <input type="range" id="ampSlider" min="0.1" max="3" step="0.1" value="1">
+            </div>
+            <div class="ctrl-item">
+                <label>頻率 ω：<span class="val" id="freqVal">1.0</span></label>
+                <input type="range" id="freqSlider" min="0.5" max="4" step="0.1" value="1">
+            </div>
+            <div class="ctrl-item">
+                <label>動畫速度</label>
+                <select id="speedSelect">
+                    <option value="0">暫停</option>
+                    <option value="0.5">慢速</option>
+                    <option value="1" selected>正常</option>
+                    <option value="2">快速</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Canvas 佈局 -->
+        <div class="trig-layout">
+            <div class="canvas-wrap">
+                <canvas id="circleCanvas" height="350"></canvas>
+            </div>
+            <div class="canvas-wrap">
+                <canvas id="waveCanvas" height="350"></canvas>
+            </div>
+        </div>
+
+        <!-- 即時數值 -->
+        <div class="values-grid">
+            <div class="val-card"><div class="val-card__label">角度</div><div class="val-card__num val-deg" id="vDeg">45°</div></div>
+            <div class="val-card"><div class="val-card__label">sin θ</div><div class="val-card__num val-sin" id="vSin">0.707</div></div>
+            <div class="val-card"><div class="val-card__label">cos θ</div><div class="val-card__num val-cos" id="vCos">0.707</div></div>
+            <div class="val-card"><div class="val-card__label">tan θ</div><div class="val-card__num val-tan" id="vTan">1.000</div></div>
+            <div class="val-card"><div class="val-card__label">弧度</div><div class="val-card__num val-deg" id="vRad">0.785</div></div>
+            <div class="val-card"><div class="val-card__label">象限</div><div class="val-card__num val-deg" id="vQuad">第一</div></div>
+        </div>
+
+        <!-- 測驗 -->
+        <section class="quiz-section">
+            <h2>📝 隨堂測驗</h2>
+            <p>測試你對三角函數的理解！</p>
+            <div id="quizContainer"></div>
+            <button class="quiz-submit" onclick="submitQuiz()">提交答案</button>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+
+        <footer class="sim-footer"><p>&copy; 2025 數學互動實驗室 · 教學資源網</p></footer>
+    </div>
+
+    <script src="../nav-global.js"></script>
+    <script>
+        // === 狀態 ===
+        let showSin = true, showCos = true, showTan = false;
+        let animSpeed = 1;
+        let animAngle = 45;
+
+        const circleC = document.getElementById('circleCanvas');
+        const waveC   = document.getElementById('waveCanvas');
+        const cCtx    = circleC.getContext('2d');
+        const wCtx    = waveC.getContext('2d');
+
+        function toggleFn(btn) {
+            const fn = btn.dataset.fn;
+            if (fn === 'sin') { showSin = !showSin; btn.classList.toggle('active-sin'); }
+            if (fn === 'cos') { showCos = !showCos; btn.classList.toggle('active-cos'); }
+            if (fn === 'tan') { showTan = !showTan; btn.classList.toggle('active-tan'); }
+        }
+
+        function initCanvases() {
+            const dpr = window.devicePixelRatio || 1;
+            [circleC, waveC].forEach(c => {
+                const rect = c.parentElement.getBoundingClientRect();
+                c.style.width = rect.width + 'px';
+                c.style.height = '350px';
+                c.width = rect.width * dpr;
+                c.height = 350 * dpr;
+                c.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+            });
+        }
+
+        // === 繪製單位圓 ===
+        function drawCircle(degAngle, amp) {
+            const w = circleC.width / (window.devicePixelRatio || 1);
+            const h = 350;
+            const cx = w / 2, cy = h / 2, r = Math.min(w, h) * 0.35;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            cCtx.fillStyle = isDark ? '#1e293b' : '#fafafa';
+            cCtx.fillRect(0, 0, w, h);
+
+            // 座標軸
+            cCtx.strokeStyle = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)';
+            cCtx.lineWidth = 1;
+            cCtx.beginPath(); cCtx.moveTo(0, cy); cCtx.lineTo(w, cy); cCtx.stroke();
+            cCtx.beginPath(); cCtx.moveTo(cx, 0); cCtx.lineTo(cx, h); cCtx.stroke();
+
+            // 單位圓
+            cCtx.beginPath();
+            cCtx.arc(cx, cy, r, 0, Math.PI * 2);
+            cCtx.strokeStyle = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)';
+            cCtx.lineWidth = 2;
+            cCtx.stroke();
+
+            const rad = degAngle * Math.PI / 180;
+            const px = cx + r * Math.cos(rad);
+            const py = cy - r * Math.sin(rad);
+
+            // 角度弧
+            cCtx.beginPath();
+            cCtx.arc(cx, cy, r * 0.2, 0, -rad, rad > 0);
+            cCtx.strokeStyle = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)';
+            cCtx.lineWidth = 2;
+            cCtx.stroke();
+
+            // 半徑線
+            cCtx.beginPath(); cCtx.moveTo(cx, cy); cCtx.lineTo(px, py);
+            cCtx.strokeStyle = isDark ? '#ccc' : '#333';
+            cCtx.lineWidth = 2; cCtx.stroke();
+
+            // sin 投影（紅色豎線）
+            if (showSin) {
+                cCtx.beginPath(); cCtx.moveTo(px, cy); cCtx.lineTo(px, py);
+                cCtx.strokeStyle = '#e74c3c'; cCtx.lineWidth = 3; cCtx.stroke();
+                cCtx.fillStyle = '#e74c3c';
+                cCtx.font = 'bold 12px JetBrains Mono'; cCtx.fillText('sin', px + 5, (cy + py) / 2);
+            }
+
+            // cos 投影（藍色橫線）
+            if (showCos) {
+                cCtx.beginPath(); cCtx.moveTo(cx, py); cCtx.lineTo(px, py);
+                cCtx.strokeStyle = '#3498db'; cCtx.lineWidth = 3; cCtx.stroke();
+                cCtx.fillStyle = '#3498db';
+                cCtx.font = 'bold 12px JetBrains Mono'; cCtx.fillText('cos', (cx + px) / 2, py - 8);
+            }
+
+            // 端點
+            cCtx.beginPath(); cCtx.arc(px, py, 6, 0, Math.PI * 2);
+            cCtx.fillStyle = '#9b59b6'; cCtx.fill();
+            cCtx.strokeStyle = 'white'; cCtx.lineWidth = 2; cCtx.stroke();
+
+            // 角度標記
+            cCtx.fillStyle = isDark ? '#aaa' : '#666';
+            cCtx.font = '13px Noto Sans TC'; cCtx.textAlign = 'center';
+            cCtx.fillText(`${degAngle.toFixed(0)}°`, cx, h - 10);
+        }
+
+        // === 繪製波形 ===
+        function drawWave(degAngle, amp, freq) {
+            const dpr = window.devicePixelRatio || 1;
+            const w = waveC.width / dpr;
+            const h = 350;
+            const centerY = h / 2;
+            const xScale = w / (4 * Math.PI);
+            const yScale = h * 0.35;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            wCtx.fillStyle = isDark ? '#1e293b' : '#fafafa';
+            wCtx.fillRect(0, 0, w, h);
+
+            // 格線
+            wCtx.strokeStyle = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+            wCtx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const x = i * Math.PI * xScale;
+                wCtx.beginPath(); wCtx.moveTo(x, 0); wCtx.lineTo(x, h); wCtx.stroke();
+                wCtx.fillStyle = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)';
+                wCtx.font = '11px JetBrains Mono'; wCtx.textAlign = 'center';
+                wCtx.fillText(i === 0 ? '0' : `${i}π`, x, centerY + 16);
+            }
+
+            // 水平軸
+            wCtx.strokeStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
+            wCtx.lineWidth = 1.5;
+            wCtx.beginPath(); wCtx.moveTo(0, centerY); wCtx.lineTo(w, centerY); wCtx.stroke();
+
+            // +1 / -1 標線
+            [-1, 1].forEach(v => {
+                const y = centerY - v * yScale * amp;
+                wCtx.setLineDash([3, 3]);
+                wCtx.strokeStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+                wCtx.beginPath(); wCtx.moveTo(0, y); wCtx.lineTo(w, y); wCtx.stroke();
+                wCtx.setLineDash([]);
+            });
+
+            const rad = degAngle * Math.PI / 180;
+
+            // 繪製函數曲線
+            function plotFn(fn, color) {
+                wCtx.beginPath();
+                wCtx.strokeStyle = color;
+                wCtx.lineWidth = 2.5;
+                let first = true;
+                for (let px = 0; px < w; px++) {
+                    const x = px / xScale;
+                    let y = amp * fn(freq * x);
+                    if (Math.abs(y) > 10) { first = true; continue; }
+                    const py = centerY - y * yScale;
+                    if (first) { wCtx.moveTo(px, py); first = false; }
+                    else wCtx.lineTo(px, py);
+                }
+                wCtx.stroke();
+            }
+
+            if (showSin) plotFn(Math.sin, '#e74c3c');
+            if (showCos) plotFn(Math.cos, '#3498db');
+            if (showTan) plotFn(Math.tan, '#2ecc71');
+
+            // 當前位置標記
+            const curX = rad / freq * xScale;
+            if (curX >= 0 && curX <= w) {
+                wCtx.setLineDash([5, 5]);
+                wCtx.strokeStyle = 'rgba(155,89,182,0.5)';
+                wCtx.lineWidth = 1.5;
+                wCtx.beginPath(); wCtx.moveTo(curX, 0); wCtx.lineTo(curX, h); wCtx.stroke();
+                wCtx.setLineDash([]);
+
+                // 端點
+                if (showSin) {
+                    const sy = centerY - amp * Math.sin(rad) * yScale;
+                    cCtx.beginPath();
+                    wCtx.beginPath(); wCtx.arc(curX, sy, 5, 0, Math.PI * 2);
+                    wCtx.fillStyle = '#e74c3c'; wCtx.fill();
+                }
+                if (showCos) {
+                    const cy2 = centerY - amp * Math.cos(rad) * yScale;
+                    wCtx.beginPath(); wCtx.arc(curX, cy2, 5, 0, Math.PI * 2);
+                    wCtx.fillStyle = '#3498db'; wCtx.fill();
+                }
+            }
+        }
+
+        // === 更新所有 ===
+        function updateAll() {
+            const deg  = parseFloat(document.getElementById('angleSlider').value);
+            const amp  = parseFloat(document.getElementById('ampSlider').value);
+            const freq = parseFloat(document.getElementById('freqSlider').value);
+            animSpeed  = parseFloat(document.getElementById('speedSelect').value);
+
+            const rad = deg * Math.PI / 180;
+
+            document.getElementById('angleVal').textContent = deg.toFixed(0) + '°';
+            // 特殊角度弧度顯示
+            const radStr = rad.toFixed(3);
+            document.getElementById('radVal').textContent = radStr;
+            document.getElementById('ampVal').textContent = amp.toFixed(1);
+            document.getElementById('freqVal').textContent = freq.toFixed(1);
+
+            document.getElementById('vDeg').textContent = deg.toFixed(0) + '°';
+            document.getElementById('vSin').textContent = (amp * Math.sin(rad)).toFixed(3);
+            document.getElementById('vCos').textContent = (amp * Math.cos(rad)).toFixed(3);
+            const tanVal = Math.tan(rad);
+            document.getElementById('vTan').textContent = Math.abs(tanVal) > 1000 ? '±∞' : (amp * tanVal).toFixed(3);
+            document.getElementById('vRad').textContent = radStr;
+
+            const normDeg = ((deg % 360) + 360) % 360;
+            let quad = '第一';
+            if (normDeg > 90 && normDeg <= 180) quad = '第二';
+            else if (normDeg > 180 && normDeg <= 270) quad = '第三';
+            else if (normDeg > 270) quad = '第四';
+            document.getElementById('vQuad').textContent = quad;
+
+            initCanvases();
+            drawCircle(deg, amp);
+            drawWave(deg, amp, freq);
+        }
+
+        // === 動畫迴圈 ===
+        let lastTime = 0;
+        function animate(time) {
+            if (lastTime && animSpeed > 0) {
+                const delta = (time - lastTime) / 1000;
+                const slider = document.getElementById('angleSlider');
+                let v = parseFloat(slider.value) + delta * 60 * animSpeed;
+                if (v > 720) v = 0;
+                slider.value = v;
+                updateAll();
+            }
+            lastTime = time;
+            requestAnimationFrame(animate);
+        }
+
+        // === 事件 ===
+        ['angleSlider', 'ampSlider', 'freqSlider', 'speedSelect'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                if (id === 'speedSelect') animSpeed = parseFloat(document.getElementById(id).value);
+                updateAll();
+            });
+        });
+
+        window.addEventListener('resize', updateAll);
+        new MutationObserver(updateAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+        // === 測驗 ===
+        const QUIZ_DATA = [
+            { q: 'sin 90° 等於多少？', options: ['0', '0.5', '1', '-1'], answer: 2 },
+            { q: 'cos 0° 等於多少？', options: ['0', '1', '-1', '0.5'], answer: 1 },
+            { q: '在單位圓中，sin θ 代表？', options: ['水平座標 (x)', '垂直座標 (y)', '半徑', '角度'], answer: 1 },
+            { q: 'tan θ 在哪個角度會趨向無限大？', options: ['0°', '45°', '90°', '180°'], answer: 2 },
+            { q: 'sin 和 cos 函數的週期為？', options: ['π', '2π', '4π', 'π/2'], answer: 1 }
+        ];
+
+        function buildQuiz() {
+            document.getElementById('quizContainer').innerHTML = QUIZ_DATA.map((item, qi) => `
+                <div class="quiz-question"><div class="quiz-question__text">${qi+1}. ${item.q}</div>
+                <div class="quiz-options">${item.options.map((opt, oi) => `
+                    <label class="quiz-option" data-qi="${qi}" data-oi="${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${opt}</label>`).join('')}
+                </div></div>`).join('');
+        }
+
+        function submitQuiz() {
+            let correct = 0;
+            QUIZ_DATA.forEach((item, qi) => {
+                const sel = document.querySelector(`input[name="q${qi}"]:checked`);
+                document.querySelectorAll(`.quiz-option[data-qi="${qi}"]`).forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                    const oi = parseInt(opt.dataset.oi);
+                    if (oi === item.answer) opt.classList.add('correct');
+                    else if (sel && parseInt(sel.value) === oi) opt.classList.add('wrong');
+                });
+                if (sel && parseInt(sel.value) === item.answer) correct++;
+            });
+            const score = Math.round((correct / QUIZ_DATA.length) * 100);
+            const r = document.getElementById('quizResult');
+            r.classList.add('show');
+            r.classList.remove('pass', 'fail');
+            r.classList.add(score >= 60 ? 'pass' : 'fail');
+            r.textContent = score >= 60 ? `🎉 得分 ${score} 分！答對 ${correct}/${QUIZ_DATA.length} 題！` : `😢 得分 ${score} 分，再複習一下！答對 ${correct}/${QUIZ_DATA.length} 題`;
+            const progress = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            progress['math-trigonometry'] = { score, date: new Date().toISOString(), total: QUIZ_DATA.length, correct };
+            localStorage.setItem('teach-progress', JSON.stringify(progress));
+        }
+
+        // 初始化
+        initCanvases();
+        updateAll();
+        buildQuiz();
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>

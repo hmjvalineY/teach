@@ -4,125 +4,560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>教學資源總覽入口網 | Main Portal</title>
+    <title>教學資源總覽入口網 | Interactive Teaching Portal</title>
+    <meta name="description" content="整合物理、生物、化學、數學、國文、地理等多科目互動教學模擬，GitHub 教學、AI 工具指南、教師工具箱的一站式教學資源平台。">
+    <meta property="og:title" content="教學資源總覽入口網">
+    <meta property="og:description" content="探索互動式教學模擬、AI 工具指南與教師工具箱">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#2c3e50">
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- 字體 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- 全站樣式 -->
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="nav-global.css">
+
+    <style>
+        /* === 頁面容器 === */
+        .page-container {
+            max-width: var(--max-width-xl);
+            margin: 0 auto;
+            padding: var(--space-6);
+        }
+
+        /* === Hero 區域 === */
+        .hero {
+            text-align: center;
+            padding: var(--space-16) var(--space-4);
+            margin-bottom: var(--space-12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(52, 152, 219, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(155, 89, 182, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(46, 204, 113, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .hero > * { position: relative; z-index: 1; }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: var(--color-accent-light);
+            color: var(--color-accent);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--border-radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            margin-bottom: var(--space-6);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, var(--text-5xl));
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: var(--space-4);
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .hero__gradient-text {
+            background: linear-gradient(135deg, #3498db, #9b59b6, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero__desc {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto var(--space-8);
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero__stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-10);
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .hero__stat {
+            text-align: center;
+        }
+
+        .hero__stat-number {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        .hero__stat-label {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+
+        /* === 區段標題 === */
+        .section-heading {
+            margin-bottom: var(--space-8);
+        }
+
+        .section-heading__label {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-2);
+        }
+
+        .section-heading__title {
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .section-heading__desc {
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+
+        /* === 卡片版面 === */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-16);
+        }
+
+        .cards-grid--3 {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        /* === 資源卡片 === */
+        .resource-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-6);
+            display: flex;
+            flex-direction: column;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-accent, var(--color-accent));
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-color-hover);
+        }
+
+        .resource-card:hover::before {
+            opacity: 1;
+        }
+
+        .resource-card__icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-4);
+            line-height: 1;
+        }
+
+        .resource-card__title {
+            font-family: var(--font-heading);
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .resource-card__subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-4);
+        }
+
+        .resource-card__desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            flex-grow: 1;
+            margin-bottom: var(--space-4);
+            line-height: 1.7;
+        }
+
+        .resource-card__tags {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-5);
+        }
+
+        .resource-card__tag {
+            font-size: var(--text-xs);
+            padding: 3px 10px;
+            border-radius: var(--border-radius-full);
+            font-weight: 500;
+        }
+
+        .tag--interactive { background: var(--color-info-light); color: #1976d2; }
+        .tag--quiz { background: var(--color-success-light); color: #2e7d32; }
+        .tag--docs { background: #f3e5f5; color: #7b1fa2; }
+        .tag--auto { background: var(--color-warning-light); color: #f57f17; }
+        .tag--ai { background: #ede7f6; color: #512da8; }
+        .tag--tool { background: #e0f2f1; color: #00695c; }
+        .tag--teacher { background: #fff3e0; color: #e65100; }
+
+        .resource-card__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            background: var(--color-accent);
+            color: var(--text-inverse);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            font-size: var(--text-sm);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .resource-card__btn:hover {
+            background: var(--color-accent-hover);
+            color: var(--text-inverse);
+            transform: translateY(-1px);
+        }
+
+        /* === 特殊卡片（全寬 CTA） === */
+        .cta-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border: none;
+            color: white;
+            padding: var(--space-10);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: var(--space-8);
+        }
+
+        .cta-card__title {
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: white;
+            margin-bottom: var(--space-2);
+        }
+
+        .cta-card__desc {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: var(--text-base);
+        }
+
+        .cta-card__btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: white;
+            color: #1a1a2e;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--border-radius-full);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .cta-card__btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+            color: #1a1a2e;
+        }
+
+        /* === 底部頁尾 === */
+        .site-footer {
+            text-align: center;
+            padding: var(--space-8) var(--space-4);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-tertiary);
+            font-size: var(--text-sm);
+            margin-top: var(--space-8);
+        }
+
+        .site-footer a {
+            color: var(--text-secondary);
+        }
+
+        /* === 動畫 === */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === 響應式 === */
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .cta-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero__stats {
+                gap: var(--space-6);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>教學資源總覽入口網</h1>
-            <p>歡迎來到教學首頁，請選擇您欲前往的專案或網頁</p>
-        </header>
-
-        <main class="projects-grid">
-
-            <!-- 1. 互動教學資源 -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">互動教學資源</h2>
-                    <p class="card-subtitle">探索各科目的互動模擬系統</p>
+    <div class="page-container">
+        <!-- Hero 區域 -->
+        <section class="hero" id="hero">
+            <div class="hero__badge">✨ 2025-2026 學年度全新升級</div>
+            <h1 class="hero__title">
+                歡迎來到<br><span class="hero__gradient-text">教學資源總覽入口網</span>
+            </h1>
+            <p class="hero__desc">
+                整合互動模擬實驗、AI 工具指南、GitHub 協作教學與教師工具箱——<br>
+                為師生打造一站式的數位學習與教學平台。
+            </p>
+            <div class="hero__stats">
+                <div class="hero__stat">
+                    <span class="hero__stat-number">18+</span>
+                    <span class="hero__stat-label">互動模擬</span>
                 </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>物理、生物、國文、地理及生活議題等多項互動式網頁與實驗。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">實驗室模擬</span>
-                        <span class="tag quiz">情境挑戰</span>
-                    </div>
+                <div class="hero__stat">
+                    <span class="hero__stat-number">8</span>
+                    <span class="hero__stat-label">學科領域</span>
                 </div>
-                <a href="./courses.html" class="btn-visit">進入所有課程</a>
+                <div class="hero__stat">
+                    <span class="hero__stat-number">30+</span>
+                    <span class="hero__stat-label">教學頁面</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心教學區 -->
+        <section>
+            <div class="section-heading">
+                <div class="section-heading__label">📚 核心教學區</div>
+                <h2 class="section-heading__title">互動學習與知識探索</h2>
+                <p class="section-heading__desc">包含各科目互動模擬、GitHub 教學與最新教學新聞</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- 1. 互動教學資源 -->
+                <article class="resource-card" style="--card-accent: var(--color-physics);">
+                    <div class="resource-card__icon">🧪</div>
+                    <h3 class="resource-card__title">互動教學資源</h3>
+                    <p class="resource-card__subtitle">探索各科目的互動模擬系統</p>
+                    <p class="resource-card__desc">
+                        涵蓋物理、生物、化學、數學、國文、地理及生活議題等多項互動式網頁與虛擬實驗室。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--interactive">實驗室模擬</span>
+                        <span class="resource-card__tag tag--quiz">情境挑戰</span>
+                        <span class="resource-card__tag tag--interactive">即時視覺化</span>
+                    </div>
+                    <a href="./courses.html" class="resource-card__btn">進入所有課程 →</a>
+                </article>
+
+                <!-- 2. GitHub 使用教學 -->
+                <article class="resource-card" style="--card-accent: #333;">
+                    <div class="resource-card__icon">🐙</div>
+                    <h3 class="resource-card__title">GitHub 使用教學</h3>
+                    <p class="resource-card__subtitle">如何使用與維護專案</p>
+                    <p class="resource-card__desc">
+                        專為教學網頁撰寫的 GitHub 團隊協作與管理入門說明，涵蓋快捷鍵、自動化、學科應用等 27+ 主題。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--docs">教學文件</span>
+                        <span class="resource-card__tag tag--tool">版本控制</span>
+                    </div>
+                    <a href="./github/HowToUseGithub.html" class="resource-card__btn">閱讀教學 →</a>
+                </article>
+
+                <!-- 3. 教學新聞 -->
+                <article class="resource-card" style="--card-accent: var(--color-warning);">
+                    <div class="resource-card__icon">📰</div>
+                    <h3 class="resource-card__title">最新教學新聞</h3>
+                    <p class="resource-card__subtitle">國內外教學與科技新消息</p>
+                    <p class="resource-card__desc">
+                        蒐集並整理與數位教學、科技工具相關的最新新聞與快訊，搭配自動更新機制。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--auto">自動更新</span>
+                        <span class="resource-card__tag tag--interactive">時事快遞</span>
+                    </div>
+                    <a href="./news/news.html" class="resource-card__btn">查看新聞 →</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- AI 與工具區 -->
+        <section>
+            <div class="section-heading">
+                <div class="section-heading__label">🤖 AI 與工具</div>
+                <h2 class="section-heading__title">人工智慧教學應用</h2>
+                <p class="section-heading__desc">探索 Google AI、瀏覽器擴充功能在教學中的創新應用</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- 4. Google AI 應用指南 -->
+                <article class="resource-card" style="--card-accent: var(--color-math);">
+                    <div class="resource-card__icon">🤖</div>
+                    <h3 class="resource-card__title">Google AI 應用指南</h3>
+                    <p class="resource-card__subtitle">Stitch 與 Jules 教學實踐</p>
+                    <p class="resource-card__desc">
+                        詳細介紹 Google 最新 AI 工具 Stitch 與 Jules 在高中六大科目的創新應用與專題介紹。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--ai">生成式 AI</span>
+                        <span class="resource-card__tag tag--interactive">跨域應用</span>
+                    </div>
+                    <a href="./StitchAndJules/index.html" class="resource-card__btn">閱讀指南 →</a>
+                </article>
+
+                <!-- 5. AI 外掛工具集 -->
+                <article class="resource-card" style="--card-accent: var(--color-chemistry);">
+                    <div class="resource-card__icon">🧩</div>
+                    <h3 class="resource-card__title">AI 外掛工具集</h3>
+                    <p class="resource-card__subtitle">瀏覽器擴充功能與 AI 輔助工具</p>
+                    <p class="resource-card__desc">
+                        精選 AI 瀏覽器擴充功能介紹，包含 Voyager、Kortex、YouTube to NotebookLM 等實用工具。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--tool">Chrome 擴充</span>
+                        <span class="resource-card__tag tag--ai">生產力工具</span>
+                    </div>
+                    <a href="./AIPlugin/index.html" class="resource-card__btn">瀏覽工具集 →</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- 教師與學習管理區 -->
+        <section>
+            <div class="section-heading">
+                <div class="section-heading__label">🧰 教學管理</div>
+                <h2 class="section-heading__title">教師工具與學習規劃</h2>
+                <p class="section-heading__desc">為教師設計的教學輔助工具，以及學生的自主學習路徑</p>
+            </div>
+
+            <div class="cards-grid cards-grid--3">
+                <!-- 6. 學習路徑 -->
+                <article class="resource-card" style="--card-accent: var(--color-success);">
+                    <div class="resource-card__icon">🗺️</div>
+                    <h3 class="resource-card__title">學習路徑</h3>
+                    <p class="resource-card__subtitle">各科建議學習順序</p>
+                    <p class="resource-card__desc">
+                        以視覺化流程圖呈現各學科的建議學習路線，幫助學生規劃自主學習順序。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--interactive">路線規劃</span>
+                    </div>
+                    <a href="./learning-paths.html" class="resource-card__btn">查看路徑 →</a>
+                </article>
+
+                <!-- 7. 教師工具箱 -->
+                <article class="resource-card" style="--card-accent: var(--color-chemistry);">
+                    <div class="resource-card__icon">🧰</div>
+                    <h3 class="resource-card__title">教師工具箱</h3>
+                    <p class="resource-card__subtitle">教案產生器 & 嵌入代碼</p>
+                    <p class="resource-card__desc">
+                        提供教案模板自動產生器、互動模擬嵌入代碼產生器，以及列印友善的教學素材匯出功能。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--teacher">教師專用</span>
+                        <span class="resource-card__tag tag--tool">一鍵嵌入</span>
+                    </div>
+                    <a href="./teacher-tools.html" class="resource-card__btn">開啟工具箱 →</a>
+                </article>
+
+                <!-- 8. 學習進度 -->
+                <article class="resource-card" style="--card-accent: var(--color-info);">
+                    <div class="resource-card__icon">📊</div>
+                    <h3 class="resource-card__title">學習進度</h3>
+                    <p class="resource-card__subtitle">學習成果追蹤儀表板</p>
+                    <p class="resource-card__desc">
+                        追蹤各模組的測驗成績與完成進度，以圖表方式呈現整體學習狀況。
+                    </p>
+                    <div class="resource-card__tags">
+                        <span class="resource-card__tag tag--quiz">進度追蹤</span>
+                    </div>
+                    <a href="./progress.html" class="resource-card__btn">查看進度 →</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- 全寬 CTA -->
+        <section class="cards-grid" style="margin-bottom: var(--space-4);">
+            <article class="resource-card cta-card">
+                <div>
+                    <h3 class="cta-card__title">🎯 不知道從哪開始？</h3>
+                    <p class="cta-card__desc">按下 <kbd style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">Ctrl + K</kbd> 搜尋任何課程或主題，或查看學習路徑找到適合你的學習順序。</p>
+                </div>
+                <a href="./learning-paths.html" class="cta-card__btn">🗺️ 查看學習路徑</a>
             </article>
+        </section>
 
-            <!-- 2. Github 使用教學 -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">GitHub 使用教學</h2>
-                    <p class="card-subtitle">如何使用與維護專案</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>專為教學網頁撰寫的 GitHub 團隊協作與管理入門說明。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag">教學文件</span>
-                        <span class="tag">版本控制</span>
-                    </div>
-                </div>
-                <a href="./github/HowToUseGithub.html" class="btn-visit">閱讀教學</a>
-            </article>
-
-            <!-- 3. 教學新聞 -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">最新教學新聞</h2>
-                    <p class="card-subtitle">國內外教學與科技新消息</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>蒐集並整理與數位教學、科技工具相關的最新新聞與快訊。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag quiz">自動更新機制</span>
-                        <span class="tag interactive">時事快遞</span>
-                    </div>
-                </div>
-                <a href="./news/news.html" class="btn-visit">查看新聞</a>
-            </article>
-
-            <!-- 4. Google Stitch & Jules 應用指南 -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">Google AI 應用指南</h2>
-                    <p class="card-subtitle">Stitch 與 Jules 教學實踐</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>詳細介紹 Google 最新 AI 工具 Stitch 與 Jules 在高中六大科目的創新應用與專題介紹。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">生成式 AI</span>
-                        <span class="tag quiz">跨域應用</span>
-                    </div>
-                </div>
-                <a href="./StitchAndJules/index.html" class="btn-visit">閱讀指南</a>
-            </article>
-
-            <!-- 5. AI 外掛工具集 -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">AI 外掛工具集</h2>
-                    <p class="card-subtitle">瀏覽器擴充功能與 AI 輔助工具</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>精選 AI 瀏覽器擴充功能介紹，包含 Voyager、Kortex、YouTube to NotebookLM 等實用工具。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">Chrome 擴充</span>
-                        <span class="tag quiz">生產力工具</span>
-                    </div>
-                </div>
-                <a href="./AIPlugin/index.html" class="btn-visit">瀏覽工具集</a>
-            </article>
-
-        </main>
-
-        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid #ddd; color: #777;">
-            <p>&copy; 2025 Interactive Teaching Portal. All rights reserved.</p>
+        <!-- 底部頁尾 -->
+        <footer class="site-footer">
+            <p>&copy; 2025-2026 Interactive Teaching Portal. Built with ❤️ for educators and students.</p>
+            <p style="margin-top: var(--space-2);">
+                <a href="https://github.com" target="_blank">GitHub</a> ·
+                深色模式已就緒 🌙
+            </p>
         </footer>
     </div>
+
+    <!-- 全站導覽列 -->
+    <script src="nav-global.js"></script>
+    <!-- Service Worker 註冊 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('✅ SW 已註冊', reg.scope))
+                    .catch(err => console.log('SW 註冊失敗', err));
+            });
+        }
+    </script>
 </body>
 
 </html>

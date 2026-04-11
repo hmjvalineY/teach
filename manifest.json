@@ -1,0 +1,20 @@
+{
+    "name": "教學資源網",
+    "short_name": "教學資源",
+    "description": "整合互動模擬實驗、AI 工具指南與教師工具箱的一站式教學資源平台",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#f4f6f9",
+    "theme_color": "#2c3e50",
+    "orientation": "any",
+    "lang": "zh-TW",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ],
+    "categories": ["education", "productivity"]
+}

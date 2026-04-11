@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習進度 | 教學資源網</title>
+    <meta name="description" content="追蹤各模組的測驗成績與完成進度，以圖表方式呈現整體學習狀況。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="nav-global.css">
+    <style>
+        .page-container { max-width: var(--max-width-xl); margin: 0 auto; padding: var(--space-6); }
+        .page-hero { text-align: center; padding: var(--space-10) var(--space-4); margin-bottom: var(--space-8); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: clamp(1.8rem,4vw,var(--text-4xl)); color: var(--text-primary); margin-bottom: var(--space-3); }
+        .page-hero p { color: var(--text-secondary); font-size: var(--text-lg); max-width: 600px; margin: 0 auto; }
+
+        /* 總覽卡片 */
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
+        .overview-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: var(--space-6); text-align: center; }
+        .overview-card__icon { font-size: 2.5rem; margin-bottom: var(--space-2); }
+        .overview-card__value { font-family: var(--font-heading); font-size: var(--text-4xl); font-weight: 900; color: var(--color-accent); }
+        .overview-card__label { font-size: var(--text-sm); color: var(--text-tertiary); margin-top: var(--space-1); }
+
+        /* 進度表 */
+        .progress-section { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: var(--space-6); margin-bottom: var(--space-8); }
+        .progress-section h2 { font-family: var(--font-heading); font-size: var(--text-xl); margin-bottom: var(--space-5); }
+
+        .progress-item { display: grid; grid-template-columns: auto 1fr auto auto; gap: var(--space-4); align-items: center; padding: var(--space-4); border-bottom: 1px solid var(--border-color); }
+        .progress-item:last-child { border-bottom: none; }
+
+        .progress-item__icon { font-size: 1.5rem; }
+        .progress-item__info { }
+        .progress-item__title { font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); }
+        .progress-item__date { font-size: var(--text-xs); color: var(--text-tertiary); }
+
+        .progress-item__bar { width: 120px; height: 8px; background: var(--bg-color); border-radius: 4px; overflow: hidden; }
+        .progress-item__bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+
+        .progress-item__score { font-family: var(--font-mono); font-weight: 700; font-size: var(--text-sm); min-width: 50px; text-align: right; }
+
+        .score-excellent { color: #2e7d32; }
+        .score-good { color: #f57f17; }
+        .score-poor { color: #c62828; }
+        .score-none { color: var(--text-tertiary); }
+
+        .empty-state { text-align: center; padding: var(--space-12); color: var(--text-tertiary); }
+        .empty-state__icon { font-size: 4rem; margin-bottom: var(--space-4); }
+        .empty-state__text { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+        .empty-state__hint { font-size: var(--text-sm); }
+
+        .btn-reset { margin-top: var(--space-4); padding: var(--space-2) var(--space-4); border: 1px solid var(--color-danger); color: var(--color-danger); background: transparent; border-radius: var(--border-radius-md); font-size: var(--text-sm); cursor: pointer; font-family: var(--font-body); transition: all var(--transition-fast); }
+        .btn-reset:hover { background: var(--color-danger-light); }
+
+        .site-footer { text-align: center; padding: var(--space-8); border-top: 1px solid var(--border-color); color: var(--text-tertiary); font-size: var(--text-sm); }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>📊 學習進度儀表板</h1>
+            <p>追蹤你在各模組的測驗成績與完成進度</p>
+        </section>
+
+        <!-- 總覽 -->
+        <div class="overview-grid" id="overviewGrid">
+            <div class="overview-card"><div class="overview-card__icon">📚</div><div class="overview-card__value" id="ovTotal">0</div><div class="overview-card__label">已完成模組</div></div>
+            <div class="overview-card"><div class="overview-card__icon">🎯</div><div class="overview-card__value" id="ovAvg">—</div><div class="overview-card__label">平均分數</div></div>
+            <div class="overview-card"><div class="overview-card__icon">⭐</div><div class="overview-card__value" id="ovBest">—</div><div class="overview-card__label">最高分</div></div>
+            <div class="overview-card"><div class="overview-card__icon">🔥</div><div class="overview-card__value" id="ovStreak">0</div><div class="overview-card__label">及格模組數</div></div>
+        </div>
+
+        <!-- 詳細進度 -->
+        <section class="progress-section">
+            <h2>📋 模組成績明細</h2>
+            <div id="progressList"></div>
+            <button class="btn-reset" onclick="resetProgress()" style="display:none;" id="resetBtn">🗑️ 清除所有進度</button>
+        </section>
+
+        <footer class="site-footer"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="nav-global.js"></script>
+    <script>
+        const MODULES = [
+            { key: 'math-quadratic', name: '二次函數圖形探索', icon: '📐', subject: '數學' },
+            { key: 'math-trigonometry', name: '三角函數視覺化', icon: '📏', subject: '數學' },
+            { key: 'math-statistics', name: '統計與機率模擬', icon: '🎲', subject: '數學' },
+            { key: 'chemistry-periodic-table', name: '互動週期表', icon: '⚗️', subject: '化學' },
+            { key: 'chemistry-titration', name: '酸鹼滴定模擬', icon: '🧪', subject: '化學' },
+        ];
+
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            const list = document.getElementById('progressList');
+
+            if (Object.keys(progress).length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state__icon">📭</div>
+                        <div class="empty-state__text">尚未有任何學習記錄</div>
+                        <div class="empty-state__hint">前往互動模擬並完成隨堂測驗，你的成績會自動紀錄在此</div>
+                    </div>`;
+                return;
+            }
+
+            let completed = 0, totalScore = 0, bestScore = 0, passCount = 0;
+
+            const html = MODULES.map(mod => {
+                const data = progress[mod.key];
+                if (!data) {
+                    return `<div class="progress-item">
+                        <div class="progress-item__icon">${mod.icon}</div>
+                        <div class="progress-item__info"><div class="progress-item__title">${mod.name}</div><div class="progress-item__date">尚未完成</div></div>
+                        <div class="progress-item__bar"><div class="progress-item__bar-fill" style="width:0"></div></div>
+                        <div class="progress-item__score score-none">— 分</div>
+                    </div>`;
+                }
+
+                completed++;
+                totalScore += data.score;
+                if (data.score > bestScore) bestScore = data.score;
+                if (data.score >= 60) passCount++;
+
+                const scoreClass = data.score >= 80 ? 'score-excellent' : data.score >= 60 ? 'score-good' : 'score-poor';
+                const barColor = data.score >= 80 ? '#2e7d32' : data.score >= 60 ? '#f57f17' : '#c62828';
+                const dateStr = new Date(data.date).toLocaleDateString('zh-TW');
+
+                return `<div class="progress-item">
+                    <div class="progress-item__icon">${mod.icon}</div>
+                    <div class="progress-item__info"><div class="progress-item__title">${mod.name}</div><div class="progress-item__date">${dateStr} · 答對 ${data.correct}/${data.total}</div></div>
+                    <div class="progress-item__bar"><div class="progress-item__bar-fill" style="width:${data.score}%;background:${barColor}"></div></div>
+                    <div class="progress-item__score ${scoreClass}">${data.score} 分</div>
+                </div>`;
+            }).join('');
+
+            list.innerHTML = html;
+
+            document.getElementById('ovTotal').textContent = completed;
+            document.getElementById('ovAvg').textContent = completed > 0 ? Math.round(totalScore / completed) : '—';
+            document.getElementById('ovBest').textContent = bestScore > 0 ? bestScore : '—';
+            document.getElementById('ovStreak').textContent = passCount;
+
+            if (completed > 0) document.getElementById('resetBtn').style.display = 'inline-block';
+        }
+
+        function resetProgress() {
+            if (confirm('確定要清除所有學習記錄嗎？此操作無法復原。')) {
+                localStorage.removeItem('teach-progress');
+                loadProgress();
+            }
+        }
+
+        loadProgress();
+    </script>
+</body>
+</html>

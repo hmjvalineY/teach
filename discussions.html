@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社群討論區 | 互動學習平台</title>
+    <meta name="description" content="使用 Giscus 建立的社群討論區，讓師生可以在此分享學習心得與提問。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./tokens.css">
+    <link rel="stylesheet" href="./nav-global.css">
+    <style>
+        .page-container{max-width:var(--max-width-md);margin:0 auto;padding:var(--space-6)}
+        .page-hero{text-align:center;padding:var(--space-8) var(--space-4);margin-bottom:var(--space-6)}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(1.6rem,3.5vw,var(--text-3xl));color:var(--text-primary);margin-bottom:var(--space-2)}
+        .page-hero p{color:var(--text-secondary);font-size:var(--text-base);max-width:600px;margin:0 auto}
+
+        .giscus-container{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm);min-height:300px}
+        
+        .setup-guide{background:rgba(243, 156, 18, 0.1);border-left:4px solid #f39c12;padding:var(--space-4);margin-bottom:var(--space-6);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0}
+        .setup-guide h3{color:#d35400;margin-bottom:var(--space-2);font-family:var(--font-heading)}
+        .setup-guide p{font-size:var(--text-sm);color:var(--text-secondary);line-height:1.6}
+        .setup-guide code{background:var(--bg-color);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:0.9em}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>💬 社群討論與回饋</h1>
+            <p>在這裡提出您的學習疑問、分享心得，或給予我們平台的改善建議。討論區由 GitHub Discussions 支援。</p>
+        </section>
+
+        <div class="setup-guide">
+            <h3>⚙️ 系統部署提示 (Giscus 設定)</h3>
+            <p>目前 Giscus 留言板需要您在專案倉儲中啟用 <code>Discussions</code> 功能，並安裝 <a href="https://giscus.app/zh-TW" target="_blank" style="color:#d35400;text-decoration:underline">Giscus GitHub App</a>。<br>
+            請自行替換 <code>discussions.html</code> 下方的 <code>data-repo</code>、<code>data-repo-id</code> 與 <code>data-category-id</code> 為您真實的倉儲數值即可正式啟用此頁面功能。</p>
+        </div>
+
+        <div class="giscus-container">
+            <!-- Giscus 實作位置 -->
+            <script src="https://giscus.app/client.js"
+                    data-repo="hmjvalineY/teach"
+                    data-repo-id="REPLACE_WITH_YOUR_REPO_ID"
+                    data-category="General"
+                    data-category-id="REPLACE_WITH_YOUR_CATEGORY_ID"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="zh-TW"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+            <div id="giscus-fallback" style="text-align:center;padding:40px;color:var(--text-tertiary)">
+                Giscus 載入中... 若長時間未顯示，請確認 GitHub 倉儲設定是否正確。
+            </div>
+        </div>
+        
+        <footer class="site-footer" style="margin-top:var(--space-8)"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="./nav-global.js"></script>
+    <script>
+        // Listen for theme changes to sync with Giscus
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === "data-theme") {
+                    const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+                    function sendMessage(message) {
+                        const iframe = document.querySelector('iframe.giscus-frame');
+                        if (!iframe) return;
+                        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+                    }
+                    sendMessage({
+                        setConfig: {
+                            theme: theme
+                        }
+                    });
+                }
+            });
+        });
+        
+        observer.observe(document.documentElement, { attributes: true });
+        
+        // Hide fallback if iframe is loaded
+        window.addEventListener('message', (event) => {
+            if (event.origin !== 'https://giscus.app') return;
+            if (event.data && event.data.giscus) {
+                document.getElementById('giscus-fallback').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

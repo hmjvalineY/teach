@@ -1,280 +1,407 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>互動教學網頁入口 | Interactive Learning Portal</title>
+    <meta name="description" content="涵蓋物理、生物、化學、數學、國文、地理等學科的互動式教學模擬，透過虛擬實驗室和情境挑戰進行自主學習。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="nav-global.css">
+    <style>
+        .page-container { max-width: var(--max-width-xl); margin: 0 auto; padding: var(--space-6); }
+
+        .page-hero { text-align: center; padding: var(--space-10) var(--space-4); margin-bottom: var(--space-8); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: clamp(1.8rem,4vw,var(--text-4xl)); color: var(--text-primary); margin-bottom: var(--space-3); }
+        .page-hero p { color: var(--text-secondary); font-size: var(--text-lg); max-width: 650px; margin: 0 auto; }
+
+        /* 篩選標籤 */
+        .filter-row { display: flex; gap: var(--space-2); flex-wrap: wrap; justify-content: center; margin-bottom: var(--space-8); }
+        .filter-btn { padding: var(--space-2) var(--space-4); border-radius: var(--border-radius-full); border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-secondary); font-size: var(--text-sm); font-weight: 500; cursor: pointer; transition: all var(--transition-fast); font-family: var(--font-body); }
+        .filter-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .filter-btn.active { background: var(--color-accent); color: white; border-color: var(--color-accent); }
+
+        /* 課程卡片 */
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-12); }
+
+        .course-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: var(--space-6); display: flex; flex-direction: column; transition: all var(--transition-base); position: relative; overflow: hidden; }
+        .course-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--card-color, var(--color-accent)); opacity: 0; transition: opacity var(--transition-base); }
+        .course-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--border-color-hover); }
+        .course-card:hover::before { opacity: 1; }
+        .course-card.hidden { display: none; }
+
+        .course-card__badge { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-xs); font-weight: 600; padding: 3px 10px; border-radius: var(--border-radius-full); margin-bottom: var(--space-3); width: fit-content; }
+
+        .course-card__icon { font-size: 2rem; margin-bottom: var(--space-3); }
+        .course-card__title { font-family: var(--font-heading); font-size: var(--text-lg); font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-1); }
+        .course-card__subtitle { font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-3); }
+        .course-card__desc { font-size: var(--text-sm); color: var(--text-secondary); flex-grow: 1; margin-bottom: var(--space-4); line-height: 1.7; }
+        .course-card__tags { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-4); }
+        .course-card__tag { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-full); font-weight: 500; }
+        .tag--sim { background: #e3f2fd; color: #1565c0; }
+        .tag--quiz { background: #e8f5e9; color: #2e7d32; }
+        .tag--new { background: #fce4ec; color: #c62828; }
+
+        .course-card__btn { display: flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-3); border-radius: var(--border-radius-md); font-weight: 600; font-size: var(--text-sm); text-decoration: none; transition: all var(--transition-fast); border: 1px solid var(--border-color); color: var(--text-primary); background: var(--bg-surface); }
+        .course-card__btn:hover { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-light); }
+
+        .site-footer { text-align: center; padding: var(--space-8); border-top: 1px solid var(--border-color); color: var(--text-tertiary); font-size: var(--text-sm); }
+
+        @media (max-width: 768px) { .courses-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
-
 <body>
-    <div class="container">
-        <header>
-            <h1>互動教學資源入口網</h1>
-            <p>透過互動模擬探索物理、生物、國文、地理、生活科技、美術與社會議題</p>
-        </header>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>📚 互動教學資源入口</h1>
+            <p>透過互動模擬探索物理、生物、化學、數學、國文、地理、生活科技與社會議題</p>
+        </section>
 
-        <main class="projects-grid">
+        <!-- 篩選列 -->
+        <div class="filter-row">
+            <button class="filter-btn active" data-filter="all" onclick="filterCourses('all', this)">全部 (21)</button>
+            <button class="filter-btn" data-filter="math" onclick="filterCourses('math', this)">📐 數學</button>
+            <button class="filter-btn" data-filter="physics" onclick="filterCourses('physics', this)">⚡ 物理</button>
+            <button class="filter-btn" data-filter="chemistry" onclick="filterCourses('chemistry', this)">⚗️ 化學</button>
+            <button class="filter-btn" data-filter="biology" onclick="filterCourses('biology', this)">🧬 生物</button>
+            <button class="filter-btn" data-filter="chinese" onclick="filterCourses('chinese', this)">📖 國文</button>
+            <button class="filter-btn" data-filter="geography" onclick="filterCourses('geography', this)">🌍 地理</button>
+            <button class="filter-btn" data-filter="social" onclick="filterCourses('social', this)">🌐 社會</button>
+            <button class="filter-btn" data-filter="art" onclick="filterCourses('art', this)">🎨 藝術</button>
+            <button class="filter-btn" data-filter="tech" onclick="filterCourses('tech', this)">⚙️ 生活科技</button>
+        </div>
 
-            <!-- 1. Biodiversity Sim -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">生物多樣性與保育</h2>
-                    <p class="card-subtitle">探索基因、物種與生態系的奧秘</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>探索遺傳、物種與生態系多樣性，了解保育策略。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">棲地模擬實驗室</span>
-                        <span class="tag quiz">情境挑戰</span>
-                    </div>
-                </div>
-                <a href="./biodiversity-sim/index.html" class="btn-visit">進入網頁</a>
+        <div class="courses-grid" id="coursesGrid">
+            <!-- ===== 數學（新增）===== -->
+            <article class="course-card" data-subject="math" style="--card-color: #9b59b6;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#9b59b6;">📐 數學 · 新增</span>
+                <div class="course-card__icon">📐</div>
+                <h3 class="course-card__title">二次函數圖形探索</h3>
+                <p class="course-card__subtitle">參數即時調整拋物線</p>
+                <p class="course-card__desc">拖曳 a、h、k 參數滑桿，即時觀察拋物線的開口方向、寬窄與位移，理解頂點式 y = a(x-h)² + k。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">即時繪圖</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./math-quadratic/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 2. Central Dogma -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">分子遺傳學中心法則</h2>
-                    <p class="card-subtitle">DNA 複製、轉錄與轉譯</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>DNA 複製、轉錄與轉譯的微觀過程演示。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">Bio-Lab 虛擬實驗</span>
-                    </div>
-                </div>
-                <a href="./central-dogma-sim/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="math" style="--card-color: #9b59b6;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#9b59b6;">📏 數學 · 新增</span>
+                <div class="course-card__icon">📏</div>
+                <h3 class="course-card__title">三角函數視覺化</h3>
+                <p class="course-card__subtitle">單位圓 + 波形同步動畫</p>
+                <p class="course-card__desc">互動式單位圓與 sin/cos/tan 波形同步動畫，支援角度、振幅、頻率控制及動畫速度調整。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">同步動畫</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./math-trigonometry/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 3. Chinese Debate -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">思辨與閱讀平台</h2>
-                    <p class="card-subtitle">培養邏輯思考與論證能力</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>性別、人權、環境議題閱讀與正反辯論邏輯訓練。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">議題辯論模擬</span>
-                        <span class="tag quiz">研究報告撰寫</span>
-                    </div>
-                </div>
-                <a href="./chinese-debate-platform/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="math" style="--card-color: #9b59b6;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#9b59b6;">🎲 數學 · 新增</span>
+                <div class="course-card__icon">🎲</div>
+                <h3 class="course-card__title">統計與機率模擬</h3>
+                <p class="course-card__subtitle">骰子模擬、常態分佈</p>
+                <p class="course-card__desc">透過骰子模擬體驗大數法則，以互動式參數調整探索常態分佈的 μ 和 σ 對圖形的影響。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">大數法則</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./math-statistics/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 4. Chinese Multimedia -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">多媒體故事工坊</h2>
-                    <p class="card-subtitle">結合文學與科技的創作空間</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>結合劇本創作結構與詩詞意境的多媒體表達。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">AI 劇本建築師</span>
-                        <span class="tag interactive">詩詞共鳴</span>
-                    </div>
-                </div>
-                <a href="./chinese-multimedia-lab/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="math" style="--card-color: #9b59b6;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#9b59b6;">📐 數學 · 新增</span>
+                <div class="course-card__icon">📐</div>
+                <h3 class="course-card__title">向量與空間概念</h3>
+                <p class="course-card__subtitle">向量加法/內積/外積與投影</p>
+                <p class="course-card__desc">拖曳向量端點，即時觀察 2D 向量運算的幾何意義，包含平行四邊形面積與夾角計算。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">向量視覺化</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./math-vectors/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 5. Design Thinking -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">設計思考挑戰</h2>
-                    <p class="card-subtitle">解決問題的五大步驟實戰</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>校園永續改造實作，體驗同理、定義、發想、原型、測試五步驟。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">互動式設計流程</span>
-                        <span class="tag quiz">使用者回饋評分</span>
-                    </div>
-                </div>
-                <a href="./design-thinking-sim/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="math" style="--card-color: #9b59b6;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#9b59b6;">🎯 數學 · 新增</span>
+                <div class="course-card__icon">🎯</div>
+                <h3 class="course-card__title">排列組合計算器</h3>
+                <p class="course-card__subtitle">P(n,r) 與 C(n,r) 視覺化</p>
+                <p class="course-card__desc">以互動式樹狀圖展開排列組合的所有可能性，結合公式推導，釐清排列與組合的差異。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">樹狀圖</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./math-combinatorics/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 6. EM Waves -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">電磁波與光速</h2>
-                    <p class="card-subtitle">馬克士威方程組與光的本質</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>馬克士威方程組視覺化與電磁波傳播原理。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">3D 電磁場模擬</span>
-                    </div>
-                </div>
-                <a href="./electromagnetic-waves/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="math" style="--card-color: #9b59b6;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#9b59b6;">📉 數學 · 新增</span>
+                <div class="course-card__icon">📉</div>
+                <h3 class="course-card__title">微積分初步</h3>
+                <p class="course-card__subtitle">極限法則與定積分面積</p>
+                <p class="course-card__desc">透過割線逼近切線來理解導數的幾何意義，並以黎曼和視覺化曲線下的面積（定積分）。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">微積分視覺化</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./math-calculus/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 7. Environmental Impact -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">海岸守護者</h2>
-                    <p class="card-subtitle">打造氣候韌性的永續城市</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>氣候變遷下的海岸城市規劃與防災韌性。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">城市建設模擬</span>
-                        <span class="tag interactive">災害模擬</span>
-                        <span class="tag quiz">韌性指數挑戰</span>
-                    </div>
-                </div>
-                <a href="./environmental-impact-sim/index.html" class="btn-visit">進入網頁</a>
+            <!-- ===== 化學（新增）===== -->
+            <article class="course-card" data-subject="chemistry" style="--card-color: #ff9800;">
+                <span class="course-card__badge" style="background:#fff3e0;color:#e65100;">⚗️ 化學 · 新增</span>
+                <div class="course-card__icon">⚗️</div>
+                <h3 class="course-card__title">互動週期表</h3>
+                <p class="course-card__subtitle">元素性質、電子組態查詢</p>
+                <p class="course-card__desc">色彩分類的互動週期表，點擊任何元素查看原子序、原子量、電子組態等詳細性質，支援類別篩選。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">互動查詢</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./chemistry-periodic-table/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 8. GIS History -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">時空地圖實驗室</h2>
-                    <p class="card-subtitle">穿越古今的地圖探究</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>GIS 地理資訊系統應用與歷史地圖疊圖分析。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">古今地圖疊合</span>
-                        <span class="tag quiz">時空偵探任務</span>
-                    </div>
-                </div>
-                <a href="./gis-spatial-history/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="chemistry" style="--card-color: #ff9800;">
+                <span class="course-card__badge" style="background:#fff3e0;color:#e65100;">🧪 化學 · 新增</span>
+                <div class="course-card__icon">🧪</div>
+                <h3 class="course-card__title">酸鹼滴定模擬</h3>
+                <p class="course-card__subtitle">虛擬滴定實驗與 pH 曲線</p>
+                <p class="course-card__desc">模擬強酸/弱酸與強鹼的滴定實驗，即時顯示 pH 曲線、指示劑顏色變化與當量點位置。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">虛擬實驗</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./chemistry-titration/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 9. International Issues -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">國際議題與批判性閱讀</h2>
-                    <p class="card-subtitle">全球視野與媒體識讀</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>氣候變遷與 AI 倫理議題的批判性閱讀與媒體識讀。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">觀點偵探</span>
-                        <span class="tag interactive">數據排序</span>
-                        <span class="tag quiz">編輯台分析</span>
-                    </div>
-                </div>
-                <a href="./international-issues/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="chemistry" style="--card-color: #ff9800;">
+                <span class="course-card__badge" style="background:#fff3e0;color:#e65100;">⚖️ 化學 · 新增</span>
+                <div class="course-card__icon">⚖️</div>
+                <h3 class="course-card__title">化學平衡與勒沙特列原理</h3>
+                <p class="course-card__subtitle">反應速率與平衡移動動力學</p>
+                <p class="course-card__desc">以哈柏法製氨為例，藉由改變濃度、壓力或溫度體積，觀察正逆反應速率及平衡如何移動。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">動力學模擬</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./chemistry-equilibrium/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 10. Light Interference -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">光的干涉及繞射</h2>
-                    <p class="card-subtitle">波動光學的實驗觀察</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>惠更斯原理、雙狹縫干涉與單狹縫繞射圖樣。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">波動參數實驗</span>
-                    </div>
-                </div>
-                <a href="./light-interference/index.html" class="btn-visit">進入網頁</a>
+            <!-- ===== 物理 ===== -->
+            <article class="course-card" data-subject="physics" style="--card-color: #2196f3;">
+                <span class="course-card__badge" style="background:#e3f2fd;color:#1565c0;">⚡ 物理</span>
+                <div class="course-card__icon">📡</div>
+                <h3 class="course-card__title">電磁波與光速</h3>
+                <p class="course-card__subtitle">馬克士威方程組與光的本質</p>
+                <p class="course-card__desc">馬克士威方程組視覺化與電磁波傳播原理。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">3D 電磁場模擬</span></div>
+                <a href="./electromagnetic-waves/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 11. Mechatronics -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">機電整合與控制</h2>
-                    <p class="card-subtitle">軟硬體整合與自動化控制</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>馬達控制、感測器應用與基礎自動化邏輯。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">積木/程式控制</span>
-                        <span class="tag interactive">機器人模擬場</span>
-                    </div>
-                </div>
-                <a href="./mechatronics-control-sim/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="physics" style="--card-color: #2196f3;">
+                <span class="course-card__badge" style="background:#e3f2fd;color:#1565c0;">⚡ 物理</span>
+                <div class="course-card__icon">🌈</div>
+                <h3 class="course-card__title">光的干涉及繞射</h3>
+                <p class="course-card__subtitle">波動光學的實驗觀察</p>
+                <p class="course-card__desc">惠更斯原理、雙狹縫干涉與單狹縫繞射圖樣。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">波動參數實驗</span></div>
+                <a href="./light-interference/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 12. Quantum Phenomena -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">量子現象實驗室</h2>
-                    <p class="card-subtitle">探索微觀世界的物理法則</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>原子光譜、光電效應與波粒二象性。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">光譜儀模擬</span>
-                        <span class="tag interactive">光電效應實驗</span>
-                        <span class="tag quiz">經驗值系統</span>
-                    </div>
-                </div>
-                <a href="./quantum-phenomena/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="physics" style="--card-color: #2196f3;">
+                <span class="course-card__badge" style="background:#e3f2fd;color:#1565c0;">⚡ 物理</span>
+                <div class="course-card__icon">⚛️</div>
+                <h3 class="course-card__title">量子現象實驗室</h3>
+                <p class="course-card__subtitle">探索微觀世界的物理法則</p>
+                <p class="course-card__desc">原子光譜、光電效應與波粒二象性。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">光譜儀模擬</span><span class="course-card__tag tag--sim">光電效應</span><span class="course-card__tag tag--quiz">經驗值系統</span></div>
+                <a href="./quantum-phenomena/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-            <!-- 13. Universal Gravitation -->
-            <article class="project-card">
-                <div class="card-header">
-                    <h2 class="card-title">萬有引力定律</h2>
-                    <p class="card-subtitle">牛頓與宇宙天體的運行</p>
-                </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <span class="info-label">內容摘要</span>
-                        <p>牛頓萬有引力公式與引力場視覺化。</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag interactive">引力參數調整</span>
-                        <span class="tag quiz">隨堂測驗</span>
-                    </div>
-                </div>
-                <a href="./universal-gravitation/index.html" class="btn-visit">進入網頁</a>
+            <article class="course-card" data-subject="physics" style="--card-color: #2196f3;">
+                <span class="course-card__badge" style="background:#e3f2fd;color:#1565c0;">⚡ 物理</span>
+                <div class="course-card__icon">🪐</div>
+                <h3 class="course-card__title">萬有引力定律</h3>
+                <p class="course-card__subtitle">牛頓與宇宙天體的運行</p>
+                <p class="course-card__desc">牛頓萬有引力公式與引力場視覺化。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">引力參數調整</span><span class="course-card__tag tag--quiz">隨堂測驗</span></div>
+                <a href="./universal-gravitation/index.html" class="course-card__btn">進入網頁 →</a>
             </article>
 
-        </main>
+            <article class="course-card" data-subject="physics" style="--card-color: #2196f3;">
+                <span class="course-card__badge" style="background:#e3f2fd;color:#1565c0;">⚙️ 物理 · 新增</span>
+                <div class="course-card__icon">⚙️</div>
+                <h3 class="course-card__title">簡諧運動(SHM)彈簧振子</h3>
+                <p class="course-card__subtitle">位置/速度/能量轉換圖表</p>
+                <p class="course-card__desc">探索胡克定律與彈簧簡諧運動，調整彈性常數、質量與阻尼，觀測位置、速度、加速度與動位能轉換長條圖。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">圖表繪製</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./physics-shm/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
 
-        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid #ddd; color: #777;">
-            <p>&copy; 2025 Interactive Teaching Portal. All rights reserved.</p>
+            <article class="course-card" data-subject="physics" style="--card-color: #2196f3;">
+                <span class="course-card__badge" style="background:#e3f2fd;color:#1565c0;">🪐 物理 · 新增</span>
+                <div class="course-card__icon">🪐</div>
+                <h3 class="course-card__title">克卜勒行星運動定律</h3>
+                <p class="course-card__subtitle">橢圓軌道與等面積定律</p>
+                <p class="course-card__desc">觀察行星繞行恆星的軌道變化，結合半長軸與離心率調整，實驗證明掃過面積速率為定值與克卜勒第三定律。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">面積掃略</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./physics-kepler/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <!-- ===== 生物 ===== -->
+            <article class="course-card" data-subject="biology" style="--card-color: #4caf50;">
+                <span class="course-card__badge" style="background:#e8f5e9;color:#2e7d32;">🧬 生物</span>
+                <div class="course-card__icon">🌿</div>
+                <h3 class="course-card__title">生物多樣性與保育</h3>
+                <p class="course-card__subtitle">探索基因、物種與生態系的奧秘</p>
+                <p class="course-card__desc">探索遺傳、物種與生態系多樣性，了解保育策略。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">棲地模擬實驗室</span><span class="course-card__tag tag--quiz">情境挑戰</span></div>
+                <a href="./biodiversity-sim/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="biology" style="--card-color: #4caf50;">
+                <span class="course-card__badge" style="background:#e8f5e9;color:#2e7d32;">🧬 生物</span>
+                <div class="course-card__icon">🧬</div>
+                <h3 class="course-card__title">分子遺傳學中心法則</h3>
+                <p class="course-card__subtitle">DNA 複製、轉錄與轉譯</p>
+                <p class="course-card__desc">DNA 複製、轉錄與轉譯的微觀過程演示。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">Bio-Lab 虛擬實驗</span></div>
+                <a href="./central-dogma-sim/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="biology" style="--card-color: #4caf50;">
+                <span class="course-card__badge" style="background:#e8f5e9;color:#2e7d32;">🧬 生物</span>
+                <div class="course-card__icon">🔬</div>
+                <h3 class="course-card__title">細胞構造與功能</h3>
+                <p class="course-card__subtitle">互動概念圖與自我評量</p>
+                <p class="course-card__desc">完整的細胞構造與功能章節學習，包含互動概念圖、自我評量與 AI 助教。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">概念圖</span><span class="course-card__tag tag--quiz">自我評量</span></div>
+                <a href="./biology/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="biology" style="--card-color: #4caf50;">
+                <span class="course-card__badge" style="background:#e8f5e9;color:#2e7d32;">🧬 生物 · 新增</span>
+                <div class="course-card__icon">🔬</div>
+                <h3 class="course-card__title">細胞分裂：有絲 vs 減數</h3>
+                <p class="course-card__subtitle">染色體動態變化動畫對比</p>
+                <p class="course-card__desc">透過拖曳時間線，觀察細胞在不同分裂階段中，染色體的動態變化、紡錘絲牽引與細胞分裂。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">動畫對比</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./biology-cell-division/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="biology" style="--card-color: #4caf50;">
+                <span class="course-card__badge" style="background:#e8f5e9;color:#2e7d32;">🌲 生物 · 新增</span>
+                <div class="course-card__icon">🌲</div>
+                <h3 class="course-card__title">生態金字塔與能量流動</h3>
+                <p class="course-card__subtitle">10% 能量傳遞定律</p>
+                <p class="course-card__desc">輸入太陽輻射能量，觀察各營養階層可獲取的能量變化，理解熱能散失與食物鏈階層限制。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">數值模擬</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./biology-eco-pyramid/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <!-- ===== 國文 ===== -->
+            <article class="course-card" data-subject="chinese" style="--card-color: #e91e63;">
+                <span class="course-card__badge" style="background:#fce4ec;color:#c62828;">📖 國文</span>
+                <div class="course-card__icon">💬</div>
+                <h3 class="course-card__title">思辨與閱讀平台</h3>
+                <p class="course-card__subtitle">培養邏輯思考與論證能力</p>
+                <p class="course-card__desc">性別、人權、環境議題閱讀與正反辯論邏輯訓練。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">議題辯論模擬</span><span class="course-card__tag tag--quiz">研究報告撰寫</span></div>
+                <a href="./chinese-debate-platform/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="chinese" style="--card-color: #e91e63;">
+                <span class="course-card__badge" style="background:#fce4ec;color:#c62828;">📖 國文</span>
+                <div class="course-card__icon">🎭</div>
+                <h3 class="course-card__title">多媒體故事工坊</h3>
+                <p class="course-card__subtitle">結合文學與科技的創作空間</p>
+                <p class="course-card__desc">結合劇本創作結構與詩詞意境的多媒體表達。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">AI 劇本建築師</span><span class="course-card__tag tag--sim">詩詞共鳴</span></div>
+                <a href="./chinese-multimedia-lab/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <!-- ===== 地理 ===== -->
+            <article class="course-card" data-subject="geography" style="--card-color: #009688;">
+                <span class="course-card__badge" style="background:#e0f2f1;color:#00695c;">🌍 地理</span>
+                <div class="course-card__icon">🗺️</div>
+                <h3 class="course-card__title">時空地圖實驗室</h3>
+                <p class="course-card__subtitle">穿越古今的地圖探究</p>
+                <p class="course-card__desc">GIS 地理資訊系統應用與歷史地圖疊圖分析。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">古今地圖疊合</span><span class="course-card__tag tag--quiz">時空偵探任務</span></div>
+                <a href="./gis-spatial-history/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <!-- ===== 社會議題 ===== -->
+            <article class="course-card" data-subject="social" style="--card-color: #795548;">
+                <span class="course-card__badge" style="background:#efebe9;color:#4e342e;">🌐 社會</span>
+                <div class="course-card__icon">🌊</div>
+                <h3 class="course-card__title">海岸守護者</h3>
+                <p class="course-card__subtitle">打造氣候韌性的永續城市</p>
+                <p class="course-card__desc">氣候變遷下的海岸城市規劃與防災韌性。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">城市建設模擬</span><span class="course-card__tag tag--sim">災害模擬</span></div>
+                <a href="./environmental-impact-sim/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="social" style="--card-color: #795548;">
+                <span class="course-card__badge" style="background:#efebe9;color:#4e342e;">🌐 社會</span>
+                <div class="course-card__icon">🌐</div>
+                <h3 class="course-card__title">國際議題與批判性閱讀</h3>
+                <p class="course-card__subtitle">全球視野與媒體識讀</p>
+                <p class="course-card__desc">氣候變遷與 AI 倫理議題的批判性閱讀與媒體識讀。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">觀點偵探</span><span class="course-card__tag tag--quiz">編輯台分析</span></div>
+                <a href="./international-issues/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="social" style="--card-color: #795548;">
+                <span class="course-card__badge" style="background:#efebe9;color:#4e342e;">📈 社會 · 新增</span>
+                <div class="course-card__icon">📈</div>
+                <h3 class="course-card__title">經濟學供需模型</h3>
+                <p class="course-card__subtitle">價格與數量均衡點</p>
+                <p class="course-card__desc">操作需求曲線與供給曲線的平移，觀察市場均衡價格與數量的變化。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">圖表操作</span><span class="course-card__tag tag--quiz">測驗</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./social-econ-model/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="social" style="--card-color: #795548;">
+                <span class="course-card__badge" style="background:#efebe9;color:#4e342e;">📜 社會 · 新增</span>
+                <div class="course-card__icon">📜</div>
+                <h3 class="course-card__title">台灣歷史時間軸</h3>
+                <p class="course-card__subtitle">關鍵歷史時刻與轉捩點</p>
+                <p class="course-card__desc">橫跨 17 世紀至今，回顧台灣在不同政權下的關鍵歷史時刻，含詳細歷史事件解說。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">時間軸</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./history-timeline/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <!-- ===== 生活科技 ===== -->
+            <article class="course-card" data-subject="tech" style="--card-color: #607d8b;">
+                <span class="course-card__badge" style="background:#eceff1;color:#37474f;">⚙️ 生活科技</span>
+                <div class="course-card__icon">⚙️</div>
+                <h3 class="course-card__title">機電整合與控制</h3>
+                <p class="course-card__subtitle">軟硬體整合與自動化控制</p>
+                <p class="course-card__desc">馬達控制、感測器應用與基礎自動化邏輯。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">積木/程式控制</span><span class="course-card__tag tag--sim">機器人模擬場</span></div>
+                <a href="./mechatronics-control-sim/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <article class="course-card" data-subject="tech" style="--card-color: #607d8b;">
+                <span class="course-card__badge" style="background:#eceff1;color:#37474f;">⚙️ 生活科技</span>
+                <div class="course-card__icon">💡</div>
+                <h3 class="course-card__title">設計思考挑戰</h3>
+                <p class="course-card__subtitle">解決問題的五大步驟實戰</p>
+                <p class="course-card__desc">校園永續改造實作，體驗同理、定義、發想、原型、測試五步驟。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">互動式設計流程</span><span class="course-card__tag tag--quiz">使用者回饋評分</span></div>
+                <a href="./design-thinking-sim/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+
+            <!-- ===== 藝術 ===== -->
+            <article class="course-card" data-subject="art" style="--card-color: #9c27b0;">
+                <span class="course-card__badge" style="background:#f3e5f5;color:#6a1b9a;">🎨 藝術 · 新增</span>
+                <div class="course-card__icon">🎨</div>
+                <h3 class="course-card__title">色彩理論與混色圖學</h3>
+                <p class="course-card__subtitle">RGB / CMYK 混色與配色</p>
+                <p class="course-card__desc">了解物理光學的 RGB 混色與顏料印表機的 CMYK 混色，並探索色相環上的互補色彩組合。</p>
+                <div class="course-card__tags"><span class="course-card__tag tag--sim">圖學模擬</span><span class="course-card__tag tag--new">NEW</span></div>
+                <a href="./art-color-theory/index.html" class="course-card__btn">進入網頁 →</a>
+            </article>
+        </div>
+
+        <footer class="site-footer">
+            <p>&copy; 2025-2026 Interactive Teaching Portal. All rights reserved.</p>
         </footer>
     </div>
-</body>
 
+    <script src="nav-global.js"></script>
+    <script>
+        function filterCourses(subject, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.course-card').forEach(card => {
+                if (subject === 'all' || card.dataset.subject === subject) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
 </html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動週期表 | 化學互動實驗室</title>
+    <meta name="description" content="點擊元素卡片查看詳細性質、電子組態與用途，以色彩分類瞬間掌握元素族群。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <style>
+        .page-container { max-width: 1500px; margin: 0 auto; padding: var(--space-4); }
+        .sim-hero { text-align: center; padding: var(--space-6) var(--space-4) var(--space-4); }
+        .sim-hero__badge { display: inline-flex; align-items: center; gap: var(--space-2); background: var(--color-chemistry-light); color: #e65100; padding: var(--space-2) var(--space-4); border-radius: var(--border-radius-full); font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3); }
+        .sim-hero h1 { font-family: var(--font-heading); font-size: clamp(1.5rem,3.5vw,var(--text-3xl)); color: var(--text-primary); margin-bottom: var(--space-2); }
+        .sim-hero p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); color: var(--text-secondary); font-size: var(--text-sm); }
+        .back-link:hover { color: #e65100; }
+
+        /* === 圖例 === */
+        .legend { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; margin-bottom: var(--space-4); }
+        .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-secondary); cursor: pointer; padding: 3px 8px; border-radius: var(--border-radius-full); border: 1px solid transparent; transition: all var(--transition-fast); }
+        .legend-item:hover, .legend-item.active { border-color: var(--border-color); background: var(--bg-surface-hover); }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+        /* === 週期表網格 === */
+        .pt-grid { display: grid; grid-template-columns: repeat(18, 1fr); gap: 2px; margin-bottom: var(--space-6); overflow-x: auto; }
+
+        .pt-cell { aspect-ratio: 1; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast); position: relative; border: 1px solid transparent; min-width: 42px; font-size: 10px; }
+        .pt-cell:hover { transform: scale(1.3); z-index: 10; box-shadow: var(--shadow-md); border-color: rgba(0,0,0,0.3); }
+        .pt-cell.highlighted { transform: scale(1.15); z-index: 5; box-shadow: var(--shadow-sm); border-color: rgba(0,0,0,0.2); }
+        .pt-cell.dimmed { opacity: 0.2; }
+        .pt-cell__number { font-size: 8px; font-weight: 500; opacity: 0.7; line-height: 1; }
+        .pt-cell__symbol { font-size: 14px; font-weight: 700; line-height: 1.2; }
+        .pt-cell__name { font-size: 7px; opacity: 0.8; line-height: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+        .pt-cell--empty { cursor: default; }
+        .pt-cell--empty:hover { transform: none; box-shadow: none; }
+        .pt-cell--spacer { grid-column: span 1; }
+
+        /* 元素類型色彩 */
+        .cat-alkali-metal { background: #ff6b6b; color: white; }
+        .cat-alkaline-earth { background: #ffa94d; color: white; }
+        .cat-transition-metal { background: #ffd43b; color: #333; }
+        .cat-post-transition { background: #69db7c; color: #333; }
+        .cat-metalloid { background: #38d9a9; color: #333; }
+        .cat-nonmetal { background: #4dabf7; color: white; }
+        .cat-halogen { background: #748ffc; color: white; }
+        .cat-noble-gas { background: #da77f2; color: white; }
+        .cat-lanthanide { background: #f783ac; color: white; }
+        .cat-actinide { background: #e599f7; color: white; }
+
+        /* === 元素詳情面板 === */
+        .element-detail { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-xl); padding: var(--space-8); max-width: 500px; width: 90%; z-index: 10001; max-height: 80vh; overflow-y: auto; }
+        .element-detail.open { display: block; }
+        .detail-backdrop { display: none; position: fixed; inset: 0; background: var(--bg-overlay); z-index: 10000; }
+        .detail-backdrop.open { display: block; }
+
+        .detail-header { display: flex; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-4); }
+        .detail-symbol { font-size: 3rem; font-weight: 900; font-family: var(--font-heading); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius-md); color: white; }
+        .detail-info h2 { font-family: var(--font-heading); font-size: var(--text-2xl); color: var(--text-primary); }
+        .detail-info p { color: var(--text-secondary); font-size: var(--text-sm); }
+        .detail-props { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+        .detail-prop { background: var(--bg-color); border-radius: var(--border-radius-md); padding: var(--space-3); }
+        .detail-prop__label { font-size: var(--text-xs); color: var(--text-tertiary); font-weight: 600; }
+        .detail-prop__value { font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); }
+        .detail-close { position: absolute; top: var(--space-3); right: var(--space-3); width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-surface); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all var(--transition-fast); }
+        .detail-close:hover { background: var(--color-danger-light); color: var(--color-danger); border-color: var(--color-danger); }
+
+        .quiz-section { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: var(--space-8); margin-bottom: var(--space-8); }
+        .quiz-section h2 { font-family: var(--font-heading); font-size: var(--text-2xl); margin-bottom: var(--space-2); }
+        .quiz-section > p { color: var(--text-secondary); margin-bottom: var(--space-6); }
+        .quiz-question { background: var(--bg-color); border-radius: var(--border-radius-md); padding: var(--space-5); margin-bottom: var(--space-4); }
+        .quiz-question__text { font-weight: 600; margin-bottom: var(--space-3); }
+        .quiz-options { display: flex; flex-direction: column; gap: var(--space-2); }
+        .quiz-option { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); cursor: pointer; font-size: var(--text-sm); transition: all var(--transition-fast); }
+        .quiz-option:hover { border-color: #e65100; background: var(--color-chemistry-light); }
+        .quiz-option.correct { border-color: var(--color-success); background: var(--color-success-light); }
+        .quiz-option.wrong { border-color: var(--color-danger); background: var(--color-danger-light); }
+        .quiz-option input[type="radio"] { accent-color: #e65100; }
+        .quiz-submit { margin-top: var(--space-4); padding: var(--space-3) var(--space-6); background: #e65100; color: white; border: none; border-radius: var(--border-radius-md); font-size: var(--text-sm); font-weight: 600; cursor: pointer; font-family: var(--font-body); }
+        .quiz-result { margin-top: var(--space-4); padding: var(--space-4); border-radius: var(--border-radius-md); font-weight: 600; text-align: center; display: none; }
+        .quiz-result.show { display: block; }
+        .quiz-result.pass { background: var(--color-success-light); color: #2e7d32; }
+        .quiz-result.fail { background: var(--color-danger-light); color: #c62828; }
+        .sim-footer { text-align: center; padding: var(--space-6); border-top: 1px solid var(--border-color); color: var(--text-tertiary); font-size: var(--text-sm); }
+
+        @media (max-width: 900px) { .pt-cell { min-width: 32px; } .pt-cell__symbol { font-size: 11px; } .pt-cell__name { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <a href="../courses.html" class="back-link">← 返回課程列表</a>
+
+        <section class="sim-hero">
+            <div class="sim-hero__badge">⚗️ 化學互動實驗室</div>
+            <h1>互動週期表</h1>
+            <p>點擊任何元素查看詳細性質，使用圖例篩選元素類別</p>
+        </section>
+
+        <!-- 圖例 -->
+        <div class="legend" id="legend"></div>
+
+        <!-- 週期表 -->
+        <div class="pt-grid" id="periodicTable"></div>
+
+        <!-- 詳情面板 -->
+        <div class="detail-backdrop" id="detailBackdrop" onclick="closeDetail()"></div>
+        <div class="element-detail" id="elementDetail">
+            <button class="detail-close" onclick="closeDetail()">✕</button>
+            <div class="detail-header">
+                <div class="detail-symbol" id="detSymbol">H</div>
+                <div class="detail-info">
+                    <h2 id="detName">氫</h2>
+                    <p id="detEnName">Hydrogen</p>
+                </div>
+            </div>
+            <div class="detail-props" id="detProps"></div>
+        </div>
+
+        <!-- 測驗 -->
+        <section class="quiz-section">
+            <h2>📝 隨堂測驗</h2>
+            <p>測試你對元素週期表的理解！</p>
+            <div id="quizContainer"></div>
+            <button class="quiz-submit" onclick="submitQuiz()">提交答案</button>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+
+        <footer class="sim-footer"><p>&copy; 2025 化學互動實驗室 · 教學資源網</p></footer>
+    </div>
+
+    <script src="../nav-global.js"></script>
+    <script>
+        // === 元素資料（簡化版，最常見的前 36 個 + 部分代表性元素）===
+        const CATEGORIES = {
+            'alkali-metal': { name: '鹼金屬', color: '#ff6b6b' },
+            'alkaline-earth': { name: '鹼土金屬', color: '#ffa94d' },
+            'transition-metal': { name: '過渡金屬', color: '#ffd43b' },
+            'post-transition': { name: '貧金屬', color: '#69db7c' },
+            'metalloid': { name: '類金屬', color: '#38d9a9' },
+            'nonmetal': { name: '非金屬', color: '#4dabf7' },
+            'halogen': { name: '鹵素', color: '#748ffc' },
+            'noble-gas': { name: '惰性氣體', color: '#da77f2' },
+            'lanthanide': { name: '鑭系元素', color: '#f783ac' },
+            'actinide': { name: '錒系元素', color: '#e599f7' }
+        };
+
+        // 週期表佈局：[原子序, 符號, 中文名, 英文名, 原子量, 電子組態, 類別, 族, 週期, 行位置, 列位置]
+        const ELEMENTS = [
+            [1,'H','氫','Hydrogen',1.008,'1s¹','nonmetal',1,1,1,1],
+            [2,'He','氦','Helium',4.003,'1s²','noble-gas',18,1,1,18],
+            [3,'Li','鋰','Lithium',6.941,'[He]2s¹','alkali-metal',1,2,2,1],
+            [4,'Be','鈹','Beryllium',9.012,'[He]2s²','alkaline-earth',2,2,2,2],
+            [5,'B','硼','Boron',10.81,'[He]2s²2p¹','metalloid',13,2,2,13],
+            [6,'C','碳','Carbon',12.01,'[He]2s²2p²','nonmetal',14,2,2,14],
+            [7,'N','氮','Nitrogen',14.01,'[He]2s²2p³','nonmetal',15,2,2,15],
+            [8,'O','氧','Oxygen',16.00,'[He]2s²2p⁴','nonmetal',16,2,2,16],
+            [9,'F','氟','Fluorine',19.00,'[He]2s²2p⁵','halogen',17,2,2,17],
+            [10,'Ne','氖','Neon',20.18,'[He]2s²2p⁶','noble-gas',18,2,2,18],
+            [11,'Na','鈉','Sodium',22.99,'[Ne]3s¹','alkali-metal',1,3,3,1],
+            [12,'Mg','鎂','Magnesium',24.31,'[Ne]3s²','alkaline-earth',2,3,3,2],
+            [13,'Al','鋁','Aluminium',26.98,'[Ne]3s²3p¹','post-transition',13,3,3,13],
+            [14,'Si','矽','Silicon',28.09,'[Ne]3s²3p²','metalloid',14,3,3,14],
+            [15,'P','磷','Phosphorus',30.97,'[Ne]3s²3p³','nonmetal',15,3,3,15],
+            [16,'S','硫','Sulfur',32.07,'[Ne]3s²3p⁴','nonmetal',16,3,3,16],
+            [17,'Cl','氯','Chlorine',35.45,'[Ne]3s²3p⁵','halogen',17,3,3,17],
+            [18,'Ar','氬','Argon',39.95,'[Ne]3s²3p⁶','noble-gas',18,3,3,18],
+            [19,'K','鉀','Potassium',39.10,'[Ar]4s¹','alkali-metal',1,4,4,1],
+            [20,'Ca','鈣','Calcium',40.08,'[Ar]4s²','alkaline-earth',2,4,4,2],
+            [21,'Sc','鈧','Scandium',44.96,'[Ar]3d¹4s²','transition-metal',3,4,4,3],
+            [22,'Ti','鈦','Titanium',47.87,'[Ar]3d²4s²','transition-metal',4,4,4,4],
+            [23,'V','釩','Vanadium',50.94,'[Ar]3d³4s²','transition-metal',5,4,4,5],
+            [24,'Cr','鉻','Chromium',52.00,'[Ar]3d⁵4s¹','transition-metal',6,4,4,6],
+            [25,'Mn','錳','Manganese',54.94,'[Ar]3d⁵4s²','transition-metal',7,4,4,7],
+            [26,'Fe','鐵','Iron',55.85,'[Ar]3d⁶4s²','transition-metal',8,4,4,8],
+            [27,'Co','鈷','Cobalt',58.93,'[Ar]3d⁷4s²','transition-metal',9,4,4,9],
+            [28,'Ni','鎳','Nickel',58.69,'[Ar]3d⁸4s²','transition-metal',10,4,4,10],
+            [29,'Cu','銅','Copper',63.55,'[Ar]3d¹⁰4s¹','transition-metal',11,4,4,11],
+            [30,'Zn','鋅','Zinc',65.38,'[Ar]3d¹⁰4s²','transition-metal',12,4,4,12],
+            [31,'Ga','鎵','Gallium',69.72,'[Ar]3d¹⁰4s²4p¹','post-transition',13,4,4,13],
+            [32,'Ge','鍺','Germanium',72.63,'[Ar]3d¹⁰4s²4p²','metalloid',14,4,4,14],
+            [33,'As','砷','Arsenic',74.92,'[Ar]3d¹⁰4s²4p³','metalloid',15,4,4,15],
+            [34,'Se','硒','Selenium',78.97,'[Ar]3d¹⁰4s²4p⁴','nonmetal',16,4,4,16],
+            [35,'Br','溴','Bromine',79.90,'[Ar]3d¹⁰4s²4p⁵','halogen',17,4,4,17],
+            [36,'Kr','氪','Krypton',83.80,'[Ar]3d¹⁰4s²4p⁶','noble-gas',18,4,4,18],
+            // 第 5 週期（代表性）
+            [37,'Rb','銣','Rubidium',85.47,'[Kr]5s¹','alkali-metal',1,5,5,1],
+            [38,'Sr','鍶','Strontium',87.62,'[Kr]5s²','alkaline-earth',2,5,5,2],
+            [47,'Ag','銀','Silver',107.87,'[Kr]4d¹⁰5s¹','transition-metal',11,5,5,11],
+            [50,'Sn','錫','Tin',118.71,'[Kr]4d¹⁰5s²5p²','post-transition',14,5,5,14],
+            [53,'I','碘','Iodine',126.90,'[Kr]4d¹⁰5s²5p⁵','halogen',17,5,5,17],
+            [54,'Xe','氙','Xenon',131.29,'[Kr]4d¹⁰5s²5p⁶','noble-gas',18,5,5,18],
+            // 第 6 週期（代表性）
+            [55,'Cs','銫','Caesium',132.91,'[Xe]6s¹','alkali-metal',1,6,6,1],
+            [56,'Ba','鋇','Barium',137.33,'[Xe]6s²','alkaline-earth',2,6,6,2],
+            [79,'Au','金','Gold',196.97,'[Xe]4f¹⁴5d¹⁰6s¹','transition-metal',11,6,6,11],
+            [80,'Hg','汞','Mercury',200.59,'[Xe]4f¹⁴5d¹⁰6s²','transition-metal',12,6,6,12],
+            [82,'Pb','鉛','Lead',207.2,'[Xe]4f¹⁴5d¹⁰6s²6p²','post-transition',14,6,6,14],
+        ];
+
+        let activeFilter = null;
+
+        // === 建立圖例 ===
+        function buildLegend() {
+            document.getElementById('legend').innerHTML = Object.entries(CATEGORIES).map(([key, val]) => `
+                <div class="legend-item" data-cat="${key}" onclick="filterCategory('${key}')">
+                    <span class="legend-dot" style="background:${val.color}"></span>
+                    ${val.name}
+                </div>
+            `).join('') + '<div class="legend-item" onclick="filterCategory(null)">全部顯示</div>';
+        }
+
+        function filterCategory(cat) {
+            activeFilter = activeFilter === cat ? null : cat;
+            document.querySelectorAll('.legend-item').forEach(li => li.classList.remove('active'));
+            if (activeFilter) {
+                document.querySelector(`.legend-item[data-cat="${activeFilter}"]`)?.classList.add('active');
+            }
+            document.querySelectorAll('.pt-cell:not(.pt-cell--empty)').forEach(cell => {
+                cell.classList.remove('highlighted', 'dimmed');
+                if (activeFilter) {
+                    if (cell.dataset.cat === activeFilter) cell.classList.add('highlighted');
+                    else cell.classList.add('dimmed');
+                }
+            });
+        }
+
+        // === 建立週期表 ===
+        function buildTable() {
+            const grid = document.getElementById('periodicTable');
+            // 建立 7 列 × 18 行的空格
+            const cells = {};
+            ELEMENTS.forEach(el => {
+                const key = `${el[9]}-${el[10]}`; // row-col
+                cells[key] = el;
+            });
+
+            let html = '';
+            for (let row = 1; row <= 7; row++) {
+                for (let col = 1; col <= 18; col++) {
+                    const el = cells[`${row}-${col}`];
+                    if (el) {
+                        const catClass = 'cat-' + el[6].replace(/_/g, '-');
+                        html += `<div class="pt-cell ${catClass}" data-cat="${el[6]}" data-z="${el[0]}" onclick="showDetail(${el[0]})">
+                            <span class="pt-cell__number">${el[0]}</span>
+                            <span class="pt-cell__symbol">${el[1]}</span>
+                            <span class="pt-cell__name">${el[2]}</span>
+                        </div>`;
+                    } else {
+                        html += '<div class="pt-cell pt-cell--empty"></div>';
+                    }
+                }
+            }
+            grid.innerHTML = html;
+        }
+
+        // === 元素詳情 ===
+        function showDetail(z) {
+            const el = ELEMENTS.find(e => e[0] === z);
+            if (!el) return;
+            document.getElementById('detSymbol').textContent = el[1];
+            document.getElementById('detSymbol').className = 'detail-symbol cat-' + el[6].replace(/_/g, '-');
+            document.getElementById('detName').textContent = el[2];
+            document.getElementById('detEnName').textContent = el[3];
+
+            const props = [
+                ['原子序', el[0]],
+                ['原子量', el[4]],
+                ['電子組態', el[5]],
+                ['元素類別', CATEGORIES[el[6]]?.name || el[6]],
+                ['族', el[7]],
+                ['週期', el[8]],
+            ];
+            document.getElementById('detProps').innerHTML = props.map(([label, value]) =>
+                `<div class="detail-prop"><div class="detail-prop__label">${label}</div><div class="detail-prop__value">${value}</div></div>`
+            ).join('');
+
+            document.getElementById('elementDetail').classList.add('open');
+            document.getElementById('detailBackdrop').classList.add('open');
+        }
+
+        function closeDetail() {
+            document.getElementById('elementDetail').classList.remove('open');
+            document.getElementById('detailBackdrop').classList.remove('open');
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+        // === 測驗 ===
+        const QUIZ_DATA = [
+            { q: '氫（H）的原子序為？', options: ['0', '1', '2', '8'], answer: 1 },
+            { q: '以下哪個是惰性氣體？', options: ['氧 (O)', '氮 (N)', '氦 (He)', '氟 (F)'], answer: 2 },
+            { q: '週期表中同一「族」的元素有什麼共通點？', options: ['原子量相同', '電子數相同', '最外層電子數相同', '核子數相同'], answer: 2 },
+            { q: '鈉 (Na) 屬於哪一類元素？', options: ['鹵素', '惰性氣體', '鹼金屬', '過渡金屬'], answer: 2 },
+            { q: '以下哪個元素是鹵素？', options: ['鈉 (Na)', '氯 (Cl)', '鐵 (Fe)', '氦 (He)'], answer: 1 }
+        ];
+
+        function buildQuiz() {
+            document.getElementById('quizContainer').innerHTML = QUIZ_DATA.map((item, qi) => `
+                <div class="quiz-question"><div class="quiz-question__text">${qi+1}. ${item.q}</div>
+                <div class="quiz-options">${item.options.map((opt, oi) => `
+                    <label class="quiz-option" data-qi="${qi}" data-oi="${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${opt}</label>`).join('')}
+                </div></div>`).join('');
+        }
+
+        function submitQuiz() {
+            let correct = 0;
+            QUIZ_DATA.forEach((item, qi) => {
+                const sel = document.querySelector(`input[name="q${qi}"]:checked`);
+                document.querySelectorAll(`.quiz-option[data-qi="${qi}"]`).forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                    const oi = parseInt(opt.dataset.oi);
+                    if (oi === item.answer) opt.classList.add('correct');
+                    else if (sel && parseInt(sel.value) === oi) opt.classList.add('wrong');
+                });
+                if (sel && parseInt(sel.value) === item.answer) correct++;
+            });
+            const score = Math.round((correct / QUIZ_DATA.length) * 100);
+            const r = document.getElementById('quizResult');
+            r.classList.add('show'); r.classList.remove('pass', 'fail');
+            r.classList.add(score >= 60 ? 'pass' : 'fail');
+            r.textContent = score >= 60 ? `🎉 得分 ${score} 分！答對 ${correct}/${QUIZ_DATA.length} 題！` : `😢 得分 ${score} 分！答對 ${correct}/${QUIZ_DATA.length} 題`;
+            const progress = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            progress['chemistry-periodic-table'] = { score, date: new Date().toISOString(), total: QUIZ_DATA.length, correct };
+            localStorage.setItem('teach-progress', JSON.stringify(progress));
+        }
+
+        // 初始化
+        buildLegend();
+        buildTable();
+        buildQuiz();
+    </script>
+</body>
+</html>

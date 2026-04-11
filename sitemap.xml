@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- 核心頁面 -->
+    <url><loc>https://your-domain.github.io/teach/index.html</loc><priority>1.0</priority></url>
+    <url><loc>https://your-domain.github.io/teach/courses.html</loc><priority>0.9</priority></url>
+    <url><loc>https://your-domain.github.io/teach/learning-paths.html</loc><priority>0.8</priority></url>
+    <url><loc>https://your-domain.github.io/teach/teacher-tools.html</loc><priority>0.8</priority></url>
+    <url><loc>https://your-domain.github.io/teach/progress.html</loc><priority>0.7</priority></url>
+
+    <!-- 數學互動模擬 -->
+    <url><loc>https://your-domain.github.io/teach/math-quadratic/index.html</loc><priority>0.8</priority></url>
+    <url><loc>https://your-domain.github.io/teach/math-trigonometry/index.html</loc><priority>0.8</priority></url>
+    <url><loc>https://your-domain.github.io/teach/math-statistics/index.html</loc><priority>0.8</priority></url>
+
+    <!-- 化學互動模擬 -->
+    <url><loc>https://your-domain.github.io/teach/chemistry-periodic-table/index.html</loc><priority>0.8</priority></url>
+    <url><loc>https://your-domain.github.io/teach/chemistry-titration/index.html</loc><priority>0.8</priority></url>
+
+    <!-- 物理互動模擬 -->
+    <url><loc>https://your-domain.github.io/teach/electromagnetic-waves/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/light-interference/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/quantum-phenomena/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/universal-gravitation/index.html</loc><priority>0.7</priority></url>
+
+    <!-- 生物互動模擬 -->
+    <url><loc>https://your-domain.github.io/teach/biodiversity-sim/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/central-dogma-sim/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/biology/index.html</loc><priority>0.7</priority></url>
+
+    <!-- 其他教學頁面 -->
+    <url><loc>https://your-domain.github.io/teach/chinese-debate-platform/index.html</loc><priority>0.6</priority></url>
+    <url><loc>https://your-domain.github.io/teach/chinese-multimedia-lab/index.html</loc><priority>0.6</priority></url>
+    <url><loc>https://your-domain.github.io/teach/gis-spatial-history/index.html</loc><priority>0.6</priority></url>
+    <url><loc>https://your-domain.github.io/teach/environmental-impact-sim/index.html</loc><priority>0.6</priority></url>
+    <url><loc>https://your-domain.github.io/teach/international-issues/index.html</loc><priority>0.6</priority></url>
+    <url><loc>https://your-domain.github.io/teach/design-thinking-sim/index.html</loc><priority>0.6</priority></url>
+    <url><loc>https://your-domain.github.io/teach/mechatronics-control-sim/index.html</loc><priority>0.6</priority></url>
+
+    <!-- 資訊與工具 -->
+    <url><loc>https://your-domain.github.io/teach/github/HowToUseGithub.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/StitchAndJules/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/AIPlugin/index.html</loc><priority>0.7</priority></url>
+    <url><loc>https://your-domain.github.io/teach/news/news.html</loc><priority>0.5</priority></url>
+</urlset>

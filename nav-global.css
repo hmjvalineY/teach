@@ -1,0 +1,382 @@
+/* ========================================
+   全站導覽列樣式
+   ======================================== */
+
+/* === 導覽列容器 === */
+.global-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    height: var(--nav-height);
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.global-nav.scrolled {
+    box-shadow: var(--shadow-sm);
+}
+
+.global-nav__inner {
+    max-width: var(--max-width-2xl);
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-6);
+    gap: var(--space-4);
+}
+
+/* === Logo 區域 === */
+.global-nav__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: var(--text-lg);
+    color: var(--text-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--transition-fast);
+}
+
+.global-nav__logo:hover {
+    color: var(--color-accent);
+}
+
+.global-nav__logo-icon {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+/* === 導覽連結區 === */
+.global-nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+}
+
+.global-nav__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.global-nav__link:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-hover);
+}
+
+.global-nav__link.active {
+    color: var(--color-accent);
+    background: var(--color-accent-light);
+}
+
+.global-nav__link-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* === 右側工具列 === */
+.global-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* === 深色模式切換 === */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-light);
+}
+
+/* === 搜尋按鈕 === */
+.search-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background: var(--bg-surface);
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    transition: all var(--transition-fast);
+    min-width: 180px;
+}
+
+.search-toggle:hover {
+    border-color: var(--color-accent);
+    color: var(--text-secondary);
+}
+
+.search-toggle__icon {
+    font-size: 1rem;
+}
+
+.search-toggle__shortcut {
+    margin-left: auto;
+    font-size: var(--text-xs);
+    background: var(--bg-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+}
+
+/* === 漢堡選單（行動版） === */
+.global-nav__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background: var(--bg-surface);
+    cursor: pointer;
+    padding: 10px;
+    transition: all var(--transition-fast);
+}
+
+.global-nav__hamburger:hover {
+    border-color: var(--color-accent);
+}
+
+.global-nav__hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: all var(--transition-base);
+}
+
+.global-nav__hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.global-nav__hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+.global-nav__hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* === 行動版選單面板 === */
+.global-nav__mobile-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-elevated);
+    padding: var(--space-4);
+    overflow-y: auto;
+    z-index: 9998;
+    animation: slideDown 0.3s ease;
+}
+
+.global-nav__mobile-menu.open {
+    display: block;
+}
+
+.global-nav__mobile-menu .global-nav__link {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+    border-radius: var(--border-radius-md);
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === 搜尋對話框 === */
+.search-dialog {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg-overlay);
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 15vh;
+    animation: fadeIn 0.2s ease;
+}
+
+.search-dialog.open {
+    display: flex;
+}
+
+.search-dialog__content {
+    background: var(--bg-elevated);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 95%;
+    max-width: 600px;
+    overflow: hidden;
+    animation: scaleIn 0.2s ease;
+}
+
+.search-dialog__input-wrap {
+    display: flex;
+    align-items: center;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-color);
+    gap: var(--space-3);
+}
+
+.search-dialog__input-wrap .search-icon {
+    font-size: 1.2rem;
+    color: var(--text-tertiary);
+}
+
+.search-dialog__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: var(--text-lg);
+    font-family: var(--font-body);
+    background: transparent;
+    color: var(--text-primary);
+}
+
+.search-dialog__input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.search-dialog__results {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: var(--space-2);
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background var(--transition-fast);
+}
+
+.search-result-item:hover {
+    background: var(--bg-surface-hover);
+}
+
+.search-result-item__icon {
+    font-size: 1.3rem;
+}
+
+.search-result-item__info {
+    flex: 1;
+}
+
+.search-result-item__title {
+    font-weight: 600;
+    font-size: var(--text-sm);
+}
+
+.search-result-item__desc {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+}
+
+.search-dialog__empty {
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--text-tertiary);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ========================================
+   響應式（平板 / 手機）
+   ======================================== */
+@media (max-width: 1024px) {
+    .search-toggle {
+        min-width: auto;
+    }
+    .search-toggle__shortcut,
+    .search-toggle span:not(.search-toggle__icon) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .global-nav__links {
+        display: none;
+    }
+
+    .global-nav__hamburger {
+        display: flex;
+    }
+
+    .search-toggle {
+        min-width: auto;
+        padding: var(--space-2);
+    }
+}
+
+/* === 無障礙跳轉導覽 (A11y Skip Link) === */
+.skip-link {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    background: var(--color-accent);
+    color: white;
+    padding: var(--space-2) var(--space-4);
+    z-index: 10000;
+    transition: top 0.2s;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0 0 var(--border-radius-md) 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}

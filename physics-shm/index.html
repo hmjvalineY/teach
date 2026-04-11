@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡諧運動 (SHM) 彈簧振子 | 物理互動模擬</title>
+    <meta name="description" content="互動式簡諧運動模擬：探索彈簧常數、質量與阻尼對振幅、週期及能量轉換的影響。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <style>
+        .page-container{max-width:var(--max-width-xl);margin:0 auto;padding:var(--space-6)}
+        .page-hero{text-align:center;padding:var(--space-8) var(--space-4);margin-bottom:var(--space-6)}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(1.6rem,3.5vw,var(--text-3xl));color:var(--color-physics);margin-bottom:var(--space-2)}
+        .page-hero p{color:var(--text-secondary);font-size:var(--text-base);max-width:600px;margin:0 auto}
+
+        .sim-layout{display:grid;grid-template-columns:1fr 340px;gap:var(--space-6);margin-bottom:var(--space-8)}
+        @media(max-width:900px){.sim-layout{grid-template-columns:1fr}}
+
+        .canvas-wrap{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-4)}
+        .view-row{display:flex;gap:var(--space-4);height:260px}
+        @media(max-width:600px){.view-row{flex-direction:column;height:auto}}
+        
+        /* 彈簧動畫區 */
+        .anim-box{flex:1;background:var(--bg-color);border-radius:var(--border-radius-md);position:relative;overflow:hidden;border:1px solid var(--border-color);min-height:200px}
+        /* 能量長條圖區 */
+        .energy-box{width:120px;background:var(--bg-color);border-radius:var(--border-radius-md);border:1px solid var(--border-color);padding:var(--space-3);display:flex;flex-direction:column;align-items:center;min-height:200px}
+        
+        .e-bar-container{display:flex;justify-content:space-around;width:100%;height:150px;align-items:flex-end;margin-top:auto}
+        .e-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+        .e-bar{width:20px;border-radius:2px 2px 0 0;transition:height 0.1s linear}
+        .e-label{font-size:10px;font-weight:600;color:var(--text-secondary)}
+        
+        /* 運動學圖表區 */
+        .chart-box{height:200px;background:var(--bg-color);border-radius:var(--border-radius-md);border:1px solid var(--border-color);overflow:hidden}
+
+        .ctrl-panel{display:flex;flex-direction:column;gap:var(--space-4)}
+        .ctrl-card{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-5)}
+        .ctrl-card h3{font-family:var(--font-heading);font-size:var(--text-base);font-weight:600;color:var(--color-physics);margin-bottom:var(--space-3)}
+        
+        .ctrl-row{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4)}
+        .ctrl-row label{font-size:var(--text-sm);color:var(--text-secondary);min-width:65px;font-family:var(--font-body);font-weight:600}
+        .ctrl-row input[type=range]{flex:1;accent-color:var(--color-physics)}
+        .ctrl-row .val{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--color-physics);min-width:40px;text-align:right}
+
+        .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2);background:var(--bg-color);padding:var(--space-3);border-radius:var(--border-radius-md);margin-bottom:var(--space-4)}
+        .info-item{text-align:center}
+        .info-item__label{font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:2px}
+        .info-item__value{font-family:var(--font-mono);font-size:var(--text-sm);font-weight:700;color:var(--text-primary)}
+
+        .btn-row{display:flex;gap:var(--space-2)}
+        .action-btn{flex:1;padding:var(--space-2);border:1px solid var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-color);color:var(--text-primary);cursor:pointer;font-weight:600;transition:all var(--transition-fast)}
+        .action-btn:hover{background:var(--color-physics);color:white;border-color:var(--color-physics)}
+
+        /* 測驗區 */
+        .quiz-section{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:var(--space-6);margin-bottom:var(--space-8)}
+        .quiz-section h2{font-family:var(--font-heading);font-size:var(--text-xl);margin-bottom:var(--space-5)}
+        .quiz-q{margin-bottom:var(--space-5);padding:var(--space-4);background:var(--bg-color);border-radius:var(--border-radius-md)}
+        .quiz-q p{font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+        .quiz-q label{display:block;padding:var(--space-2) var(--space-3);border-radius:var(--border-radius-md);cursor:pointer;font-size:var(--text-sm);color:var(--text-secondary);transition:background var(--transition-fast)}
+        .quiz-q label:hover{background:var(--color-physics-light);color:#1565c0}
+        .quiz-q input[type=radio]{margin-right:var(--space-2)}
+        .quiz-submit{padding:var(--space-3) var(--space-6);background:var(--color-physics);color:white;border:none;border-radius:var(--border-radius-md);font-weight:600;cursor:pointer}
+        .quiz-result{padding:var(--space-4);border-radius:var(--border-radius-md);text-align:center;font-weight:700;font-size:var(--text-lg);display:none;margin-top:var(--space-4)}
+        .quiz-result.show{display:block}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <section class="page-hero">
+            <h1>⚙️ 簡諧運動 (SHM) 彈簧振子</h1>
+            <p>探索胡克定律與簡諧運動，調整彈性常數與質量，觀察週期與能量轉換的奧秘。</p>
+        </section>
+
+        <div class="sim-layout">
+            <div class="canvas-wrap">
+                <div class="view-row">
+                    <div class="anim-box">
+                        <canvas id="animCanvas"></canvas>
+                    </div>
+                    <div class="energy-box">
+                        <h4 style="font-size:var(--text-sm);color:var(--text-primary);margin-bottom:10px">能量守恆</h4>
+                        <div class="e-bar-container">
+                            <div class="e-bar-wrap">
+                                <div class="e-bar" id="barKE" style="background:#2ecc71;height:0%"></div>
+                                <span class="e-label">動能(K)</span>
+                            </div>
+                            <div class="e-bar-wrap">
+                                <div class="e-bar" id="barPE" style="background:#3498db;height:0%"></div>
+                                <span class="e-label">位能(U)</span>
+                            </div>
+                            <div class="e-bar-wrap">
+                                <div class="e-bar" id="barTE" style="background:#9b59b6;height:0%"></div>
+                                <span class="e-label" id="lblTE">總能(E)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <canvas id="chartCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="ctrl-panel">
+                <div class="ctrl-card">
+                    <h3>🕹️ 系統參數控制</h3>
+                    <div class="ctrl-row"><label>質量(m)</label><input type="range" id="paramM" min="0.5" max="5.0" step="0.1" value="2.0" oninput="updateParams()"><span class="val" id="valM">2.0 kg</span></div>
+                    <div class="ctrl-row"><label>常數(k)</label><input type="range" id="paramK" min="5" max="50" step="1" value="20" oninput="updateParams()"><span class="val" id="valK">20 N/m</span></div>
+                    <div class="ctrl-row"><label>振幅(A)</label><input type="range" id="paramA" min="1" max="10" step="0.5" value="5" oninput="updateParams()"><span class="val" id="valA">5.0 m</span></div>
+                    <div class="ctrl-row"><label>阻尼(b)</label><input type="range" id="paramB" min="0" max="2" step="0.1" value="0" oninput="updateParams()"><span class="val" id="valB">0.0</span></div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item"><div class="info-item__label">角頻率 (ω)</div><div class="info-item__value" id="dispW">--</div></div>
+                        <div class="info-item"><div class="info-item__label">週期 (T)</div><div class="info-item__value" id="dispT">--</div></div>
+                        <div class="info-item"><div class="info-item__label">最大速度</div><div class="info-item__value" id="dispVmax">--</div></div>
+                        <div class="info-item"><div class="info-item__label">總能量 (E)</div><div class="info-item__value" id="dispE">--</div></div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="action-btn" onclick="toggleSim()" id="btnPlay">⏸️ 暫停</button>
+                        <button class="action-btn" onclick="resetSim()">🔄 重置</button>
+                    </div>
+                </div>
+                
+                <div class="ctrl-card">
+                    <h3>📈 圖表顯示切換</h3>
+                    <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer">
+                        <input type="radio" name="chartType" value="x" checked onchange="changeChart('x')"> 位置 (x-t)
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer">
+                        <input type="radio" name="chartType" value="v" onchange="changeChart('v')"> 速度 (v-t)
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                        <input type="radio" name="chartType" value="a" onchange="changeChart('a')"> 加速度 (a-t)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <section class="quiz-section">
+            <h2>📝 隨堂測驗</h2>
+            <div class="quiz-q"><p>1. 在理想簡諧運動中，物體在哪個位置的速度最大？</p>
+                <label><input type="radio" name="q1" value="a"> 正端點 (+A)</label>
+                <label><input type="radio" name="q1" value="b"> 負端點 (-A)</label>
+                <label><input type="radio" name="q1" value="c"> 平衡點 (x=0)</label>
+                <label><input type="radio" name="q1" value="d"> 任意位置皆相同</label>
+            </div>
+            <div class="quiz-q"><p>2. 根據公式 T = 2π√(m/k)，如果將物體的質量 m 增加為原來的 4 倍，週期 T 會變成原來的幾倍？</p>
+                <label><input type="radio" name="q2" value="a"> 2 倍</label>
+                <label><input type="radio" name="q2" value="b"> 4 倍</label>
+                <label><input type="radio" name="q2" value="c"> 1/2 倍</label>
+                <label><input type="radio" name="q2" value="d"> 不變</label>
+            </div>
+            <div class="quiz-q"><p>3. 關於簡諧運動的能量，下列敘述何者正確？（無阻尼）</p>
+                <label><input type="radio" name="q3" value="a"> 總力學能會隨著時間遞減</label>
+                <label><input type="radio" name="q3" value="b"> 端點處的動能最大</label>
+                <label><input type="radio" name="q3" value="c"> 在平衡點時，彈性位能最大</label>
+                <label><input type="radio" name="q3" value="d"> 動能與彈性位能的總和始終保持定值</label>
+            </div>
+            <div class="quiz-q"><p>4. 若振幅 A 變大為原來的 2 倍，週期會如何改變？</p>
+                <label><input type="radio" name="q4" value="a"> 變為 2 倍</label>
+                <label><input type="radio" name="q4" value="b"> 變為 4 倍</label>
+                <label><input type="radio" name="q4" value="c"> 不變</label>
+                <label><input type="radio" name="q4" value="d"> 變為 1/2 倍</label>
+            </div>
+            <div class="quiz-q"><p>5. 若系統加入「阻尼(Damping)」，會發生什麼現象？</p>
+                <label><input type="radio" name="q5" value="a"> 振幅將隨時間指數衰減，最後停止</label>
+                <label><input type="radio" name="q5" value="b"> 振幅會不斷放大，產生共振現象</label>
+                <label><input type="radio" name="q5" value="c"> 週期會變得越來越短</label>
+                <label><input type="radio" name="q5" value="d"> 物體的最大速度會增加</label>
+            </div>
+            <button class="quiz-submit" onclick="submitQuiz()">✅ 提交答案</button>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+        
+        <footer class="site-footer"><p>&copy; 2025-2026 Interactive Teaching Portal.</p></footer>
+    </div>
+
+    <script src="../nav-global.js"></script>
+    <script>
+        const animCanvas = document.getElementById('animCanvas');
+        const actx = animCanvas.getContext('2d');
+        const chartCanvas = document.getElementById('chartCanvas');
+        const cctx = chartCanvas.getContext('2d');
+
+        // 系統變數
+        let m = 2.0;    // 質量
+        let k = 20;     // 彈性常數
+        let A = 5.0;    // 初始振幅
+        let b = 0.0;    // 阻尼係數
+        
+        let t = 0;
+        let isPlaying = true;
+        let x = 5.0, v = 0, a = 0;
+        
+        let historyData = []; // [{t, x, v, a}]
+        let dispMode = 'x';
+
+        function resizeCanvas() {
+            const abox = document.querySelector('.anim-box');
+            animCanvas.width = abox.clientWidth * 2;
+            animCanvas.height = abox.clientHeight * 2;
+            
+            const cbox = document.querySelector('.chart-box');
+            chartCanvas.width = cbox.clientWidth * 2;
+            chartCanvas.height = cbox.clientHeight * 2;
+        }
+
+        function updateParams() {
+            m = parseFloat(document.getElementById('paramM').value);
+            k = parseFloat(document.getElementById('paramK').value);
+            const newA = parseFloat(document.getElementById('paramA').value);
+            b = parseFloat(document.getElementById('paramB').value);
+            
+            document.getElementById('valM').textContent = m.toFixed(1) + ' kg';
+            document.getElementById('valK').textContent = k + ' N/m';
+            document.getElementById('valA').textContent = newA.toFixed(1) + ' m';
+            document.getElementById('valB').textContent = b.toFixed(1);
+            
+            const w = Math.sqrt(k/m);
+            const T = 2 * Math.PI / w;
+            const E = 0.5 * k * Math.pow(newA, 2);
+            const vmax = newA * w;
+            
+            document.getElementById('dispW').textContent = w.toFixed(2) + ' rad/s';
+            document.getElementById('dispT').textContent = T.toFixed(2) + ' s';
+            document.getElementById('dispE').textContent = E.toFixed(1) + ' J';
+            document.getElementById('dispVmax').textContent = vmax.toFixed(1) + ' m/s';
+
+            // 若振幅改變，且處於起始狀態，或者重置
+            if (t===0 || !isPlaying && Math.abs(x) > A) {
+                A = newA;
+                if(t===0) { x = A; v = 0; }
+            }
+        }
+
+        function resetSim() {
+            t = 0;
+            A = parseFloat(document.getElementById('paramA').value);
+            x = A;
+            v = 0;
+            historyData = [];
+            isPlaying = true;
+            document.getElementById('btnPlay').textContent = '⏸️ 暫停';
+            updateParams();
+        }
+
+        function toggleSim() {
+            isPlaying = !isPlaying;
+            document.getElementById('btnPlay').textContent = isPlaying ? '⏸️ 暫停' : '▶️ 播放';
+        }
+
+        function changeChart(mode) {
+            dispMode = mode;
+        }
+
+        function step() {
+            if (isPlaying) {
+                const dt = 0.05; // 整合步長
+                
+                // Euler-Cromer 方法整合
+                a = (-k*x - b*v) / m;
+                v += a * dt;
+                x += v * dt;
+                t += dt;
+
+                historyData.push({ t, x, v, a });
+                if (historyData.length > 300) historyData.shift();
+                
+                // 能量更新
+                const KE = 0.5 * m * v*v;
+                const PE = 0.5 * k * x*x;
+                const TE = KE + PE;
+                const maxE = 0.5 * k * Math.pow(parseFloat(document.getElementById('paramA').value), 2) + 0.1;
+
+                document.getElementById('barKE').style.height = (KE / maxE * 100) + '%';
+                document.getElementById('barPE').style.height = (PE / maxE * 100) + '%';
+                document.getElementById('barTE').style.height = (TE / maxE * 100) + '%';
+                
+                if(b > 0) {
+                    document.getElementById('lblTE').innerHTML = '總能(E)<br><span style="color:#e74c3c;font-size:8px">衰減中</span>';
+                } else {
+                    document.getElementById('lblTE').textContent = '總能(E)';
+                }
+            }
+
+            drawAnim();
+            drawChart();
+            requestAnimationFrame(step);
+        }
+
+        function drawAnim() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            actx.clearRect(0,0,animCanvas.width,animCanvas.height);
+            actx.fillStyle = isDark ? '#1a1a2e' : '#fafbfc';
+            actx.fillRect(0,0,animCanvas.width,animCanvas.height);
+
+            const W = animCanvas.width;
+            const H = animCanvas.height;
+            const cy = H / 2;
+            const centerX = W / 2;
+            const scaleX = W / 30; // 1m = W/30 pixels
+
+            // 畫平衡基準線
+            actx.strokeStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+            actx.lineWidth = 2;
+            actx.setLineDash([10, 10]);
+            actx.beginPath(); actx.moveTo(centerX, 0); actx.lineTo(centerX, H); actx.stroke();
+            actx.setLineDash([]);
+
+            // 牆壁
+            const wallX = 20;
+            actx.fillStyle = isDark ? '#333' : '#ccc';
+            actx.fillRect(0, cy - 60, wallX, 120);
+
+            // 當前物體位置
+            const px = centerX + x * scaleX;
+            
+            // 畫彈簧
+            actx.strokeStyle = isDark ? '#aaa' : '#666';
+            actx.lineWidth = 4;
+            actx.beginPath();
+            actx.moveTo(wallX, cy);
+            
+            const coils = 12;
+            const springW = px - wallX - 30; // 扣除方塊的一半
+            const stepDx = springW / coils;
+            for(let i=0; i<coils; i++) {
+                actx.lineTo(wallX + i*stepDx + stepDx/2, cy + ((i%2===0)?-20:20));
+            }
+            actx.lineTo(px - 30, cy);
+            actx.stroke();
+
+            // 畫物體 (隨質量改變大小)
+            const boxSize = 40 + m * 5;
+            actx.fillStyle = '#2196f3';
+            actx.fillRect(px - boxSize/2, cy - boxSize/2, boxSize, boxSize);
+            actx.strokeStyle = '#1565c0'; actx.lineWidth=3;
+            actx.strokeRect(px - boxSize/2, cy - boxSize/2, boxSize, boxSize);
+            
+            actx.fillStyle = '#fff'; actx.font = 'bold 24px Noto Sans TC'; actx.textAlign='center';
+            actx.fillText(m.toFixed(1)+'kg', px, cy+8);
+
+            // 標示 x=0
+            actx.fillStyle = isDark ? '#fff' : '#000'; actx.font = '20px JetBrains Mono';
+            actx.fillText('x=0', centerX, H - 20);
+            
+            // 畫速度向量指示
+            if (Math.abs(v) > 0.1) {
+                actx.strokeStyle = '#e74c3c';
+                actx.lineWidth = 4;
+                actx.beginPath();
+                actx.moveTo(px, cy - boxSize/2 - 10);
+                actx.lineTo(px + v * 10, cy - boxSize/2 - 10);
+                actx.stroke();
+                // 箭頭
+                actx.beginPath();
+                if(v > 0) {
+                    actx.moveTo(px + v*10, cy - boxSize/2 - 10);
+                    actx.lineTo(px + v*10 - 10, cy - boxSize/2 - 20);
+                    actx.lineTo(px + v*10 - 10, cy - boxSize/2);
+                } else {
+                    actx.moveTo(px + v*10, cy - boxSize/2 - 10);
+                    actx.lineTo(px + v*10 + 10, cy - boxSize/2 - 20);
+                    actx.lineTo(px + v*10 + 10, cy - boxSize/2);
+                }
+                actx.fillStyle = '#e74c3c'; actx.fill();
+            }
+        }
+
+        function drawChart() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            cctx.clearRect(0,0,chartCanvas.width,chartCanvas.height);
+            
+            if(historyData.length === 0) return;
+
+            const W = chartCanvas.width;
+            const H = chartCanvas.height;
+            
+            // 中線
+            cctx.strokeStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            cctx.lineWidth = 2;
+            cctx.beginPath(); cctx.moveTo(0, H/2); cctx.lineTo(W, H/2); cctx.stroke();
+
+            // 決定畫什麼資料
+            let maxVal = 10;
+            let color = '#2196f3';
+            let label = '位置 x(m)';
+            
+            if (dispMode === 'v') { maxVal = 20; color = '#e74c3c'; label = '速度 v(m/s)'; }
+            if (dispMode === 'a') { maxVal = 50; color = '#9b59b6'; label = '加速度 a(m/s²)'; }
+
+            cctx.strokeStyle = color;
+            cctx.lineWidth = 3;
+            cctx.beginPath();
+            
+            const startT = historyData[0].t;
+            const totalT = historyData[historyData.length-1].t - startT;
+            const scaleX = totalT > 0 ? W / (dt=300 * 0.05) : 1; // 顯示約 15 秒的時間寬度
+            
+            for(let i=0; i<historyData.length; i++) {
+                const px = (i / 300) * W;
+                const d = historyData[i];
+                let val = dispMode === 'x' ? d.x : (dispMode === 'v' ? d.v : d.a);
+                const py = H/2 - (val / maxVal) * (H/2.2);
+                if(i===0) cctx.moveTo(px, py); else cctx.lineTo(px, py);
+            }
+            cctx.stroke();
+
+            cctx.fillStyle = isDark?'#ccc':'#555'; cctx.font = 'bold 20px Noto Sans TC'; cctx.textAlign='left';
+            cctx.fillText(label, 20, 35);
+        }
+
+        // 測驗系統
+        const ANSWERS = { q1: 'c', q2: 'a', q3: 'd', q4: 'c', q5: 'a' };
+        function submitQuiz() {
+            let correct = 0, total = Object.keys(ANSWERS).length;
+            for(let [q, ans] of Object.entries(ANSWERS)) {
+                let sel = document.querySelector(`input[name="${q}"]:checked`);
+                if(sel && sel.value === ans) correct++;
+            }
+            const score = Math.round(correct/total*100);
+            const el = document.getElementById('quizResult');
+            el.className = 'quiz-result show';
+            el.style.background = score >= 60 ? 'var(--color-success-light)' : 'var(--color-danger-light)';
+            el.style.color = score >= 60 ? '#2e7d32' : '#c62828';
+            el.textContent = `得分：${score} 分（${correct}/${total}）${score >= 80?' 🎉':score>=60?' 👍':' 💪 再加油！'}`;
+            
+            let progress = JSON.parse(localStorage.getItem('teach-progress') || '{}');
+            progress['physics-shm'] = { score, correct, total, date: new Date().toISOString() };
+            localStorage.setItem('teach-progress', JSON.stringify(progress));
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        // 初始化
+        setTimeout(() => {
+            resizeCanvas();
+            updateParams();
+            step();
+        }, 100);
+    </script>
+</body>
+</html>

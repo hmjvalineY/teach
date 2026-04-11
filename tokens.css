@@ -1,0 +1,199 @@
+/* ========================================
+   全站設計 Tokens — 統一色彩、字體、間距
+   所有頁面都應引用此檔案作為設計基底
+   ======================================== */
+
+:root {
+    /* === 主色調 === */
+    --color-primary: #2c3e50;
+    --color-primary-light: #3d5a80;
+    --color-primary-dark: #1a252f;
+    --color-accent: #3498db;
+    --color-accent-hover: #2980b9;
+    --color-accent-light: #e3f2fd;
+
+    /* === 語意色彩 === */
+    --color-success: #27ae60;
+    --color-success-light: #e8f5e9;
+    --color-warning: #f39c12;
+    --color-warning-light: #fff8e1;
+    --color-danger: #e74c3c;
+    --color-danger-light: #ffebee;
+    --color-info: #3498db;
+    --color-info-light: #e3f2fd;
+
+    /* === 學科色彩 === */
+    --color-math: #9b59b6;
+    --color-math-light: #f3e5f5;
+    --color-physics: #2196f3;
+    --color-physics-light: #e3f2fd;
+    --color-chemistry: #ff9800;
+    --color-chemistry-light: #fff3e0;
+    --color-biology: #4caf50;
+    --color-biology-light: #e8f5e9;
+    --color-chinese: #e91e63;
+    --color-chinese-light: #fce4ec;
+    --color-geography: #009688;
+    --color-geography-light: #e0f2f1;
+    --color-social: #795548;
+    --color-social-light: #efebe9;
+    --color-tech: #607d8b;
+    --color-tech-light: #eceff1;
+    --color-arts: #ff5722;
+    --color-arts-light: #fbe9e7;
+
+    /* === 背景與表面 === */
+    --bg-color: #f4f6f9;
+    --bg-surface: #ffffff;
+    --bg-surface-hover: #f8f9fb;
+    --bg-elevated: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+
+    /* === 文字色彩 === */
+    --text-primary: #1a1a2e;
+    --text-secondary: #64748b;
+    --text-tertiary: #94a3b8;
+    --text-inverse: #ffffff;
+    --text-link: #3498db;
+    --text-link-hover: #2980b9;
+
+    /* === 邊框 === */
+    --border-color: #e2e8f0;
+    --border-color-hover: #cbd5e1;
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --border-radius-full: 9999px;
+
+    /* === 陰影 === */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+
+    /* === 字體 === */
+    --font-body: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'Outfit', 'Noto Sans TC', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+    /* === 字體大小 === */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 3rem;
+
+    /* === 間距 === */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+
+    /* === 動畫 === */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
+    --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* === 容器最大寬度 === */
+    --max-width-sm: 640px;
+    --max-width-md: 768px;
+    --max-width-lg: 1024px;
+    --max-width-xl: 1200px;
+    --max-width-2xl: 1400px;
+
+    /* === 全站導覽列高度 === */
+    --nav-height: 64px;
+}
+
+/* ========================================
+   深色模式 — 自動 / 手動切換
+   ======================================== */
+[data-theme="dark"] {
+    --bg-color: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-hover: #273548;
+    --bg-elevated: #334155;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+    --text-link: #60a5fa;
+    --text-link-hover: #93bbfc;
+
+    --border-color: #334155;
+    --border-color-hover: #475569;
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+    --color-primary: #60a5fa;
+    --color-primary-light: #93bbfc;
+    --color-accent: #60a5fa;
+    --color-accent-hover: #93bbfc;
+    --color-accent-light: rgba(96, 165, 250, 0.15);
+}
+
+/* ========================================
+   全域基底樣式
+   ======================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.7;
+    transition: background-color var(--transition-base), color var(--transition-base);
+    padding-top: var(--nav-height);
+}
+
+a {
+    color: var(--text-link);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--text-link-hover);
+}
+
+/* === 焦點可見性（無障礙） === */
+:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--border-radius-sm);
+}
+
+/* === 選取文字顏色 === */
+::selection {
+    background-color: var(--color-accent);
+    color: var(--text-inverse);
+}
