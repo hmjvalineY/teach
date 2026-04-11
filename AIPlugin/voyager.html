@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyager Chrome 擴充功能 | AI Plugin Hub</title>
+    <meta name="description" content="Voyager 是專為 Google Gemini 與 AI Studio 打造的開源增強擴充功能，提供對話管理、時間軸導航、提示詞庫等強大功能。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="plugin-shared.css">
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">← 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄卡片 -->
+        <div class="plugin-hero">
+            <div class="plugin-hero-content">
+                <h1>🧭 Voyager Chrome 擴充功能</h1>
+                <p class="subtitle">
+                    Voyager（前身為 Gemini Voyager）是一款專為提升 <strong>Google Gemini</strong> 與 <strong>Google AI Studio</strong>
+                    使用體驗而開發的開源 Chrome 擴充功能。它為原本介面較為簡潔的 Gemini 補足了許多重度使用者夢寐以求的進階管理與客製化功能，不僅完全免費，在社群中也擁有極高的評價。
+                </p>
+                <div class="plugin-meta">
+                    <span class="meta-badge">🆓 完全免費</span>
+                    <span class="meta-badge">🔓 開源專案</span>
+                    <span class="meta-badge">⭐ 社群高評價</span>
+                    <span class="meta-badge">🌐 Chrome Web Store</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心功能卡片 -->
+        <h2 class="section-title"><span class="icon">🌟</span> 核心特色功能</h2>
+        <div class="features-grid">
+
+            <!-- 1. 對話與資料夾管理 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon folder">🗂️</div>
+                    <h3>強大的對話與資料夾管理</h3>
+                </div>
+                <ul>
+                    <li><strong>拖曳分類</strong>：支援將雜亂的對話記錄直接拖曳整理進自訂的資料夾與子資料夾中</li>
+                    <li><strong>無縫切換</strong>：在不同對話之間切換時，畫面不需要重新載入，大幅提升操作流暢度</li>
+                    <li><strong>Gems 圖示辨識</strong>：自動偵測並為不同的 Gems 標上專屬客製化 Icon，分類一目了然</li>
+                </ul>
+            </div>
+
+            <!-- 2. 視覺化時間軸 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon timeline">⏱️</div>
+                    <h3>視覺化時間軸導航</h3>
+                </div>
+                <ul>
+                    <li><strong>節點式樹狀圖</strong>：將所有對話訊息視覺化為可點擊的節點，快速釐清多分支脈絡</li>
+                    <li><strong>即時預覽與標記</strong>：滑鼠懸停即可預覽訊息內容，長按可加上星號標記</li>
+                </ul>
+            </div>
+
+            <!-- 3. 進階對話互動 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon chat">💬</div>
+                    <h3>進階對話互動操作</h3>
+                </div>
+                <ul>
+                    <li><strong>引用回覆</strong>：反白對話中的特定文字段落，直接針對該段落向 AI 提問</li>
+                    <li><strong>對話分岔 (Fork)</strong>：從特定節點建立分岔，讓 AI 換個角度重新回答，展開新的討論支線</li>
+                </ul>
+            </div>
+
+            <!-- 4. 提示詞庫管理 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon prompt">💡</div>
+                    <h3>提示詞庫管理</h3>
+                </div>
+                <ul>
+                    <li>內建提示詞管理系統，支援儲存、整理並為常用的提示詞加上標籤</li>
+                    <li>具備快速搜尋功能，瞬間找到並套用專屬的 Prompt</li>
+                </ul>
+            </div>
+
+            <!-- 5. 匯出與備份 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon export">📥</div>
+                    <h3>專業級匯出與備份</h3>
+                </div>
+                <ul>
+                    <li><strong>Deep Research 匯出</strong>：完整保留 AI 在 Deep Research 的思考推論內容</li>
+                    <li><strong>JSON 備份與還原</strong>：匯出整個資料夾架構與對話記錄，更換電腦也能無痛還原</li>
+                </ul>
+            </div>
+
+            <!-- 6. 實用輔助工具 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon tools">🪄</div>
+                    <h3>實用輔助小工具</h3>
+                </div>
+                <ul>
+                    <li><strong>圖片去浮水印</strong>：支援直接下載「乾淨」的 AI 生成圖片</li>
+                    <li><strong>跨帳號同步</strong>：完美支援並同步所有 Gemini 帳號（u/0, u/1 等切換）</li>
+                </ul>
+            </div>
+
+            <!-- 7. 雲端硬碟同步 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon cloud">☁️</div>
+                    <h3>Google 雲端硬碟同步</h3>
+                </div>
+                <ul>
+                    <li><strong>跨裝置無縫接軌</strong>：資料夾架構和提示詞庫自動同步到 Google Drive</li>
+                    <li><strong>多台電腦共用</strong>：連上同一個雲端硬碟，分類和提示詞自動保持一致</li>
+                </ul>
+            </div>
+
+            <!-- 8. 帳號隔離模式 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon shield">🛡️</div>
+                    <h3>帳號隔離模式</h3>
+                </div>
+                <ul>
+                    <li><strong>專屬工作區</strong>：自動辨識當前正在使用的 Google 帳號</li>
+                    <li><strong>對話不打架</strong>：確保不同帳號的資料夾與對話完全分離，保護隱私</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 匯出格式詳細說明 -->
+        <div class="export-formats">
+            <h3>📤 支援的匯出格式</h3>
+            <div class="format-list">
+                <div class="format-item">
+                    <span class="fmt-icon">📝</span>
+                    <div>
+                        <div class="fmt-name">Markdown</div>
+                        <div class="fmt-desc">適合 Obsidian、Notion 等筆記軟體。特別針對 Deep Research 做優化，保留完整思考推論過程。</div>
+                    </div>
+                </div>
+                <div class="format-item">
+                    <span class="fmt-icon">📄</span>
+                    <div>
+                        <div class="fmt-name">PDF</div>
+                        <div class="fmt-desc">方便列印或分享，支援在匯出前自訂字體大小，確保排版好閱讀。</div>
+                    </div>
+                </div>
+                <div class="format-item">
+                    <span class="fmt-icon">🖼️</span>
+                    <div>
+                        <div class="fmt-name">圖片 (Screenshot)</div>
+                        <div class="fmt-desc">快速截取精彩回覆分享到社群媒體或通訊軟體，同樣支援調整字體大小。</div>
+                    </div>
+                </div>
+                <div class="format-item">
+                    <span class="fmt-icon">⚙️</span>
+                    <div>
+                        <div class="fmt-name">JSON</div>
+                        <div class="fmt-desc">系統級備份與還原，完整保留資料夾架構。更換電腦時一鍵歸位所有分類與對話。</div>
+                    </div>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; padding-left: 0.5rem;">
+                💡 <strong>額外亮點</strong>：下拉式匯出選單支援自訂範圍匯出，可勾選特定訊息，讓匯出更精準。
+            </p>
+        </div>
+
+        <!-- 2026 年動態通知 -->
+        <div class="notice-card warning">
+            <span class="notice-icon">📢</span>
+            <div class="notice-content">
+                <h3>2026 年近期動態</h3>
+                <p>
+                    這款擴充功能在 2026 年 3 月時，因為 Chrome 商店的名稱版權規範（原名含有 Gemini 字樣），曾短暫下架並正式更名為
+                    <strong>「Voyager」</strong>。目前新版本已重新上架。如果您是舊版（Gemini Voyager）的用戶並發現擴充功能被停用，只需前往
+                    Chrome Web Store 下載最新版本，或匯出備份後重新安裝即可恢復所有功能。
+                </p>
+            </div>
+        </div>
+
+        <!-- 外部連結 -->
+        <div class="cta-area">
+            <a href="https://github.com/Nagi-ovo/gemini-voyager" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                ⭐ 前往 GitHub 開源專案
+            </a>
+        </div>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2025 AI Plugin Hub — <a href="index.html">返回工具目錄</a> · <a href="../index.html">教學資源總覽入口網</a></p>
+    </footer>
+
+    <!-- 滾動動畫腳本 -->
+    <script src="plugin-shared.js"></script>
+</body>
+
+</html>

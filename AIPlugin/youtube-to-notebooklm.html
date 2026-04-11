@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube to NotebookLM | AI Plugin Hub</title>
+    <meta name="description" content="一鍵將 YouTube 播放清單、頻道或搜尋結果批次匯入 NotebookLM，大幅加速影音研究與內容整合流程。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="plugin-shared.css">
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">← 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄卡片 -->
+        <div class="plugin-hero">
+            <div class="plugin-hero-content">
+                <h1>📺 YouTube to NotebookLM</h1>
+                <p class="subtitle">
+                    專為 <strong>YouTube 重度研究者</strong>設計的 Chrome 擴充功能。NotebookLM 原生僅支援逐一匯入單支影片 URL，
+                    此擴充功能讓你可以<strong>一鍵批次匯入整個播放清單、頻道或搜尋結果</strong>，徹底解放手動複製貼上的繁瑣流程，
+                    讓 AI 幫你分析數十甚至數百支影片的精華內容。
+                </p>
+                <div class="plugin-meta">
+                    <span class="meta-badge">📋 批次匯入</span>
+                    <span class="meta-badge">🎬 播放清單支援</span>
+                    <span class="meta-badge">📡 頻道匯入</span>
+                    <span class="meta-badge">🔍 搜尋結果匯入</span>
+                    <span class="pricing-tag free">🆓 免費使用</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心功能卡片 -->
+        <h2 class="section-title"><span class="icon">🌟</span> 核心特色功能</h2>
+        <div class="features-grid">
+
+            <!-- 1. 批次匯入 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon playlist">📋</div>
+                    <h3>批次匯入功能</h3>
+                </div>
+                <ul>
+                    <li><strong>播放清單匯入</strong>：一鍵匯入整個 YouTube 播放清單的所有影片，不需逐一複製 URL</li>
+                    <li><strong>頻道匯入</strong>：匯入完整 YouTube 頻道的影片庫，適合系統性研究特定創作者的內容</li>
+                    <li><strong>搜尋結果匯入</strong>：直接從 YouTube 搜尋結果頁批次匯入相關影片</li>
+                </ul>
+            </div>
+
+            <!-- 2. 一鍵整合 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon capture">🔗</div>
+                    <h3>一鍵整合介面</h3>
+                </div>
+                <ul>
+                    <li><strong>嵌入式按鈕</strong>：安裝後在 YouTube 播放器下方或頻道/播放清單頁面直接顯示「NotebookLM」按鈕</li>
+                    <li><strong>目標筆記本選擇</strong>：可選擇建立新筆記本或加入現有筆記本，無需離開 YouTube 分頁</li>
+                    <li><strong>自動轉錄匯入</strong>：自動擷取影片字幕/轉錄稿與中繼資料，傳送至 NotebookLM 後端進行 AI 分析</li>
+                </ul>
+            </div>
+
+            <!-- 3. 跨分頁管理 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon channel">🌐</div>
+                    <h3>跨分頁通用儲存</h3>
+                </div>
+                <ul>
+                    <li><strong>不只 YouTube</strong>：許多工具也支援將其他瀏覽器分頁的網頁內容傳送至 NotebookLM</li>
+                    <li><strong>解決分頁爆炸</strong>：自動化處理大量分頁的匯入流程，不需再手動逐一操作</li>
+                </ul>
+            </div>
+
+            <!-- 4. 研究工作流 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon research">🔬</div>
+                    <h3>進階研究工作流</h3>
+                </div>
+                <ul>
+                    <li><strong>跨影片比較分析</strong>：批次匯入後可向 AI 提出跨影片比較問題，例如「這些專家提到的共同策略是什麼？」</li>
+                    <li><strong>音訊總覽生成</strong>：匯入足夠的優質影片後，可讓 NotebookLM 自動生成對話式 Audio Overview（Podcast）</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2026 年應用情境 -->
+        <h2 class="section-title"><span class="icon">🚀</span> 2026 年熱門應用情境</h2>
+        <div class="use-case-grid">
+            <div class="use-case-card fade-in">
+                <h4>📚 內容綜合分析</h4>
+                <p>將數小時的影片內容批次匯入單一筆記本，讓 AI 交叉分析所有影片的核心觀點與共通策略，快速產出系統性研究報告。</p>
+            </div>
+            <div class="use-case-card fade-in">
+                <h4>👤 建立「專家」人設</h4>
+                <p>匯入某位 YouTuber 的整個頻道影片庫來「複製」其風格與知識體系，將筆記本當作一對一導師，用該創作者的風格回答你的問題。</p>
+            </div>
+            <div class="use-case-card fade-in">
+                <h4>🎧 Podcast 產出</h4>
+                <p>透過匯入高品質的主題影片，快速收集足夠的來源素材，讓 NotebookLM 生成高品質的對話式 Audio Overview。</p>
+            </div>
+        </div>
+
+        <!-- 注意事項 -->
+        <div class="notice-card info">
+            <span class="notice-icon">ℹ️</span>
+            <div class="notice-content">
+                <h3>使用注意事項</h3>
+                <p>
+                    NotebookLM 依賴影片的<strong>字幕/轉錄稿</strong>來運作。若影片沒有字幕（或為私人/受限影片），匯入後可能無法產出有效內容。
+                    此外，此擴充功能為第三方獨立開發者所建立，建議安裝前確認使用者評價與權限設定。
+                    若不想使用擴充功能，也可以在 NotebookLM 中手動透過「新增來源」按鈕逐一貼上 URL。
+                </p>
+            </div>
+        </div>
+
+        <!-- 外部連結 -->
+        <div class="cta-area">
+            <a href="https://chromewebstore.google.com/" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                🔍 前往 Chrome Web Store 搜尋安裝
+            </a>
+        </div>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2025 AI Plugin Hub — <a href="index.html">返回工具目錄</a> · <a href="../index.html">教學資源總覽入口網</a></p>
+    </footer>
+
+    <!-- 滾動動畫腳本 -->
+    <script src="plugin-shared.js"></script>
+</body>
+
+</html>

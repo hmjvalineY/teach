@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kortex — NotebookLM 強化擴充 | AI Plugin Hub</title>
+    <meta name="description" content="Kortex 是專為 Google NotebookLM 設計的知識管理擴充功能，提供資料夾管理、批次匯入、自動化 Pipeline 與 Podcast RSS 訂閱。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="plugin-shared.css">
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">← 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄卡片 -->
+        <div class="plugin-hero">
+            <div class="plugin-hero-content">
+                <h1>🧠 Kortex — NotebookLM 強化擴充</h1>
+                <p class="subtitle">
+                    Kortex 是一款專為 <strong>Google NotebookLM</strong> 設計的第三方生產力擴充功能。它將 NotebookLM
+                    從一個簡單的研究工具，升級為全方位的<strong>知識管理中樞</strong>，提供組織分類、自動化工作流程、批次匯入、Podcast RSS
+                    訂閱等進階功能，是深度研究者與知識工作者的必備利器。
+                </p>
+                <div class="plugin-meta">
+                    <span class="meta-badge">🧪 進階知識管理</span>
+                    <span class="meta-badge">⚡ 自動化工作流程</span>
+                    <span class="meta-badge">🎙️ Podcast RSS</span>
+                    <span class="meta-badge">🌐 Chrome Web Store</span>
+                    <span class="pricing-tag freemium">💰 免費 + Pro 方案</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心功能卡片 -->
+        <h2 class="section-title"><span class="icon">🌟</span> 核心特色功能</h2>
+        <div class="features-grid">
+
+            <!-- 1. 無縫擷取與整合 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon capture">📎</div>
+                    <h3>無縫擷取與整合</h3>
+                </div>
+                <ul>
+                    <li><strong>LLM 封存按鈕</strong>：在 ChatGPT、Claude、Gemini、Perplexity 等 AI 工具介面直接加入「儲存至 NotebookLM」按鈕，一鍵封存對話</li>
+                    <li><strong>反白即擷取 (Highlight & Snipe)</strong>：在任何網頁反白文字後直接傳送至筆記本，自動附帶完整引用來源</li>
+                    <li><strong>社群媒體擷取</strong>：可完整擷取社群媒體貼文串（保留上下文與作者資訊），也支援匯入 YouTube 影片/播放清單</li>
+                </ul>
+            </div>
+
+            <!-- 2. 進階組織管理 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon organize">🗂️</div>
+                    <h3>進階組織管理</h3>
+                </div>
+                <ul>
+                    <li><strong>階層式架構</strong>：以資料夾、子資料夾與集合取代 NotebookLM 原本的扁平清單</li>
+                    <li><strong>標籤系統</strong>：支援彩色標籤分類，可對筆記本和個別來源進行篩選與歸類</li>
+                    <li><strong>強化儀表板</strong>：重新設計的總覽介面（筆記本、所有來源、產出物件），支援批次管理與篩選</li>
+                    <li><strong>筆記本工具</strong>：合併重複筆記本、建立「快速備忘」暫存區、批次識別並刪除無效來源</li>
+                </ul>
+            </div>
+
+            <!-- 3. 批次與自動匯入 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon bulk">📦</div>
+                    <h3>批次與自動匯入</h3>
+                </div>
+                <ul>
+                    <li><strong>批次操作</strong>：支援大量匯入瀏覽器分頁、RSS Feed、CSV 檔案，以及 Google Docs（含一鍵同步更新內容）</li>
+                    <li><strong>網頁爬蟲</strong>：可從指定 URL 自動爬取連結頁面，支援設定爬取深度</li>
+                    <li><strong>Domain Router</strong>：根據預設的 URL 規則，自動將匯入的連結路由至指定筆記本</li>
+                </ul>
+            </div>
+
+            <!-- 4. 音訊與 Podcast 功能 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon audio">🎙️</div>
+                    <h3>音訊與 Podcast 功能</h3>
+                </div>
+                <ul>
+                    <li><strong>自訂 Podcast RSS Feed</strong>：將 AI 生成的音訊總覽轉換為可訂閱的 RSS Feed，可在 Spotify、Apple Podcasts 等平台收聽</li>
+                    <li><strong>音訊管理</strong>：內建播放器，支援倍速播放、上傳自訂音訊檔案、整批下載 Podcast 合集為 ZIP</li>
+                </ul>
+            </div>
+
+            <!-- 5. 自動化 Pipeline -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon automation">⚙️</div>
+                    <h3>自動化 Pipeline</h3>
+                </div>
+                <ul>
+                    <li><strong>觸發器-動作規則</strong>：設定自動化工作流程，例如加上「research」標籤後自動觸發產生學習指南、字卡集和音訊總覽</li>
+                    <li><strong>串聯動作</strong>：將多個步驟串聯為一條完整工作流，產出結果可自動推送至 Podcast Feed</li>
+                </ul>
+            </div>
+
+            <!-- 6. 匯出與可攜性 -->
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon export">📥</div>
+                    <h3>匯出與可攜性</h3>
+                </div>
+                <ul>
+                    <li><strong>多元格式</strong>：支援批次匯出來源、筆記和 AI 產出物件為 PDF、Markdown、純文字或 ZIP 壓縮包</li>
+                    <li><strong>本地備份</strong>：確保研究成果可以安全備份至本機，不受雲端服務異動影響</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 定價注意事項 -->
+        <div class="notice-card info">
+            <span class="notice-icon">💡</span>
+            <div class="notice-content">
+                <h3>關於定價方案</h3>
+                <p>
+                    Kortex 提供<strong>免費版</strong>（基本擷取與匯出功能）和 <strong>Pro 訂閱方案</strong>（進階自動化、批次同步、自訂 Podcast Feed 等）。
+                    對於一般使用者而言，免費版已足夠日常使用；若您是重度研究者或需要自動化工作流，Pro 方案將能大幅提升效率。
+                </p>
+            </div>
+        </div>
+
+        <!-- 外部連結 -->
+        <div class="cta-area">
+            <a href="https://kortex-notebooklm.com" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                🌐 前往 Kortex 官方網站
+            </a>
+        </div>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2025 AI Plugin Hub — <a href="index.html">返回工具目錄</a> · <a href="../index.html">教學資源總覽入口網</a></p>
+    </footer>
+
+    <!-- 滾動動畫腳本 -->
+    <script src="plugin-shared.js"></script>
+</body>
+
+</html>
