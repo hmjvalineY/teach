@@ -1,0 +1,22 @@
+name: 錯誤回報表單
+description: 網頁壞掉了嗎？在這裡通報！
+title: "[Bug]: "
+body:
+  - type: textarea
+    id: whats-happened
+    attributes:
+      label: 發生了什麼事？
+      description: 請詳細描述你的問題以及錯誤訊息。
+      placeholder: |
+        當我點擊登入按鈕時...
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: 你使用的瀏覽器
+      options:
+        - Chrome
+        - Edge
+        - Safari
+        - 其它
