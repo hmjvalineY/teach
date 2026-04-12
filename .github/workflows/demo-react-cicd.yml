@@ -1,0 +1,45 @@
+name: Deploy Frontend Framework to GitHub Pages
+
+on:
+  push:
+    # 當有人推送程式碼到 main 分支時，自動啟動這個腳本
+    branches:
+      - main
+
+# 設定這份腳本的權限，允許它幫我們寫入資料到 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: ⬇️ 取得最新程式碼 (Checkout)
+        uses: actions/checkout@v4
+
+      - name: ⚙️ 建立 Node.js 環境
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 安裝相依套件 (Install Dependencies)
+        run: npm ci
+
+      - name: 🔨 編譯專案 (Build Project)
+        # 這裡是編譯 React / Vue / Angular 的指令
+        # 依照你的專案可能是 npm run build 或是 yarn build
+        run: npm run build
+
+      - name: 🗂️ 打包編譯結果 (Upload artifact)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 指向你編譯出來的靜態檔案資料夾（通常是 dist 或 build）
+          path: './dist' 
+
+      - name: 🚀 發布至 GitHub Pages (Deploy)
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端 CI/CD 自動部署</title>
+    <link rel="stylesheet" href="../style-github.css">
+</head>
+<body>
+<div class="container">
+    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
+    <h1>前端 CI/CD 自動化部署</h1>
+    <div class="demo-box">
+        <h2>🛠 讓 GitHub 成為你的 DevOps 工程師</h2>
+        <p>在過去，當你用 React、Vue 或 Angular 開發完網頁後，你需要手動在本地端執行 <code>npm run build</code>，然後把產生出來的 <code>dist</code> 或 <code>build</code> 資料夾手動上傳到伺服器。這個過程繁瑣又容易出錯。</p>
+        <p>現在，你可以透過 <strong>GitHub Actions</strong> 打造一條「無人值守」的全自動生產線（CI/CD）：</p>
+        
+        <h3>自動化流程大揭密：</h3>
+        <ul>
+            <li><strong>觸發條件：</strong> 當工程師把最新的程式碼推上 (Push) <code>main</code> 分支時。</li>
+            <li><strong>準備環境：</strong> GitHub 會在雲端開一台全新的伺服器，自動幫你安裝 Node.js。</li>
+            <li><strong>下載相依：</strong> 自動執行 <code>npm install</code> 下載所有套件。</li>
+            <li><strong>編譯打包：</strong> 自動執行 <code>npm run build</code> 將框架編譯成靜態網頁。</li>
+            <li><strong>自動部署：</strong> 將編譯好的結果自動發布至 GitHub Pages，一氣呵成！</li>
+        </ul>
+        <p>從此之後，你只需要專心寫 Code 並 Push 到 GitHub，過幾分鐘後，全世界的使用者就能自動看到最新版本的網站了！</p>
+
+        <div style="background: #e1f5fe; padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <p><strong>🎯 實作任務與示範：</strong></p>
+            <p>我已經幫您在專案的 <code>.github/workflows/</code> 資料夾內建立了一份名為 <code>demo-react-cicd.yml</code> 的腳本，裡面清楚記載了如何撰寫上述提到的每一個步驟。</p>
+            <ol>
+                <li>透過 GitHub Desktop 將這個流程腳本連同您的專案上傳。</li>
+                <li>來到 GitHub 網站點擊正上方的 「<strong>Actions</strong>」 頁籤，您就能看到雲端伺服器正在依照腳本的指令，一步步編譯您的網站！</li>
+            </ol>
+            <p><strong>💡 懶人預覽：</strong></p>
+            <a href="https://github.com/hmjvalineY/teach/blob/main/.github/workflows/demo-react-cicd.yml" target="_blank" style="display: inline-block; margin-top: 5px; padding: 10px 20px; background-color: #0969da; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background-color 0.2s;">
+                ⚙️ 前往 GitHub 檢視 YAML 腳本
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
