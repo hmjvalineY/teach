@@ -18,6 +18,7 @@
         { title: '教學新聞', desc: '楊梅高中及教育科技新聞', icon: '📰', url: basePath + 'news/news.html' },
         { title: 'Google AI 應用指南', desc: 'Stitch 與 Jules 教學實踐', icon: '🤖', url: basePath + 'StitchAndJules/index.html' },
         { title: 'AI 外掛工具集', desc: 'Voyager、Kortex 等瀏覽器擴充', icon: '🧩', url: basePath + 'AIPlugin/index.html' },
+        { title: 'Hermes Agent 教學應用', desc: '開源 AI 代理：持久記憶、本機自動化、知識管理', icon: '🤖', url: basePath + 'AIPlugin/hermes-agent.html' },
         { title: '學習路徑', desc: '各科建議學習順序', icon: '🗺️', url: basePath + 'learning-paths.html' },
         { title: '教師工具箱', desc: '教案產生器、嵌入代碼', icon: '🧰', url: basePath + 'teacher-tools.html' },
         { title: '學習進度', desc: '學習成果儀表板', icon: '📊', url: basePath + 'progress.html' },

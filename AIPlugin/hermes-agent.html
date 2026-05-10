@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermes Agent 教學應用 | AI Plugin Hub</title>
+    <meta name="description"
+        content="Hermes Agent 是由 Nous Research 開發的開源自主 AI 代理，具備持久記憶、自動技能學習與本機自動化功能，適合教師與學生打造個人知識管理大腦。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="plugin-shared.css">
+    <style>
+        /* === Hermes Agent 頁面專屬樣式 === */
+
+        /* 目錄導航 */
+        .toc {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .toc h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc ol li {
+            counter-increment: toc-counter;
+        }
+
+        .toc ol li a {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .toc ol li a::before {
+            content: counter(toc-counter);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.12);
+            color: var(--primary-light);
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toc ol li a:hover {
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--text-primary);
+        }
+
+        /* 教學步驟區塊 */
+        .tutorial-section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tutorial-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .tutorial-section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.8rem;
+            padding-left: 0.5rem;
+            border-left: 3px solid var(--primary);
+        }
+
+        .tutorial-section p,
+        .tutorial-section li {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .tutorial-section ul,
+        .tutorial-section ol {
+            padding-left: 1.5rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .tutorial-section ul li,
+        .tutorial-section ol li {
+            margin-bottom: 0.4rem;
+        }
+
+        .tutorial-section ul li::marker {
+            color: var(--primary-light);
+        }
+
+        .tutorial-section ol li::marker {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        /* 終端指令區塊 */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1.2rem 1.5rem;
+            margin: 0.8rem 0 1.2rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #e6edf3;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-block .comment {
+            color: #8b949e;
+        }
+
+        .code-block .cmd {
+            color: #79c0ff;
+        }
+
+        .code-block .flag {
+            color: #d2a8ff;
+        }
+
+        .code-block .string {
+            color: #a5d6ff;
+        }
+
+        .code-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px 4px 0 0;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary-light);
+            margin-bottom: -1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 重點提示 */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.04));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: var(--radius-md);
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .tip-box.warn {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(245, 158, 11, 0.04));
+            border-color: rgba(251, 191, 36, 0.2);
+        }
+
+        .tip-box .tip-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .tip-box p {
+            font-size: 0.88rem !important;
+            margin: 0 !important;
+        }
+
+        /* 應用情境卡片 */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .scenario-card {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .scenario-card h5 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .scenario-card p {
+            font-size: 0.85rem !important;
+            line-height: 1.6;
+        }
+
+        .scenario-card ul {
+            margin-top: 0.5rem;
+        }
+
+        .scenario-card ul li {
+            font-size: 0.85rem !important;
+        }
+
+        /* 流程圖示 */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .flow-step {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 120px;
+        }
+
+        .flow-step .flow-icon {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .flow-arrow {
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* 比較表格 */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.88rem;
+        }
+
+        .compare-table th {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .compare-table td {
+            padding: 0.7rem 1rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .compare-table tr:hover td {
+            background: rgba(99, 102, 241, 0.04);
+        }
+
+        /* 對話演示 */
+        .demo-chat {
+            background: #0d1117;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.8;
+        }
+
+        .demo-chat .user-msg {
+            color: #58a6ff;
+        }
+
+        .demo-chat .user-msg::before {
+            content: 'You > ';
+            color: #79c0ff;
+            font-weight: 600;
+        }
+
+        .demo-chat .agent-msg {
+            color: #a5d6ff;
+            padding-left: 1rem;
+            border-left: 2px solid rgba(99, 102, 241, 0.3);
+            margin: 0.5rem 0;
+        }
+
+        .demo-chat .agent-msg::before {
+            content: 'Hermes > ';
+            color: #d2a8ff;
+            font-weight: 600;
+        }
+
+        .demo-chat .system-msg {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        /* 功能圖標額外色系 */
+        .feature-icon.memory {
+            background: rgba(168, 85, 247, 0.15);
+        }
+
+        .feature-icon.skill {
+            background: rgba(34, 197, 94, 0.15);
+        }
+
+        .feature-icon.agent {
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .feature-icon.brain {
+            background: rgba(251, 146, 60, 0.15);
+        }
+
+        .feature-icon.search {
+            background: rgba(6, 182, 212, 0.15);
+        }
+
+        .feature-icon.voice {
+            background: rgba(236, 72, 153, 0.15);
+        }
+
+        /* RWD 補充 */
+        @media (max-width: 768px) {
+            .toc ol {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .compare-table {
+                font-size: 0.8rem;
+            }
+
+            .compare-table th,
+            .compare-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">&larr; 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄卡片 -->
+        <div class="plugin-hero">
+            <div class="plugin-hero-content">
+                <h1>🤖 Hermes Agent — 會成長的 AI 代理</h1>
+                <p class="subtitle">
+                    Hermes Agent 是由 <strong>Nous Research</strong> 開發的開源自主 AI 代理，能在你的電腦上持續運行、記住學習歷程、自動建立可重用技能，並隨時間累積對你的理解。它不只是聊天機器人，而是一個<strong>會隨你成長的個人 AI 助手與知識管理大腦</strong>。
+                </p>
+                <div class="plugin-meta">
+                    <span class="meta-badge">🆓 完全免費開源</span>
+                    <span class="meta-badge">🧠 持久記憶系統</span>
+                    <span class="meta-badge">⚡ 40+ 內建工具</span>
+                    <span class="meta-badge">🔒 資料完全在地</span>
+                    <span class="meta-badge">🖥️ 本機自動化操作</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 目錄導航 -->
+        <div class="toc">
+            <h3>📑 本頁目錄</h3>
+            <ol>
+                <li><a href="#intro">基本介紹與核心功能</a></li>
+                <li><a href="#wsl2">Windows WSL2 安裝教學</a></li>
+                <li><a href="#install">安裝 Hermes Agent</a></li>
+                <li><a href="#api">免費 API 金鑰申請</a></li>
+                <li><a href="#demo">使用示範過程</a></li>
+                <li><a href="#edu">教師與學生應用指南</a></li>
+            </ol>
+        </div>
+
+        <!-- ===== 第 1 節：基本介紹 ===== -->
+        <h2 class="section-title" id="intro"><span class="icon">🌟</span> 基本介紹與核心功能</h2>
+
+        <div class="tutorial-section">
+            <h3>什麼是 Hermes Agent？</h3>
+            <p>
+                Hermes Agent 是 2026 年 2 月由 Nous Research 發布的開源 AI 代理。與一般 AI 聊天機器人不同的是，Hermes Agent 具備<strong>持久記憶</strong>（跨對話記住你的偏好與專案脈絡）、<strong>自動技能學習</strong>（從使用經驗中自動建立可重用的工作流程），以及<strong>本機自動化能力</strong>（直接操作你的電腦進行檔案管理、瀏覽器自動化等任務）。
+            </p>
+            <p style="margin-top: 0.8rem;">
+                所有資料完全儲存在你的電腦上，不會傳送到任何雲端伺服器，隱私安全有保障。你可以透過終端機（CLI）、Telegram、Discord、Slack 等多種管道與它互動。
+            </p>
+        </div>
+
+        <!-- 核心功能卡片 -->
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon memory">🧠</div>
+                    <h3>持久記憶系統</h3>
+                </div>
+                <ul>
+                    <li>跨對話保留你的偏好、專案資訊與學習歷程</li>
+                    <li>透過 MEMORY.md 與 USER.md 管理記憶內容</li>
+                    <li>每 10 輪對話自動審視並提議保存重要資訊</li>
+                </ul>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon skill">⚙️</div>
+                    <h3>自動技能學習</h3>
+                </div>
+                <ul>
+                    <li>從使用經驗中自動產生可重用的 Skill 文件</li>
+                    <li>遵循 agentskills.io 標準，支援搜尋與分類</li>
+                    <li>主動建議將重複操作自動化為新技能</li>
+                </ul>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon automation">🔧</div>
+                    <h3>本機自動化操作</h3>
+                </div>
+                <ul>
+                    <li>執行終端機指令、管理檔案與資料夾</li>
+                    <li>瀏覽器自動化：網頁擷取、表單填寫、資料蒐集</li>
+                    <li>排程任務 (cron)、子代理委派等進階功能</li>
+                </ul>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon search">🔍</div>
+                    <h3>網路搜尋與研究</h3>
+                </div>
+                <ul>
+                    <li>即時搜尋網路資訊並整合至回答中</li>
+                    <li>自動擷取網頁內容、PDF 文件等資料來源</li>
+                    <li>搜尋自身過往對話記錄以提供連貫協助</li>
+                </ul>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon voice">🎙️</div>
+                    <h3>多模態能力</h3>
+                </div>
+                <ul>
+                    <li>影像辨識與分析（Vision）</li>
+                    <li>圖片生成與文字轉語音（TTS）</li>
+                    <li>程式碼撰寫與執行</li>
+                </ul>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-card-header">
+                    <div class="feature-icon agent">🌐</div>
+                    <h3>多平台連接</h3>
+                </div>
+                <ul>
+                    <li>CLI 終端機、Telegram、Discord、Slack</li>
+                    <li>WhatsApp、Signal 等通訊平台</li>
+                    <li>單一閘道程序管理所有連接</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Hermes Agent 運作流程 -->
+        <div class="tutorial-section">
+            <h3>🔄 Hermes Agent 的學習循環</h3>
+            <p>Hermes Agent 的獨特之處在於它的自我改進循環 — 使用越久，它就越了解你、越能幫助你：</p>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <span class="flow-icon">💬</span>
+                    與你對話互動
+                </div>
+                <span class="flow-arrow">&rarr;</span>
+                <div class="flow-step">
+                    <span class="flow-icon">🧠</span>
+                    累積記憶與偏好
+                </div>
+                <span class="flow-arrow">&rarr;</span>
+                <div class="flow-step">
+                    <span class="flow-icon">⚙️</span>
+                    自動建立技能
+                </div>
+                <span class="flow-arrow">&rarr;</span>
+                <div class="flow-step">
+                    <span class="flow-icon">🚀</span>
+                    更高效地完成任務
+                </div>
+                <span class="flow-arrow">&rarr;</span>
+                <div class="flow-step">
+                    <span class="flow-icon">📈</span>
+                    持續自我改進
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 第 2 節：WSL2 安裝 ===== -->
+        <h2 class="section-title" id="wsl2"><span class="icon">🪟</span> Windows WSL2 安裝教學</h2>
+
+        <div class="tutorial-section">
+            <h3>為什麼需要 WSL2？</h3>
+            <p>
+                Hermes Agent 目前原生支援 Linux 和 macOS 環境。在 Windows 上，最穩定的執行方式是透過 <strong>WSL2（Windows Subsystem for Linux 2）</strong>，它可以在 Windows 內建立一個完整的 Linux 環境，效能接近原生 Linux。WSL2 從 Windows 10 版本 2004 (Build 19041) 起內建支援，Windows 11 則原生支援。
+            </p>
+
+            <h4>步驟一：確認系統需求</h4>
+            <ul>
+                <li>Windows 10 版本 2004 (Build 19041) 以上，或 Windows 11</li>
+                <li>電腦需支援虛擬化技術（大多數現代電腦皆支援）</li>
+                <li>建議至少 8GB RAM 與 20GB 可用磁碟空間</li>
+            </ul>
+
+            <h4>步驟二：以系統管理員身分開啟 PowerShell</h4>
+            <p>在開始功能表搜尋「PowerShell」，右鍵選擇「以系統管理員身分執行」。</p>
+
+            <h4>步驟三：安裝 WSL2</h4>
+            <p>在 PowerShell 中輸入以下指令（Windows 10 build 19041+ 和 Windows 11 皆適用）：</p>
+            <span class="code-label">PowerShell（系統管理員）</span>
+            <div class="code-block"><code><span class="cmd">wsl</span> <span class="flag">--install</span></code></div>
+            <p>此指令會自動啟用必要的 Windows 功能、下載並安裝最新的 Linux 核心，以及預設安裝 Ubuntu 發行版。安裝完成後需要<strong>重新啟動電腦</strong>。</p>
+
+            <h4>步驟四：設定 Linux 使用者帳號</h4>
+            <p>重新開機後，Ubuntu 會自動啟動並要求你建立使用者帳號和密碼。這個密碼用於 Linux 環境中的管理員操作（sudo）。</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 系統會提示輸入新的使用者名稱和密碼</span>
+Enter new UNIX username: <span class="string">your_name</span>
+New password: <span class="string">********</span></code></div>
+
+            <h4>步驟五：更新系統套件</h4>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">sudo</span> apt update && <span class="cmd">sudo</span> apt upgrade <span class="flag">-y</span></code></div>
+
+            <div class="tip-box">
+                <span class="tip-icon">💡</span>
+                <p>之後要開啟 WSL2，可以直接在開始功能表搜尋「Ubuntu」，或在 PowerShell / CMD 中輸入 <code>wsl</code> 指令。Windows Terminal 應用程式也會自動偵測並新增 Ubuntu 標籤頁。</p>
+            </div>
+
+            <h4>（選用）步驟六：啟用 GPU 加速</h4>
+            <p>如果你的電腦有 NVIDIA 顯示卡，WSL2 自核心 5.10.43 起原生支援 GPU 穿透。只需確保 <strong>Windows 端已安裝最新的 NVIDIA 驅動程式</strong>即可（不要在 WSL 內額外安裝 Linux 版 NVIDIA 驅動）：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 確認 WSL2 內能看到 GPU</span>
+<span class="cmd">nvidia-smi</span></code></div>
+
+            <div class="tip-box warn">
+                <span class="tip-icon">⚠️</span>
+                <p>若使用免費 API（如 Google AI Studio），不需要本機 GPU。GPU 加速主要用於搭配 Ollama 等本機模型服務時，才能獲得更好的推理速度。</p>
+            </div>
+        </div>
+
+        <!-- ===== 第 3 節：安裝 Hermes Agent ===== -->
+        <h2 class="section-title" id="install"><span class="icon">📦</span> 安裝 Hermes Agent</h2>
+
+        <div class="tutorial-section">
+            <h3>一鍵安裝（推薦）</h3>
+            <p>
+                Hermes Agent 提供自動安裝腳本，會自動處理所有相依套件（Python、Node.js、ripgrep、ffmpeg 等），不需要手動安裝任何前置軟體。
+            </p>
+
+            <h4>方法一：WSL2 內直接安裝（最簡單）</h4>
+            <p>開啟 WSL2 終端機（Ubuntu），直接執行：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">curl</span> <span class="flag">-fsSL</span> https://hermes-agent.nousresearch.com/install.sh | <span class="cmd">bash</span></code></div>
+            <p>安裝程式會自動完成以下工作：</p>
+            <ul>
+                <li>安裝所有相依套件（Python、Node.js、ripgrep、ffmpeg 等）</li>
+                <li>克隆 Hermes Agent 程式碼</li>
+                <li>建立 Python 虛擬環境</li>
+                <li>設定全域 <code>hermes</code> 指令</li>
+                <li>引導你設定 LLM 提供者（API 金鑰）</li>
+            </ul>
+
+            <h4>方法二：Docker 方式安裝</h4>
+            <p>如果你偏好容器化部署，可以使用官方 Docker 映像：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 先安裝 Docker（如尚未安裝）</span>
+<span class="cmd">sudo</span> apt install <span class="flag">-y</span> docker.io
+<span class="cmd">sudo</span> usermod <span class="flag">-aG</span> docker $USER
+
+<span class="comment"># 拉取並啟動 Hermes Agent</span>
+<span class="cmd">docker</span> run <span class="flag">-it</span> <span class="flag">--name</span> hermes \
+  <span class="flag">-v</span> ~/.hermes:/root/.hermes \
+  nousresearch/hermes-agent</code></div>
+
+            <h4>確認安裝成功</h4>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 查看版本資訊</span>
+<span class="cmd">hermes</span> <span class="flag">--version</span>
+
+<span class="comment"># 查看可用指令</span>
+<span class="cmd">hermes</span> <span class="flag">--help</span></code></div>
+
+            <div class="tip-box">
+                <span class="tip-icon">💡</span>
+                <p>安裝完成後，你可以隨時在 WSL2 終端機中輸入 <code>hermes</code> 來啟動代理。設定檔與記憶資料預設存放在 <code>~/.hermes/</code> 目錄中。</p>
+            </div>
+        </div>
+
+        <!-- ===== 第 4 節：API 金鑰申請 ===== -->
+        <h2 class="section-title" id="api"><span class="icon">🔑</span> 免費 API 金鑰申請</h2>
+
+        <div class="tutorial-section">
+            <h3>選擇 LLM 提供者</h3>
+            <p>
+                Hermes Agent 需要連接一個大型語言模型（LLM）作為推理引擎。你可以使用雲端 API（免費或付費）或完全離線的本機模型。以下介紹幾個免費方案：
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>提供者</th>
+                        <th>免費模型</th>
+                        <th>限制</th>
+                        <th>適合用途</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Google AI Studio</strong></td>
+                        <td>Gemini 2.5 Flash</td>
+                        <td>15 RPM / 1,500 RPD</td>
+                        <td>一般對話、輕量代理任務</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ollama（本機）</strong></td>
+                        <td>任意開源模型</td>
+                        <td>受限於硬體規格</td>
+                        <td>完全離線、隱私至上</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenRouter</strong></td>
+                        <td>多款免費模型</td>
+                        <td>依模型而異</td>
+                        <td>試用多種模型</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>方案 A：Google AI Studio（推薦入門）</h4>
+            <ol>
+                <li>前往 <strong>Google AI Studio</strong> 網站 (aistudio.google.com)</li>
+                <li>使用 Google 帳號登入</li>
+                <li>點選左側選單的「Get API key」&rarr;「Create API key」</li>
+                <li>選擇一個 Google Cloud 專案（或建立新專案），點擊「Create API key in existing project」</li>
+                <li>複製產生的 API 金鑰</li>
+            </ol>
+            <p>取得金鑰後，在 Hermes Agent 中設定：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 方法一：直接寫入環境設定檔</span>
+<span class="cmd">echo</span> <span class="string">'GOOGLE_API_KEY=你的API金鑰'</span> >> ~/.hermes/.env
+
+<span class="comment"># 方法二：使用互動式設定</span>
+<span class="cmd">hermes</span> model</code></div>
+
+            <div class="tip-box warn">
+                <span class="tip-icon">⚠️</span>
+                <p>Google AI Studio 免費方案的每日請求上限（1,500 RPD）在密集使用代理功能時可能較快用完，因為工具呼叫、重試、壓縮等操作會產生多次模型請求。建議日常使用注意用量，或考慮啟用 Google Cloud 計費方案以獲得更高額度。</p>
+            </div>
+
+            <h4>方案 B：Ollama 本機模型（完全免費、無限制）</h4>
+            <p>如果你的電腦有足夠的 RAM（建議 16GB 以上），可以使用 Ollama 在本機運行開源模型，完全不需要任何 API 金鑰：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 安裝 Ollama</span>
+<span class="cmd">curl</span> <span class="flag">-fsSL</span> https://ollama.com/install.sh | <span class="cmd">sh</span>
+
+<span class="comment"># 下載推薦的模型（擇一）</span>
+<span class="cmd">ollama</span> pull qwen2.5:14b       <span class="comment"># 平衡品質與速度</span>
+<span class="cmd">ollama</span> pull llama3.1:8b       <span class="comment"># 較低硬體需求</span>
+
+<span class="comment"># 在 Hermes 中設定使用 Ollama</span>
+<span class="cmd">hermes</span> model</code></div>
+
+            <h4>方案 C：OpenRouter（多模型選擇）</h4>
+            <ol>
+                <li>前往 openrouter.ai 註冊帳號</li>
+                <li>在帳號設定中建立 API 金鑰</li>
+                <li>選擇免費模型即可使用</li>
+            </ol>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">echo</span> <span class="string">'OPENROUTER_API_KEY=你的API金鑰'</span> >> ~/.hermes/.env</code></div>
+        </div>
+
+        <!-- ===== 第 5 節：使用示範 ===== -->
+        <h2 class="section-title" id="demo"><span class="icon">🎬</span> 使用示範過程</h2>
+
+        <div class="tutorial-section">
+            <h3>啟動 Hermes Agent</h3>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 啟動代理（預設 CLI 模式）</span>
+<span class="cmd">hermes</span></code></div>
+            <p>啟動後你會看到 Hermes Agent 的歡迎畫面與互動式命令列，可以直接輸入自然語言與它對話。</p>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>示範一：知識整理與記憶</h3>
+            <div class="demo-chat">
+                <div class="user-msg">我是一位高中生物老師，主要教授高一和高二的課程。我習慣用 Markdown 做筆記，常用的工具是 Obsidian。</div>
+                <div class="agent-msg">了解！我已記住你的角色和工具偏好。以後我會用適合高中生物教學的角度來回應，並以 Markdown 格式輸出內容方便你匯入 Obsidian。</div>
+                <div class="system-msg">[Hermes 自動將此資訊寫入 USER.md 持久記憶]</div>
+            </div>
+            <p>Hermes Agent 會自動記住你的身分、偏好和工作方式，在未來的對話中持續運用這些資訊。</p>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>示範二：網路搜尋與資料整理</h3>
+            <div class="demo-chat">
+                <div class="user-msg">幫我搜尋 2026 年最新的 CRISPR 基因編輯技術在農業上的應用進展，整理成一份適合高一學生閱讀的摘要。</div>
+                <div class="agent-msg">正在搜尋最新資訊...<br><br>我找到了幾項重要進展，已整理成適合高一程度的摘要：<br><br># CRISPR 基因編輯在農業的最新應用（2026）<br><br>## 重點摘要<br>1. **抗病品種開發** — ...<br>2. **營養強化作物** — ...<br>3. **氣候適應性** — ...<br><br>需要我將這份摘要存成 .md 檔案嗎？</div>
+            </div>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>示範三：本機檔案自動化操作</h3>
+            <div class="demo-chat">
+                <div class="user-msg">幫我把 ~/Documents/考試題庫/ 資料夾裡的所有 .docx 檔案，依照檔名中的章節編號分類到對應的子資料夾中。</div>
+                <div class="agent-msg">我來分析資料夾內容...<br><br>找到 47 個 .docx 檔案，偵測到以下章節編號模式：<br>- Ch01 ~ Ch12（共 12 個章節）<br><br>正在建立子資料夾並移動檔案...<br><br>✅ 完成！已建立 12 個子資料夾，47 個檔案已分類完畢。<br>需要我建立一個「技能」讓以後自動執行這個分類嗎？</div>
+                <div class="system-msg">[使用者同意後，Hermes 自動建立 "exam-file-sorter" 技能]</div>
+            </div>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>示範四：瀏覽器自動化</h3>
+            <div class="demo-chat">
+                <div class="user-msg">幫我到教育部課綱網站，查詢高中生物科的學習重點，整理成表格。</div>
+                <div class="agent-msg">正在啟動瀏覽器...<br><br>已開啟課綱網站並擷取生物科學習重點。以下是整理後的表格：<br><br>| 主題 | 學習內容 | 核心素養 |<br>|------|---------|---------|<br>| 細胞與生命 | ... | ... |<br>| 遺傳與演化 | ... | ... |<br>| ... | ... | ... |<br><br>已將完整表格存為 ~/Documents/bio-curriculum.md</div>
+            </div>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>常用指令速查</h3>
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>指令</th>
+                        <th>功能</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>hermes</code></td>
+                        <td>啟動代理互動模式</td>
+                    </tr>
+                    <tr>
+                        <td><code>hermes model</code></td>
+                        <td>設定或切換 LLM 模型</td>
+                    </tr>
+                    <tr>
+                        <td><code>hermes --help</code></td>
+                        <td>查看所有可用指令</td>
+                    </tr>
+                    <tr>
+                        <td><code>/memory</code></td>
+                        <td>在對話中查看 / 管理記憶</td>
+                    </tr>
+                    <tr>
+                        <td><code>/skills</code></td>
+                        <td>在對話中查看已學習的技能</td>
+                    </tr>
+                    <tr>
+                        <td><code>/browse &lt;url&gt;</code></td>
+                        <td>開啟瀏覽器前往指定網址</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ===== 第 6 節：教師與學生應用 ===== -->
+        <h2 class="section-title" id="edu"><span class="icon">🎓</span> 教師與學生應用指南</h2>
+
+        <div class="tutorial-section">
+            <h3>🧑‍🏫 教師應用情境</h3>
+            <p>Hermes Agent 可以成為教師的全方位教學助手，以下是幾個實際應用場景：</p>
+
+            <div class="scenario-grid">
+                <div class="scenario-card fade-in">
+                    <h5>📝 教案與講義製作</h5>
+                    <p>利用記憶系統記住你的教學風格與課綱要求，自動產生符合課綱的教案大綱、學習單、講義內容。</p>
+                    <ul>
+                        <li>指定科目與章節即可產生結構化教案</li>
+                        <li>自動搜尋最新資料補充教學內容</li>
+                        <li>輸出 Markdown 格式方便匯入各種平台</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card fade-in">
+                    <h5>📊 考題生成與管理</h5>
+                    <p>建立「出題技能」，指定難度、題型與章節範圍，批次產生試題並自動分類歸檔。</p>
+                    <ul>
+                        <li>支援選擇題、填充題、問答題等多種題型</li>
+                        <li>自動依章節歸檔至本機資料夾</li>
+                        <li>可串接題庫資料進行去重與難度校準</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card fade-in">
+                    <h5>🔬 教學素材蒐集</h5>
+                    <p>利用瀏覽器自動化功能，批次搜尋並下載教學所需的圖片、影片連結、學術資料。</p>
+                    <ul>
+                        <li>自動擷取網頁內容並轉為筆記格式</li>
+                        <li>整理研究論文摘要供教學參考</li>
+                        <li>建立個人教學資源知識庫</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card fade-in">
+                    <h5>📁 行政事務自動化</h5>
+                    <p>自動化重複性的行政工作：整理成績、格式化報告、批次處理文件檔案。</p>
+                    <ul>
+                        <li>CSV / Excel 資料整理與統計</li>
+                        <li>批次重新命名與歸檔文件</li>
+                        <li>排程定期執行例行任務</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>🧑‍🎓 學生應用情境</h3>
+            <p>學生可以將 Hermes Agent 當作個人的「知識管理大腦」，打造專屬的學習助手：</p>
+
+            <div class="scenario-grid">
+                <div class="scenario-card fade-in">
+                    <h5>🧠 個人知識管理</h5>
+                    <p>Hermes 會記住你正在學習的科目、進度與弱點，提供個人化的學習建議與複習計畫。</p>
+                    <ul>
+                        <li>跨科目整合學習筆記</li>
+                        <li>自動建立知識圖譜與連結</li>
+                        <li>定期提醒複習遺忘曲線上的知識點</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card fade-in">
+                    <h5>📚 課後複習與自學</h5>
+                    <p>向 Hermes 提問課堂上不理解的內容，它會根據你的程度用最適合的方式解說。</p>
+                    <ul>
+                        <li>記住你之前學過的概念避免重複解釋</li>
+                        <li>自動產生練習題檢驗理解程度</li>
+                        <li>搜尋補充資料拓展學習深度</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card fade-in">
+                    <h5>📝 報告與專題製作</h5>
+                    <p>協助蒐集資料、整理大綱、生成初稿，加速專題報告的製作流程。</p>
+                    <ul>
+                        <li>網路資料搜尋與來源整理</li>
+                        <li>協助架構大綱與撰寫段落</li>
+                        <li>自動產生參考文獻格式</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card fade-in">
+                    <h5>💻 程式學習輔助</h5>
+                    <p>學習程式設計時，Hermes 可以即時解釋程式碼、協助除錯、建議改進方向。</p>
+                    <ul>
+                        <li>記住你的程式學習進度</li>
+                        <li>直接在本機執行程式碼驗證結果</li>
+                        <li>循序漸進的教學風格</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tutorial-section">
+            <h3>🔐 隱私與安全提醒</h3>
+            <ul>
+                <li>Hermes Agent 的所有資料（記憶、技能、對話記錄）完全儲存在你的本機電腦，不會上傳到雲端</li>
+                <li>使用雲端 API（如 Google AI Studio）時，對話內容會傳送到對應的 AI 服務進行處理，但不會被存取或用於訓練</li>
+                <li>使用 Ollama 本機模型搭配時，可實現 100% 完全離線運行，適合處理機敏資料</li>
+                <li>建議不要將個人敏感資訊（身分證字號、密碼等）提供給任何 AI 工具</li>
+            </ul>
+        </div>
+
+        <!-- 通知卡片 -->
+        <div class="notice-card info">
+            <span class="notice-icon">💡</span>
+            <div class="notice-content">
+                <h3>持續學習的 AI 助手</h3>
+                <p>
+                    Hermes Agent 最大的價值在於它的<strong>成長性</strong> — 使用越久，它就越了解你的需求與工作方式。建議從每天一個簡單的任務開始，讓它逐步學習你的偏好，幾週後你就會發現它已經成為你不可或缺的教學與學習夥伴。
+                </p>
+            </div>
+        </div>
+
+        <!-- 外部連結 -->
+        <div class="cta-area">
+            <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer"
+                class="cta-btn">
+                ⭐ 前往 GitHub 開源專案
+            </a>
+            <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank" rel="noopener noreferrer"
+                class="cta-btn" style="background: var(--accent); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); margin-left: 1rem;">
+                📖 官方文件
+            </a>
+        </div>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2025 AI Plugin Hub — <a href="index.html">返回工具目錄</a> · <a href="../index.html">教學資源總覽入口網</a>
+        </p>
+    </footer>
+
+    <!-- 滾動動畫腳本 -->
+    <script src="plugin-shared.js"></script>
+    <!-- 平滑捲動至錨點 -->
+    <script>
+        document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
