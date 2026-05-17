@@ -625,6 +625,25 @@ New password: <span class="string">********</span></code></div>
                 <span class="tip-icon">⚠️</span>
                 <p>若使用免費 API（如 Google AI Studio），不需要本機 GPU。GPU 加速主要用於搭配 Ollama 等本機模型服務時，才能獲得更好的推理速度。</p>
             </div>
+
+            <h4>步驟七：Windows 與 WSL2 檔案互通（重要）</h4>
+            <p>在使用 Hermes Agent 時，你可能會需要讓它讀取 Windows 本機的檔案，或是從 Windows 存取它產生的資料。Windows 與 WSL2 之間的檔案互通非常簡單：</p>
+            
+            <h5>1. 從 Windows 存取 WSL2 的檔案</h5>
+            <p>打開 Windows 檔案總管，在上方網址列輸入以下路徑，即可直接存取 WSL2 內的檔案系統：</p>
+            <div class="code-block"><code>\\wsl$</code> 或 <code>\\wsl.localhost</code></div>
+            <p>例如，你在 WSL2 (Ubuntu) 中的家目錄預設路徑為：<br><code>\\wsl$\Ubuntu\home\你的WSL使用者名稱\</code></p>
+            <p>若要查看 Hermes Agent 的設定檔（預設在 <code>~/.hermes/</code>），可以直接在 Windows 檔案總管中進入該資料夾查看或編輯。</p>
+
+            <h5>2. 從 WSL2 存取 Windows 磁碟槽與檔案</h5>
+            <p>在 WSL2 內，Windows 的磁碟槽（如 C槽、D槽）會自動掛載到 <code>/mnt/</code> 目錄底下。對應關係如下：</p>
+            <ul>
+                <li><strong>C 槽根目錄</strong>對應為：<code>/mnt/c/</code></li>
+                <li><strong>D 槽根目錄</strong>對應為：<code>/mnt/d/</code></li>
+                <li><strong>Windows 桌面</strong>通常是：<code>/mnt/c/Users/你的Windows使用者名稱/Desktop/</code></li>
+                <li><strong>Windows 下載資料夾</strong>通常是：<code>/mnt/c/Users/你的Windows使用者名稱/Downloads/</code></li>
+            </ul>
+            <p>當你在 Hermes Agent 中下指令處理 Windows 上的檔案時，請記得提供上述的 <code>/mnt/...</code> 格式路徑。例如：「<span style="color:var(--primary);">幫我讀取 /mnt/c/Users/ASUS/Desktop/文件.pdf 並摘要重點</span>」。</p>
         </div>
 
         <!-- ===== 第 3 節：安裝 Hermes Agent ===== -->
@@ -672,6 +691,21 @@ New password: <span class="string">********</span></code></div>
             <div class="tip-box">
                 <span class="tip-icon">💡</span>
                 <p>安裝完成後，你可以隨時在 WSL2 終端機中輸入 <code>hermes</code> 來啟動代理。設定檔與記憶資料預設存放在 <code>~/.hermes/</code> 目錄中。</p>
+            </div>
+
+            <h4>（選用）安裝 Web UI 圖形介面</h4>
+            <p>如果你不習慣使用終端機，可以安裝 Hermes Web UI 來獲得類似 ChatGPT 的圖形化網頁對話介面。請在 WSL2 終端機中執行以下指令：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">git clone</span> https://github.com/nesquena/hermes-webui.git hermes-webui
+<span class="cmd">cd</span> hermes-webui
+<span class="cmd">./start.sh</span></code></div>
+            
+            <div class="tip-box warn">
+                <span class="tip-icon">⚠️</span>
+                <p><strong>重要網址連線問題：</strong><br>
+                啟動腳本完成後，畫面上可能會顯示 <code>Starting Hermes Web UI on http://127.0.0.1:8787</code>。<br>
+                請<strong>不要</strong>使用這個 127.0.0.1 的網址，因為會遇到無法送出訊息或無法儲存設定的問題。<br>
+                請務必將網址改為 <a href="http://localhost:8787" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:underline;">http://localhost:8787</a> 進入，才能正確送出招呼用語並讓 AI 正常回應與儲存設定。</p>
             </div>
         </div>
 
