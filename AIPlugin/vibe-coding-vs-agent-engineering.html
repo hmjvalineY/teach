@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding vs Agent Engineering | AI Plugin Hub</title>
+    <meta name="description" content="探討 AI 協作開發的典範轉移，從依賴提示詞的 Vibe Coding 到自主規劃的代理工程，了解兩者的時期發展與核心差異。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 全站導覽列樣式 -->
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <link rel="stylesheet" href="plugin-shared.css">
+    
+    <style>
+        .comparison-section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+            font-size: 0.95rem;
+        }
+
+        .comparison-table th {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            font-weight: 700;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .comparison-table td {
+            padding: 1.2rem 1rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+            line-height: 1.6;
+            width: 40%;
+        }
+        
+        .comparison-table td:first-child {
+            width: 20%;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .comparison-table strong {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        /* 發展階段區塊 */
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-card {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+        }
+
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .timeline-card.vibe::before { background: #3b82f6; }
+        .timeline-card.agent::before { background: #10b981; }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .timeline-period {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .timeline-content ul {
+            padding-left: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .timeline-content li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .timeline-content strong {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">← 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄區塊 -->
+        <section class="hero">
+            <span class="hero-badge">🔄 典範轉移</span>
+            <h1>Vibe Coding vs Agent Engineering</h1>
+            <p>探索我們與 AI 協作開發的演進過程，從單純依賴文字提示的直覺編程，走向能自主思考與操作工具的代理工程。</p>
+        </section>
+
+        <!-- 發展階段區塊 -->
+        <h2 class="section-title"><span class="icon">⏳</span> 時代發展與定義</h2>
+        <div class="timeline-grid">
+            
+            <div class="timeline-card vibe">
+                <div class="timeline-header">
+                    <h3 class="timeline-title">Vibe Coding</h3>
+                    <span class="timeline-period">約 2022 年底至 2024 年初</span>
+                </div>
+                <div class="timeline-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">隨著 ChatGPT 等大型語言模型爆發而興起，帶有一點戲謔與直覺色彩的開發方式。</p>
+                    <ul>
+                        <li><strong>運作模式：</strong> 開發者透過「自然語言對話」與 AI 互動，依靠反覆修改 Prompt 與 AI 的「直覺」來生成程式碼。像是將程式碼片段複製貼上到網頁聊天介面，告訴 AI「這個跑不動，幫我修」，然後把結果貼回 IDE 測試。</li>
+                        <li><strong>核心技能：</strong> Prompt Engineering（提示詞工程）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-card agent">
+                <div class="timeline-header">
+                    <h3 class="timeline-title">Agent Engineering</h3>
+                    <span class="timeline-period">2024 年至今 (Agentic Workflow)</span>
+                </div>
+                <div class="timeline-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">業界發現單純對話模型無法處理複雜專案，開始賦予 AI「工具」與「自主規劃能力」。</p>
+                    <ul>
+                        <li><strong>運作模式：</strong> 開發者不再只是「要程式碼」，而是「設計與管理 AI 代理」。AI 被賦予系統權限（讀寫檔案、執行指令），能自主拆解任務、搜尋、撰寫、測試，並根據錯誤訊息自我修正。</li>
+                        <li><strong>核心技能：</strong> 設定邊界與工具、建立工作流程（Workflow）、提供精確的 Context。</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 核心差異比較區塊 -->
+        <h2 class="section-title"><span class="icon">⚖️</span> 兩者的核心差異比較</h2>
+        <div class="comparison-section">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>比較維度</th>
+                        <th>Vibe Coding (過去)</th>
+                        <th>Agent Engineering (現在與未來)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>人類的角色</td>
+                        <td>
+                            <strong>司機 / 搬運工</strong>
+                            負責下指令、複製貼上程式碼、手動執行測試、把錯誤訊息貼回給 AI。
+                        </td>
+                        <td>
+                            <strong>專案經理 (PM) / 審查者 (Reviewer)</strong>
+                            負責定義高階需求、設定邊界條件、審查 Agent 的執行計畫與最終結果。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AI 的角色</td>
+                        <td>
+                            <strong>高階自動完成器</strong>
+                            只負責產出文字與程式碼建議。
+                        </td>
+                        <td>
+                            <strong>虛擬工程師 (Virtual Engineer)</strong>
+                            擁有感知（讀取檔案/終端機）與行動（修改檔案/執行指令）的能力。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>上下文 (Context) 掌握</td>
+                        <td>
+                            <strong>極度受限且被動</strong>
+                            AI 只知道你手動貼給它的那幾行程式碼。
+                        </td>
+                        <td>
+                            <strong>全面且主動</strong>
+                            AI 可以主動使用搜尋工具（如 grep 或 ls）探索整個 codebase 的架構與關聯。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>工作流程 (Workflow)</td>
+                        <td>
+                            <strong>線性與中斷</strong>
+                            人類提問 ➔ AI 回答 ➔ 人類測試 ➔ (失敗) ➔ 人類再提問。
+                        </td>
+                        <td>
+                            <strong>自主迴圈 (Autonomous Loop)</strong>
+                            人類下達目標 ➔ AI (思考 ➔ 尋找工具 ➔ 執行 ➔ 觀察結果) ➔ 自主修正直到成功。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>除錯方式 (Debugging)</td>
+                        <td>
+                            依賴開發者手動找出錯誤在哪裡，再把錯誤堆疊 (Stack Trace) 貼給 AI。
+                        </td>
+                        <td>
+                            Agent 會自己下編譯或測試指令，自己看 Terminal 的紅字，然後自己去改 Code。
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer style="margin-top: 4rem; text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--text-tertiary);">
+        <p>&copy; 2026 AI Plugin Hub — <a href="../index.html" style="color: var(--text-secondary);">教學資源總覽入口網</a></p>
+    </footer>
+
+    <!-- 全站導覽列 -->
+    <script src="../nav-global.js"></script>
+</body>
+
+</html>
