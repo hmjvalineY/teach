@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>社群全自動廣播</title>
+    <title>蝷曄黎?刻?誨??/title>
     <link rel="stylesheet" href="../style-github.css">
     <!-- 全站導覽列樣式 -->
     <link rel="stylesheet" href="../../tokens.css">
@@ -11,32 +11,30 @@
 </head>
 <body>
 <div class="container">
-    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
-    <h1>社群全自動廣播網路</h1>
+    <a href="../HowToUseGithub.html" class="btn-back">漎?餈?銝駁??/a>
+    <h1>蝷曄黎?刻?誨?剔雯頝?/h1>
     <div class="demo-box">
-        <h2>🛠 行銷傳播的好幫手</h2>
-        <p>很多開源社群管理者每次發布了新版本的軟體，都要手動去 Discord, Twitter, 等各大平台發公告，這時候只要寫一隻 GitHub Action 就能一勞永逸。</p>
+        <h2>?? 銵?單?末撟急?</h2>
+        <p>敺???蝷曄黎蝞∠???甈∠撣??啁??祉?頠?嚗閬?? Discord, Twitter, 蝑?憭批像?啁?砍?嚗??閬神銝??GitHub Action 撠梯銝?偶?詻?/p>
         
-        <h3>觸發條件設定</h3>
-        <p>這次我們不用 cron 時間排程，我們改用 <code>release</code> 作為觸發條件。當有人在 GitHub 按下發布新版本的按鈕時：</p>
-<pre><code>name: 廣播新版本
-on:
+        <h3>閫貊璇辣閮剖?</h3>
+        <p>?活????cron ????嚗????<code>release</code> 雿閫貊璇辣??犖??GitHub ???澆??啁??祉?????</p>
+<pre><code>name: 撱??啁???on:
   release:
-    types: [published] # 當發布的時候執行
-
+    types: [published] # ?嗥撣??銵?
 jobs:
   notify-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: 傳送訊息至 Discord 伺服器
-        env:
+      - name: ?喲??航 Discord 隡箸???        env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "🎉 我們的專案釋出了新版本：{{ EVENT_PAYLOAD.release.name }}！快來看看吧！"</code></pre>
+          args: "?? ??撠??鈭?嚗{ EVENT_PAYLOAD.release.name }}嚗翰靘??嚗?</code></pre>
     </div>
 </div>
     <!-- 全站導覽列 -->
     <script src="../../nav-global.js"></script>
 </body>
 </html>
+

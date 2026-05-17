@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>雲端數位出版</title>
+    <title>?脩垢?訾??箇?</title>
     <link rel="stylesheet" href="../style-github.css">
     <!-- 全站導覽列樣式 -->
     <link rel="stylesheet" href="../../tokens.css">
@@ -11,16 +11,15 @@
 </head>
 <body>
 <div class="container">
-    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
-    <h1>雲端數位出版與電子書轉譯</h1>
+    <a href="../HowToUseGithub.html" class="btn-back">漎?餈?銝駁??/a>
+    <h1>?脩垢?訾??箇??摮頧陌</h1>
     <div class="demo-box">
-        <h2>🛠 將 Markdown 點石成金</h2>
-        <p>很多文字工作者現在都習慣使用 Markdown 寫稿，但要出版時，常面臨轉成精美 PDF 或 EPUB 電子書格式極度困難的窘境。</p>
+        <h2>?? 撠?Markdown 暺??</h2>
+        <p>敺???撌乩???券蝧雿輻 Markdown 撖怎阮嚗?閬??嚗虜?Ｚ頧?蝎曄? PDF ??EPUB ?餃??豢撘扔摨血???蝒???/p>
         
-        <h3>使用 Pandoc 與 GitHub Actions 組合</h3>
-        <p>你只要將文章推送上 GitHub，伺服器就會自動幫你產出格式完美的電子書儲存包：</p>
-<pre><code>name: 產生電子書
-
+        <h3>雿輻 Pandoc ??GitHub Actions 蝯?</h3>
+        <p>雿閬????券? GitHub嚗撩?撠望??芸?撟思??Ｗ?澆?摰??摮?脣???</p>
+<pre><code>name: ?Ｙ??餃???
 on: [push]
 
 jobs:
@@ -28,14 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 編譯 PDF
-        # 利用強大的 Pandoc 套件庫
-        uses: docker://pandoc/latex:2.9
+      - name: 蝺刻陌 PDF
+        # ?拍撘瑕之??Pandoc 憟辣摨?        uses: docker://pandoc/latex:2.9
         with:
           args: my_book.md -o output.pdf --pdf-engine=xelatex
       
-      - name: 存放至 GitHub Artifacts 供下載
-        uses: actions/upload-artifact@v3
+      - name: 摮??GitHub Artifacts 靘?頛?        uses: actions/upload-artifact@v3
         with:
           name: Book-PDF
           path: output.pdf</code></pre>
@@ -45,3 +42,4 @@ jobs:
     <script src="../../nav-global.js"></script>
 </body>
 </html>
+

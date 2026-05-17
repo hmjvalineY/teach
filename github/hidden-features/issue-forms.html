@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Issues 變表單</title>
+    <title>Issues 霈”??/title>
     <link rel="stylesheet" href="../style-github.css">
     <!-- 全站導覽列樣式 -->
     <link rel="stylesheet" href="../../tokens.css">
@@ -11,48 +11,44 @@
 </head>
 <body>
 <div class="container">
-    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
-    <h1>將 Issue 轉變為問卷調查表</h1>
+    <a href="../HowToUseGithub.html" class="btn-back">漎?餈?銝駁??/a>
+    <h1>撠?Issue 頧??箏??瑁矽?亥”</h1>
     <div class="demo-box">
-        <h2>🛠 擺脫無意義的問題回報</h2>
-        <p>傳統的 Issue 只是一個空白的文字框，許多學生發問時都不附上錯誤截圖與環境資訊。現在你能用 YAML 將其打造成結構嚴謹的表單。</p>
+        <h2>?? ?箄?⊥?蝢拍????</h2>
+        <p>?喟絞??Issue ?芣銝?征?賜???獢?閮勗?摮貊??澆??銝?銝隤斗???啣?鞈???其??賜 YAML 撠??蝯??渲牲?”?柴?/p>
         
-        <h3>設定步驟：</h3>
-        <p>在你的專案建立 <code>.github/ISSUE_TEMPLATE/config.yml</code> 以及你想要的表單檔案庫，這裡示範一個下拉選單與必填欄位的寫法：</p>
-<pre><code>name: 錯誤回報表單
-description: 網頁壞掉了嗎？在這裡通報！
-title: "[Bug]: "
+        <h3>閮剖?甇仿?嚗?/h3>
+        <p>?其???獢遣蝡?<code>.github/ISSUE_TEMPLATE/config.yml</code> 隞亙?雿閬?銵典瑼?摨恬??ㄐ蝷箇?銝????株?敹‵甈??神瘜?</p>
+<pre><code>name: ?航炊?銵典
+description: 蝬脤?憯?鈭?嚗?ㄐ?嚗?title: "[Bug]: "
 body:
   - type: textarea
     id: whats-happened
     attributes:
-      label: 發生了什麼事？
-      description: 請詳細描述你的問題以及錯誤訊息。
-      placeholder: |
-        當我點擊登入按鈕時...
+      label: ?潛?鈭?暻潔?嚗?      description: 隢底蝝唳?餈唬???憿誑?隤方??胯?      placeholder: |
+        ?嗆?暺??餃????..
     validations:
       required: true
   - type: dropdown
     id: browser
     attributes:
-      label: 你使用的瀏覽器
-      options:
+      label: 雿蝙?函??汗??      options:
         - Chrome
         - Edge
         - Safari
-        - 其它</code></pre>
-        <p>下次有人點擊 "New Issue" 時，他會看到一個漂亮乾淨有必填限制的 UI 選項面板，而非一個令人恐懼的空白 Markdown 輸入框。</p>
+        - ?嗅?</code></pre>
+        <p>銝活?犖暺? "New Issue" ??隞??銝??鈭桐嗾瘛冽?敹‵???UI ?賊??Ｘ嚗?銝?誘鈭箸??潛?蝛箇 Markdown 頛詨獢?/p>
 
         <div style="background: #e1f5fe; padding: 15px; border-radius: 8px; margin: 10px 0;">
-            <p><strong>🎯 實作任務與示範：</strong></p>
-            <p>我已經在您的專案底下自動建立了這份設定檔 <code>.github/ISSUE_TEMPLATE/bug_report.yml</code>。只需將它上傳到 GitHub，這個 Repo 的 Issue 區塊就會解鎖新功能！</p>
+            <p><strong>? 撖虫?隞餃??內蝭?</strong></p>
+            <p>?歇蝬?函?撠?摨??芸?撱箇?鈭遢閮剖?瑼?<code>.github/ISSUE_TEMPLATE/bug_report.yml</code>??撠?銝??GitHub嚗?Repo ??Issue ?憛停?圾??嚗?/p>
             <ol>
-                <li>打開 GitHub Desktop，將剛新增的 <code>.github</code> 資料夾與其內容 Commit 並 Push 上去。</li>
-                <li>來到 GitHub 網站的 Issues 頁面點擊 "New Issue"，或者直接點擊下方的懶人預覽按鈕！</li>
+                <li>?? GitHub Desktop嚗??憓? <code>.github</code> 鞈?憭曇??嗅摰?Commit 銝?Push 銝??/li>
+                <li>靘 GitHub 蝬脩???Issues ?暺? "New Issue"嚗???仿????寧??嗡犖?汗??嚗?/li>
             </ol>
-            <p><strong>💡 懶人預覽：</strong></p>
+            <p><strong>? ?嗡犖?汗嚗?/strong></p>
             <a href="https://github.com/hmjvalineY/teach/issues/new?template=bug_report.yml" target="_blank" style="display: inline-block; margin-top: 5px; padding: 10px 20px; background-color: #2ea043; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background-color 0.2s;">
-                🐛 前往 GitHub 體驗 Issue 表單
+                ?? ?? GitHub 擃? Issue 銵典
             </a>
         </div>
     </div>
@@ -61,3 +57,4 @@ body:
     <script src="../../nav-global.js"></script>
 </body>
 </html>
+
