@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw 安裝與使用指南 | AI Plugin Hub</title>
+    <meta name="description" content="介紹如何在 Windows 上一鍵安裝 OpenClaw、環境依賴項目、初始化設定以及使用範例。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 全站導覽列樣式 -->
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <link rel="stylesheet" href="plugin-shared.css">
+    <style>
+        .content-section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .content-section h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .content-section h3 {
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+            line-height: 1.5;
+        }
+        .dependency-list li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .dependency-list strong {
+            color: var(--primary-color, #3b82f6);
+        }
+        ol {
+            padding-left: 1.5rem;
+        }
+        ol li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">← 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄區塊 -->
+        <section class="hero">
+            <span class="hero-badge" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">🐾 AI 終端機助理</span>
+            <h1>OpenClaw 安裝與使用指南</h1>
+            <p>在 Windows 系統上輕鬆部署您的終端機 AI 助理，讓它幫助您自動化操作、撰寫程式與管理檔案。</p>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">🚀</span> Windows 一鍵安裝</h2>
+            <p>在 Windows 上，您可以透過 PowerShell 輕鬆進行一鍵安裝。請開啟 PowerShell（建議以系統管理員身分執行），然後輸入以下指令：</p>
+            <div class="code-block">powershell -c "irm https://openclaw.ai/install.ps1 | iex"</div>
+            <p>這個指令會自動下載並執行安裝腳本，為您配置好基本環境。</p>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">📦</span> 依賴項目 (Dependencies)</h2>
+            <p>在安裝與運行 OpenClaw 之前，您的系統需要具備以下軟體依賴：</p>
+            <ul class="dependency-list">
+                <li><strong>Node.js:</strong> 必須安裝版本 22 或以上（建議 24）。若版本過舊會導致功能無法正常執行或出錯。</li>
+                <li><strong>Git:</strong> 用於管理核心檔案與後續的版本更新。</li>
+                <li><strong>命令列工具:</strong> 需要 PowerShell 或 Windows Terminal 來執行指令及操作介面。</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">⚙️</span> 系統運行方式</h2>
+            <p>OpenClaw 在 Windows 上的運行方式主要分為兩種：</p>
+            <ol>
+                <li><strong>Windows 原生 PowerShell 運行：</strong> 透過上述的一鍵安裝指令，OpenClaw 會直接在 Windows 的環境中透過 Node.js 執行。這是最直接的方法，但依賴 Windows 的檔案系統與權限機制。</li>
+                <li><strong>WSL2 運行（推薦）：</strong> 開發者社群通常更推薦在 Windows Subsystem for Linux (WSL2) 中運行。它提供更穩定的 Linux 環境，對於許多開發工具、檔案權限和相依套件的相容性更好。</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">🔧</span> 初始化設定</h2>
+            <p>安裝完成後，您需要進行初始化設定才能開始使用。最重要的是配置 AI 模型的 API 金鑰：</p>
+            <ol>
+                <li>OpenClaw 本身不包含內建模型，您需要提供支援的 API 金鑰，例如 <strong>Anthropic Claude</strong> 或 <strong>OpenAI GPT</strong>。</li>
+                <li>如果您想使用本地端免費運行的模型，可以搭配 <strong>Ollama</strong> 使用，只需在設定時指定本地伺服器位址 (例如 <code>http://localhost:11434</code>) 即可。</li>
+                <li>首次在終端機啟動 OpenClaw 時，系統會透過互動式選單引導您填入這些資訊，您也可以在生成的設定檔中手動修改環境變數。</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">💡</span> 如何使用與應用範例</h2>
+            <p>設定完畢後，只需在終端機中輸入 <code>openclaw</code> 即可啟動您的 AI 助理並開始對話。</p>
+            
+            <h3>應用範例 1：建立專案結構</h3>
+            <p>您可以直接用語音或文字命令它：</p>
+            <div class="code-block">"請幫我建立一個名為 my-react-app 的 React 專案，並安裝 tailwindcss。"</div>
+            <p>OpenClaw 會自動分析指令，並在終端機中為您產生並執行 <code>npx create-react-app</code> 及相關設定指令。</p>
+
+            <h3>應用範例 2：檔案管理與整理</h3>
+            <div class="code-block">"把目前資料夾中所有的 .jpg 圖片移動到名為 Images 的新資料夾中。"</div>
+            <p>它會讀取當前目錄的檔案列表，自動建立資料夾並執行搬移操作，免去手動輸入複雜 PowerShell 指令的麻煩。</p>
+
+            <h3>應用範例 3：系統疑難排解</h3>
+            <div class="code-block">"我的 8080 port 被哪個處理程序佔用了？請幫我找出來並關閉它。"</div>
+            <p>它會自動執行系統網路指令（如 <code>netstat</code> 或 <code>Get-Process</code>），找出佔用該 port 的程式並在取得您的確認後終止該程序。</p>
+        </section>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 AI Plugin Hub — <a href="../index.html">教學資源總覽入口網</a></p>
+    </footer>
+
+    <!-- 全站導覽列 -->
+    <script src="../nav-global.js"></script>
+    <!-- 滾動動畫腳本 -->
+    <script src="plugin-shared.js"></script>
+</body>
+
+</html>
