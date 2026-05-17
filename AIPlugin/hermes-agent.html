@@ -699,7 +699,9 @@ New password: <span class="string">********</span></code></div>
             <h4>（選用）安裝 Web UI 圖形介面</h4>
             <p>如果你不習慣使用終端機，可以安裝 Hermes Web UI 來獲得類似 ChatGPT 的圖形化網頁對話介面。請在 WSL2 終端機中執行以下指令：</p>
             <span class="code-label">WSL2 Ubuntu 終端機</span>
-            <div class="code-block"><code><span class="cmd">git clone</span> https://github.com/nesquena/hermes-webui.git hermes-webui
+            <div class="code-block"><code><span class="comment"># 先切換到 C 槽根目錄（避免在預設的 System32 系統目錄下執行）</span>
+<span class="cmd">cd</span> /mnt/c
+<span class="cmd">git clone</span> https://github.com/nesquena/hermes-webui.git hermes-webui
 <span class="cmd">cd</span> hermes-webui
 <span class="cmd">./start.sh</span></code></div>
             
@@ -708,7 +710,9 @@ New password: <span class="string">********</span></code></div>
                 <p><strong>重要網址連線問題：</strong><br>
                 啟動腳本完成後，畫面上可能會顯示 <code>Starting Hermes Web UI on http://127.0.0.1:8787</code>。<br>
                 請<strong>不要</strong>使用這個 127.0.0.1 的網址，因為會遇到無法送出訊息或無法儲存設定的問題。<br>
-                請務必將網址改為 <a href="http://localhost:8787" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:underline;">http://localhost:8787</a> 進入，才能正確送出招呼用語並讓 AI 正常回應與儲存設定。</p>
+                請務必將網址改為 <a href="http://localhost:8787" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:underline;">http://localhost:8787</a> 進入，才能正確送出招呼用語並讓 AI 正常回應與儲存設定。<br><br>
+                <strong>連線中斷處理：</strong><br>
+                如果網頁頂端出現 <code>Hermes is unreachable from this browser right now</code> 的警告，請回到 WSL2 終端機的 <code>hermes-webui</code> 目錄下，再次執行 <code>./start.sh</code> 即可重新建立連線。</p>
             </div>
         </div>
 
