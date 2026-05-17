@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Copilot 非程式碼寫作應用</title>
-    <meta name="description" content="GitHub Copilot 在高中教育的非程式碼寫作應用，包括教案生成、跨語系資料整理、企劃書自動撰寫等實例。">
+    <title>GitHub Copilot ??撘Ⅳ撖思??</title>
+    <meta name="description" content="GitHub Copilot ?券?銝剜??脩???撘Ⅳ撖思??嚗??祆?獢??楊隤頂鞈??渡?????芸??啣神蝑祕靘?>
     <link rel="stylesheet" href="../style-github.css">
     <style>
         .copilot-banner {
@@ -63,79 +63,84 @@
         }
         .tip-box strong { color: #0550ae; }
     </style>
+    <!-- 全站導覽列樣式 -->
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="../../nav-global.css">
 </head>
 <body>
 <div class="container">
-    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+    <a href="index.html" class="btn-back">漎?餈?摮貊???桅?</a>
 
-    <!-- 標題區 -->
+    <!-- 璅?? -->
     <div class="copilot-banner">
-        <h1>🤖 GitHub Copilot 非程式碼寫作應用</h1>
-        <p>在 VS Code 中開啟 Markdown (<code style="background:rgba(255,255,255,0.2);color:#fff">.md</code>) 檔案，Copilot 就能化身為超級寫作助手</p>
+        <h1>?? GitHub Copilot ??撘Ⅳ撖思??</h1>
+        <p>??VS Code 銝剝???Markdown (<code style="background:rgba(255,255,255,0.2);color:#fff">.md</code>) 瑼?嚗opilot 撠梯?澈?箄?蝝神雿??/p>
     </div>
 
-    <!-- 教師應用 -->
+    <!-- ?葦? -->
     <div class="role-section">
-        <span class="role-tag teacher-tag">👩‍🏫 教師應用</span>
-        <h2>快速生成教案大綱與測驗題</h2>
-        <p>英文老師在 Markdown 檔案中輸入標題，Copilot 會根據上下文自動推敲並生成完整的教學素材草稿。</p>
+        <span class="role-tag teacher-tag">?????葦?</span>
+        <h2>敹恍???獢之蝬梯?皜祇?憿?/h2>
+        <p>?望??葦??Markdown 瑼?銝剛撓?交?憿?Copilot ???銝??芸??冽銝衣????渡??飛蝝??阮??/p>
         <div class="example-box">
-            <h4>📝 實際操作範例</h4>
+            <h4>?? 撖阡???蝭?</h4>
             <ol>
-                <li>在 VS Code 中建立一個新的 <code>.md</code> 檔案</li>
-                <li>輸入標題 <code>## 關於全球暖化的英文閱讀測驗設計</code></li>
-                <li>按下 Enter 換行後，Copilot 會自動預測並生成內容</li>
-                <li>生成內容可能包含：<strong>單字表、閱讀文章、A/B/C/D 選擇題</strong></li>
-                <li>只需按下 <code>Tab</code> 鍵接受建議，再進行微調即可</li>
+                <li>??VS Code 銝剖遣蝡????<code>.md</code> 瑼?</li>
+                <li>頛詨璅? <code>## ??函?????霈皜祇?閮剛?</code></li>
+                <li>?? Enter ??敺?Copilot ???皜砌蒂???批捆</li>
+                <li>???批捆?航?嚗?strong>?桀?銵具霈???/B/C/D ?豢?憿?/strong></li>
+                <li>?芷??? <code>Tab</code> ?菜?遣霅堆??脰?敺株矽?喳</li>
             </ol>
-            <p>💡 <strong>省時效果：</strong>原本需要 1-2 小時的備課工作，可以縮短到 15 分鐘完成初稿。</p>
+            <p>? <strong>????嚗?/strong>??閬?1-2 撠???隤脣極雿??臭誑蝮桃??15 ??摰??阮??/p>
         </div>
     </div>
 
-    <!-- 學生應用 -->
+    <!-- 摮貊?? -->
     <div class="role-section">
-        <span class="role-tag student-tag">👨‍🎓 學生應用</span>
-        <h2>跨語系資料整理與寫作引導</h2>
-        <p>學生在進行自主學習或專題研究時，可以利用 Copilot 協助處理多語言資料與克服寫作瓶頸。</p>
+        <span class="role-tag student-tag">????摮貊??</span>
+        <h2>頝刻?蝟餉????撖思?撘?</h2>
+        <p>摮貊??券脰??芯蜓摮貊???憿?蝛嗆?嚗隞亙??Copilot ???憭?閮鞈????神雿?詻?/p>
         <div class="example-box">
-            <h4>📝 實際操作範例</h4>
+            <h4>?? 撖阡???蝭?</h4>
             <ol>
-                <li>學生在進行「自主學習：探討日本高齡化社會」研究</li>
-                <li>將找到的日文資料貼入編輯器中</li>
-                <li>加上註解 <code>&lt;!-- 請將上述資料整理成三個中文重點 --&gt;</code></li>
-                <li>Copilot 會自動生成中文摘要</li>
-                <li>撰寫報告時，只要打出「第一章：」，Copilot 就會順著語境推敲出後續段落</li>
+                <li>摮貊??券脰??銝餃飛蝧??Ｚ??交擃翩?冗??蝛?/li>
+                <li>撠?啁??交?鞈?鞎澆蝺刻摩?其葉</li>
+                <li>??閮餉圾 <code>&lt;!-- 隢?銝膩鞈??渡????葉??暺?--&gt;</code></li>
+                <li>Copilot ????葉??閬?/li>
+                <li>?啣神?勗????芾???洵銝蝡???Copilot 撠望???隤??冽?箏?蝥挾??/li>
             </ol>
-            <p>💡 <strong>關鍵優勢：</strong>幫助打破「寫作瓶頸 (Writer's Block)」，讓思路不再卡住。</p>
+            <p>? <strong>??芸嚗?/strong>撟怠??神雿??(Writer's Block)??霈楝銝??∩???/p>
         </div>
     </div>
 
-    <!-- 行政/社團應用 -->
+    <!-- 銵/蝷曉?? -->
     <div class="role-section">
-        <span class="role-tag admin-tag">🏫 行政 / 社團</span>
-        <h2>自動生成企劃書與公文模板</h2>
-        <p>學生會幹部在撰寫各類企劃書時，Copilot 可以自動補齊標準化格式與建議文案。</p>
+        <span class="role-tag admin-tag">? 銵 / 蝷曉?</span>
+        <h2>?芸???隡??貉??祆?璅⊥</h2>
+        <p>摮貊??凳?典?啣神??隡??豢?嚗opilot ?臭誑?芸?鋆?璅??撘?撱箄降????/p>
         <div class="example-box">
-            <h4>📝 實際操作範例</h4>
+            <h4>?? 撖阡???蝭?</h4>
             <ol>
-                <li>建立新的 Markdown 檔案</li>
-                <li>輸入 <code># 迎新營隊贊助企劃書</code></li>
-                <li>Copilot 會自動補齊以下內容：
+                <li>撱箇??啁? Markdown 瑼?</li>
+                <li>頛詨 <code># 餈??韐隡???/code></li>
+                <li>Copilot ???朣誑銝摰對?
                     <ul>
-                        <li><strong>活動宗旨</strong> — 說明活動目的與意義</li>
-                        <li><strong>預期效益</strong> — 量化的活動成果預估</li>
-                        <li><strong>贊助回饋方案</strong> — 給贊助商的回饋計畫</li>
-                        <li><strong>預算表</strong> — 分項列出的經費規劃</li>
+                        <li><strong>瘣餃?摰</strong> ??隤芣?瘣餃??桃???蝢?/li>
+                        <li><strong>????</strong> ?????暑????隡?/li>
+                        <li><strong>韐???寞?</strong> ??蝯西??拙???擖???/li>
+                        <li><strong>??銵?/strong> ???????鞎餉???/li>
                     </ul>
                 </li>
             </ol>
         </div>
     </div>
 
-    <!-- 提示小卡 -->
+    <!-- ?內撠 -->
     <div class="tip-box">
-        <strong>🎓 免費使用提醒：</strong>透過 <strong>GitHub Education</strong> 方案，通過身份驗證的高中教師和學生都能<strong>免費使用</strong> GitHub Copilot 等進階 AI 功能。只需使用學校信箱於 <a href="https://education.github.com/" target="_blank">education.github.com</a> 進行申請即可。
-    </div>
+        <strong>?? ?祥雿輻??嚗?/strong>?? <strong>GitHub Education</strong> ?寞?嚗?頨思遢撽???銝剜?撣怠?摮貊??質<strong>?祥雿輻</strong> GitHub Copilot 蝑脤? AI ???雿輻摮豢靽∠拳??<a href="https://education.github.com/" target="_blank">education.github.com</a> ?脰??唾??喳??    </div>
 </div>
+    <!-- 全站導覽列 -->
+    <script src="../../nav-global.js"></script>
 </body>
 </html>
+

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>語文與人文學科 — GitHub 應用</title>
-    <meta name="description" content="GitHub 在高中語文與人文學科的應用，包括 Diff 差異比對寫作指導、同儕互評、共筆翻譯專案等實例。">
+    <title>隤??犖?飛蝘???GitHub ?</title>
+    <meta name="description" content="GitHub ?券?銝剛???鈭箸?摮貊????剁?? Diff 撌桃瘥?撖思???????閰蝑蕃霅臬?獢?撖虫???>
     <link rel="stylesheet" href="../style-github.css">
     <style>
         .banner {
@@ -77,25 +77,28 @@
             color: #57606a;
         }
     </style>
+    <!-- 全站導覽列樣式 -->
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="../../nav-global.css">
 </head>
 <body>
 <div class="container">
-    <a href="index.html" class="btn-back">⬅ 返回學科應用目錄</a>
+    <a href="index.html" class="btn-back">漎?餈?摮貊???桅?</a>
 
     <div class="banner">
-        <h1>✍️ 語文與人文學科 — GitHub 應用</h1>
-        <p>寫作的「草稿到定稿」過程，本質上就是一種「版本控制」</p>
+        <h1>?? 隤??犖?飛蝘???GitHub ?</h1>
+        <p>撖思???蝔踹摰阮??蝔??祈釭銝停?臭?蝔柴??祆?嗚?/p>
     </div>
 
-    <!-- 教師：Diff 寫作指導 -->
+    <!-- ?葦嚗iff 撖思??? -->
     <div class="scenario">
-        <span class="role-tag teacher-tag">👩‍🏫 教師教學應用</span>
-        <h2>利用「差異比對 (Diff)」進行寫作指導與同儕互評</h2>
-        <p>英文老師讓學生用 Markdown 格式繳交作文。學生修改後提交第二版時，老師可使用 Diff 功能一目了然地看到修改內容。</p>
+        <span class="role-tag teacher-tag">?????葦?飛?</span>
+        <h2>?拍?榆?唳?撠?(Diff)?脰?撖思???????閰?/h2>
+        <p>?望??葦霈飛? Markdown ?澆?蝜喃漱雿??飛?耨?孵??漱蝚砌???嚗葦?臭蝙??Diff ?銝?桐??嗅?靽格?批捆??/p>
         
-        <h3>📊 Diff 差異比對模擬</h3>
+        <h3>?? Diff 撌桃瘥?璅⊥</h3>
         <div class="diff-demo">
-            <div class="diff-header">📝 essay_climate_change.md — 學生修改前後對比</div>
+            <div class="diff-header">?? essay_climate_change.md ??摮貊?靽格??撠?</div>
             <div class="diff-line diff-context"> Climate change is a big problem in the world today.</div>
             <div class="diff-line diff-del">- Many people does not care about it.</div>
             <div class="diff-line diff-add">+ Many people do not seem to care about this issue.</div>
@@ -105,46 +108,49 @@
         </div>
 
         <div class="example-box">
-            <h4>🛠 操作流程</h4>
+            <h4>?? ??瘚?</h4>
             <ol>
-                <li>學生使用 Markdown 格式撰寫英文作文並提交到 GitHub</li>
-                <li>老師給予初步修改建議（可直接在程式碼行留言）</li>
-                <li>學生根據建議修改後提交第二版（新的 Commit）</li>
-                <li>老師使用 <strong>Diff 功能</strong>查看修改處：
+                <li>摮貊?雿輻 Markdown ?澆??啣神?望?雿?銝行?鈭文 GitHub</li>
+                <li>?葦蝯虫??郊靽格撱箄降嚗?湔?函?撘Ⅳ銵?閮嚗?/li>
+                <li>摮貊??寞?撱箄降靽格敺?鈭斤洵鈭?嚗??Commit嚗?/li>
+                <li>?葦雿輻 <strong>Diff ?</strong>?亦?靽格??
                     <ul>
-                        <li>🟢 <strong>綠色</strong>代表新增的文字</li>
-                        <li>🔴 <strong>紅色</strong>代表刪除的文字</li>
+                        <li>? <strong>蝬</strong>隞?”?啣???摮?/li>
+                        <li>? <strong>蝝</strong>隞?”?芷??摮?/li>
                     </ul>
                 </li>
-                <li>也可透過 <strong>Pull Request</strong> 讓學生進行同儕互評 (Peer Review)</li>
+                <li>銋?? <strong>Pull Request</strong> 霈飛?脰???鈭? (Peer Review)</li>
             </ol>
         </div>
     </div>
 
-    <!-- 學生：共筆翻譯 -->
+    <!-- 摮貊?嚗蝑蕃霅?-->
     <div class="scenario">
-        <span class="role-tag student-tag">👨‍🎓 學生學習應用</span>
-        <h2>共筆協作與開源翻譯</h2>
-        <p>學生組成自主學習小組，將國外一篇關於「氣候變遷」的優質開源英文文章翻譯成中文。</p>
+        <span class="role-tag student-tag">????摮貊?摮貊??</span>
+        <h2>?梁?????皞蕃霅?/h2>
+        <p>摮貊?蝯??芯蜓摮貊?撠?嚗???銝蝭??潦除???瑯??芾釭???望???蝧餉陌?葉??/p>
 
         <div class="example-box">
-            <h4>📝 協作翻譯流程</h4>
+            <h4>?? ??蝧餉陌瘚?</h4>
             <ol>
-                <li>在 GitHub 上建立翻譯專案 Repository</li>
-                <li>利用 <strong>Wiki 功能</strong>或共同編輯 Markdown 文件</li>
-                <li>每人負責不同的段落：
+                <li>??GitHub 銝遣蝡蕃霅臬?獢?Repository</li>
+                <li>?拍 <strong>Wiki ?</strong>??楊頛?Markdown ?辣</li>
+                <li>瘥犖鞎痊銝??挾?踝?
                     <ul>
-                        <li>A 同學負責第 1-3 章</li>
-                        <li>B 同學負責第 4-6 章</li>
-                        <li>C 同學負責附錄與詞彙表</li>
+                        <li>A ?飛鞎痊蝚?1-3 蝡?/li>
+                        <li>B ?飛鞎痊蝚?4-6 蝡?/li>
+                        <li>C ?飛鞎痊????敶”</li>
                     </ul>
                 </li>
-                <li>遇到翻譯瓶頸時，開 <strong>Issue</strong> 進行討論與集體決策</li>
-                <li>最終完成一份高品質的共筆翻譯作品</li>
+                <li>?蝧餉陌?園????<strong>Issue</strong> ?脰?閮???擃捱蝑?/li>
+                <li>?蝯???隞賡??釭?蝑蕃霅臭???/li>
             </ol>
-            <p>💡 <strong>學習價值：</strong>培養英語閱讀能力、團隊協作能力，以及翻譯的精確度與溝通技巧。</p>
+            <p>? <strong>摮貊??孵潘?</strong>?寥??梯??梯??賢?????雿??隞亙?蝧餉陌?移蝣箏漲????撌扼?/p>
         </div>
     </div>
 </div>
+    <!-- 全站導覽列 -->
+    <script src="../../nav-global.js"></script>
 </body>
 </html>
+

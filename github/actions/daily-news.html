@@ -1,26 +1,29 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每日新聞剪報</title>
+    <title>瘥?啗??芸</title>
     <link rel="stylesheet" href="../style-github.css">
+    <!-- 全站導覽列樣式 -->
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="../../nav-global.css">
 </head>
 <body>
 <div class="container">
-    <a href="../HowToUseGithub.html" class="btn-back">⬅ 返回主選單</a>
-    <h1>每日定時爬蟲與資料擷取</h1>
+    <a href="../HowToUseGithub.html" class="btn-back">漎?餈?銝駁??/a>
+    <h1>瘥摰??祈?????/h1>
     <div class="demo-box">
-        <h2>🛠 Actions Cron 排程實戰</h2>
-        <p>GitHub Actions 就像免費的伺服器，只要你定義了排程設定檔，即使你的電腦處於關機狀態，GitHub 伺服器依舊會在指定時間為你執行任務。</p>
+        <h2>?? Actions Cron ??撖行</h2>
+        <p>GitHub Actions 撠勗??祥?撩?嚗閬?摰儔鈭?蝔身摰?嚗雿蹂???西??潮?璈???GitHub 隡箸??其????冽?摰??雿銵遙??/p>
         
-        <h3>YAML 範例檔：每天早上執行 Python</h3>
-        <p>此腳本位於 <code>.github/workflows/daily.yml</code>：</p>
-<pre><code>name: 🤖 每日新聞自動剪報
+        <h3>YAML 蝭?瑼?瘥予?拐??瑁? Python</h3>
+        <p>甇方?砌???<code>.github/workflows/daily.yml</code>嚗?/p>
+<pre><code>name: ?? 瘥?啗??芸??芸
 on:
   schedule:
-    # 此處時間為 UTC，如果你住在台灣，時間要加 8 小時
-    # 這是指 UTC 的凌晨 4 點鐘執行 (即台灣中午 12 點)
+    # 甇方?????UTC嚗???雿?啁嚗?????8 撠?
+    # ???UTC ????4 暺??瑁? (?喳??葉??12 暺?
     - cron: '0 4 * * *'
 
 jobs:
@@ -29,17 +32,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: 啟動 Python
+      - name: ?? Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
           
-      - name: 開始抓取新聞
+      - name: ?????啗?
         run: |
           pip install requests
           python fetch_news.py
           
-      - name: 將整理好的新聞 HTML 存回 GitHub
+      - name: 撠?末???HTML 摮? GitHub
         run: |
           git config --global user.name "Actions Bot"
           git config --global user.email "bot@example.com"
@@ -47,39 +50,41 @@ jobs:
           git commit -m "update news"
           git push</code></pre>
 
-        <h3>Python 爬蟲腳本：fetch_news.py</h3>
-        <p>這是一個簡單的 Python 腳本範例，會在背景擷取新聞並自動產生 HTML 檔案 (<code>report-today.html</code>)：</p>
+        <h3>Python ?祈?單嚗etch_news.py</h3>
+        <p>?銝?陛?桃? Python ?單蝭?嚗??刻??舀??蒂?芸??Ｙ? HTML 瑼? (<code>report-today.html</code>)嚗?/p>
 <pre><code>import requests
 from datetime import datetime
 
-# 取得開放資料或新聞 API (以維基百科每日精選文章為例)
+# ???鞈????API (隞亦雁?箇蝘??亦移?豢?蝡靘?
 today = datetime.today().strftime('%Y/%m/%d')
 response = requests.get(f'https://zh.wikipedia.org/api/rest_v1/feed/featured/{today}')
 data = response.json()
 
-# 整理資訊並產生 HTML 內容
-html_content = f"&lt;html&gt;&lt;head&gt;&lt;meta charset='utf-8'&gt;&lt;title&gt;今日新聞剪報&lt;/title&gt;&lt;/head&gt;&lt;body&gt;\n"
-html_content += f"&lt;h1&gt;🗞️ 今日新聞剪報 ({today})&lt;/h1&gt;\n"
+# ?渡?鞈?銝衣??HTML ?批捆
+html_content = f"&lt;html&gt;&lt;head&gt;&lt;meta charset='utf-8'&gt;&lt;title&gt;隞?啗??芸&lt;/title&gt;&lt;/head&gt;&lt;body&gt;\n"
+html_content += f"&lt;h1&gt;??儭?隞?啗??芸 ({today})&lt;/h1&gt;\n"
 
-if 'tfa' in data: # 主要推薦條目
+if 'tfa' in data: # 銝餉??刻璇
     title = data['tfa']['title']
     extract = data['tfa']['extract']
     url = data['tfa']['content_urls']['desktop']['page']
     
     html_content += f"&lt;h2&gt;{title}&lt;/h2&gt;\n"
     html_content += f"&lt;p&gt;{extract}&lt;/p&gt;\n"
-    html_content += f"&lt;a href='{url}' target='_blank'&gt;閱讀完整文章&lt;/a&gt;\n"
+    html_content += f"&lt;a href='{url}' target='_blank'&gt;?梯?摰??&lt;/a&gt;\n"
 
 html_content += "&lt;/body&gt;&lt;/html&gt;"
 
-# 輸出儲存成檔案
-with open('report-today.html', 'w', encoding='utf-8') as f:
+# 頛詨?脣???獢?with open('report-today.html', 'w', encoding='utf-8') as f:
     f.write(html_content)
     
-print("新聞報表產生完成！")</code></pre>
+print("?啗??梯”?Ｙ?摰?嚗?)</code></pre>
 
-        <p>透過這樣的方法，不需花費一毛錢，只需撰寫簡單的 Python 邏輯，即可完成無伺服器化的長期追蹤機器人，每天將最新的資訊推送到你的 Repo 裡！</p>
+        <p>???見?瘜?銝??梯祥銝瘥嚗??啣神蝪∪??Python ?摩嚗?臬??隡箸??典???蕭頩斗??其犖嚗?憭拙???啁?鞈??券雿? Repo 鋆∴?</p>
     </div>
 </div>
+    <!-- 全站導覽列 -->
+    <script src="../../nav-global.js"></script>
 </body>
 </html>
+
