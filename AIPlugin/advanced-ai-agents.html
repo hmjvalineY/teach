@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>進階 AI 代理與擴充工具比較 | AI Plugin Hub</title>
+    <meta name="description" content="深入比較 OPENCLAW, Hermes, CodeX Chrome Plugin, Claude Cowork, Perplexity Comet 與 Google Antigravity 的原理、功能與應用情境。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 全站導覽列樣式 -->
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../nav-global.css">
+    <link rel="stylesheet" href="plugin-shared.css">
+    
+    <style>
+        .comparison-section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+            font-size: 0.95rem;
+        }
+
+        .comparison-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-light);
+            font-weight: 700;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-primary);
+        }
+
+        .comparison-table strong {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        /* 推薦情境區塊 */
+        .scenario-recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .scenario-card {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            opacity: 0.7;
+        }
+
+        .scenario-card.dev::before { background: #3b82f6; }
+        .scenario-card.research::before { background: #10b981; }
+        .scenario-card.team::before { background: #f59e0b; }
+        .scenario-card.browser::before { background: #8b5cf6; }
+
+        .scenario-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-hover);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .scenario-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .scenario-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .recommended-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-badge {
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .scenario-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🧩</span>
+                <span>AI Plugin Hub</span>
+            </a>
+            <a href="index.html" class="navbar-back">← 返回工具目錄</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 英雄區塊 -->
+        <section class="hero">
+            <span class="hero-badge">📊 深度評測與比較</span>
+            <h1>進階 AI 代理與擴充工具大比拼</h1>
+            <p>全方位解析 OPENCLAW、Hermes、CodeX、Claude Cowork、Perplexity Comet 與 Google Antigravity，幫您找到最適合的 AI 神隊友。</p>
+        </section>
+
+        <!-- 比較表格區塊 -->
+        <h2 class="section-title"><span class="icon">⚖️</span> 六大 AI 工具綜合比較</h2>
+        <div class="comparison-section">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="min-width:180px;">工具名稱</th>
+                        <th>運作原理</th>
+                        <th>主要功能</th>
+                        <th>特點優勢</th>
+                        <th>相對缺點</th>
+                        <th>費用模式</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>🤖 OPENCLAW</strong><span style="font-size:0.8rem; color:var(--text-tertiary);">開源自主開發代理</span></td>
+                        <td>基於 LLM 的開源自主 Agent 架構，具備直接操作作業系統環境與檔案的能力。</td>
+                        <td>自動化撰寫與重構程式碼、終端機指令執行、本機環境除錯。</td>
+                        <td>高度開源自由、可無縫串接多種本地 (Ollama) 或雲端 LLM，隱私性極高。</td>
+                        <td>需要一定的技術門檻進行安裝與設定，對硬體資源 (RAM/GPU) 較為吃重。</td>
+                        <td>軟體本身免費 (若使用雲端 API 則需自付 Token 費用)。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🧠 Hermes Agent</strong><span style="font-size:0.8rem; color:var(--text-tertiary);">Nous Research 記憶代理</span></td>
+                        <td>具備持久記憶與自動技能學習 (Skill Learning) 的個人化 AI 代理。</td>
+                        <td>自動記錄使用者偏好、文件分類、本機自動化任務、日常指令執行。</td>
+                        <td>自我進化能力強，用越久越懂你；專注於個人知識庫建立與任務自動化。</td>
+                        <td>對於一般非開發者用戶，透過 WSL2 安裝流程稍微繁瑣。</td>
+                        <td>開源免費 (可搭配免費 API 如 Google AI Studio 或本地模型)。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>💻 CodeX Plugin</strong><span style="font-size:0.8rem; color:var(--text-tertiary);">Chrome 擴充功能</span></td>
+                        <td>將 AI 程式碼生成模型直接內嵌於瀏覽器網頁環境中的擴充套件。</td>
+                        <td>在網頁 (如 GitHub, LeetCode) 上直接生成、解釋與除錯程式碼片段。</td>
+                        <td>隨裝即用，無須離開當前瀏覽的網頁，輕量且直覺。</td>
+                        <td>受限於瀏覽器沙盒環境，無法直接修改本機電腦的檔案或執行終端機。</td>
+                        <td>多數提供基礎免費額度，進階功能可能需要綁定付費帳號。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🤝 Claude Cowork</strong><span style="font-size:0.8rem; color:var(--text-tertiary);">協作平台與外掛</span></td>
+                        <td>Anthropic 針對團隊協作與跨文件 Context 共享打造的 AI 架構。</td>
+                        <td>跨文件協同寫作、超長文本 (200K+) 深度分析、團隊知識共享。</td>
+                        <td>邏輯推理能力與文字流暢度極高，非常適合長篇企劃與團隊腦力激盪。</td>
+                        <td>偏向文件與知識處理，在直接執行程式碼或本機環境控制上較弱。</td>
+                        <td>需要訂閱 Claude Pro 或 Team 企業方案。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🔍 Perplexity Comet</strong><span style="font-size:0.8rem; color:var(--text-tertiary);">深度研究引擎</span></td>
+                        <td>結合即時網路爬蟲與 AI 理解的深度研究與上下文感知搜尋引擎。</td>
+                        <td>深度網頁搜尋、即時引用文獻標註、內容聚合分析與學術摘要。</td>
+                        <td>資訊準確度極高，皆附有參考來源，能有效避免 AI 幻覺 (Hallucination)。</td>
+                        <td>功能專注於「找資料與整理」，無法生成複雜專案或修改本機系統。</td>
+                        <td>基礎搜尋免費，Comet/Pro 進階研究功能需付費訂閱。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🚀 Google Antigravity</strong><span style="font-size:0.8rem; color:var(--text-tertiary);">DeepMind 進階開發代理</span></td>
+                        <td>Google 研發之 Advanced Agentic Coding 助理，深度整合開發環境。</td>
+                        <td>完全自主的程式碼編寫、專案架構設計、自動執行測試與 Bug 修復。</td>
+                        <td>能理解龐大的程式碼庫 (Codebase) 脈絡，具備極強的任務自主完成能力。</td>
+                        <td>目前多屬於高階或內部開發工具，一般使用者較難輕易取得或部署。</td>
+                        <td>通常為企業級訂閱或特定開發平台專屬。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 應用情境推薦區塊 -->
+        <h2 class="section-title"><span class="icon">🎯</span> 應用情境與工具推薦</h2>
+        <div class="scenario-recommendations">
+            
+            <!-- 情境一：本機開發 -->
+            <div class="scenario-card dev">
+                <div class="scenario-title">
+                    <span class="scenario-icon">👨‍💻</span>
+                    <span>深度的本機端開發與環境自動化操作</span>
+                </div>
+                <div class="recommended-tools">
+                    <span class="tool-badge">Google Antigravity</span>
+                    <span class="tool-badge">OPENCLAW</span>
+                    <span class="tool-badge">Hermes Agent</span>
+                </div>
+                <div class="scenario-desc">
+                    當你需要 AI 幫你直接修改電腦裡的程式碼、建立資料夾、甚至在終端機幫你下指令 (例如 <code>npm install</code>) 時，這三個具備本機執行權限的 Agent 是最佳選擇。它們能真正成為你的全端開發副手。
+                </div>
+            </div>
+
+            <!-- 情境二：學術與文獻研究 -->
+            <div class="scenario-card research">
+                <div class="scenario-title">
+                    <span class="scenario-icon">📚</span>
+                    <span>網頁端高效能搜尋與長篇文獻研究</span>
+                </div>
+                <div class="recommended-tools">
+                    <span class="tool-badge">Perplexity Comet</span>
+                </div>
+                <div class="scenario-desc">
+                    如果你正在寫論文、做市場調查或整理大量新聞資訊，你需要的是「精確且有來源附註」的工具。Perplexity Comet 能幫你即時爬梳全網資訊，是避免 AI 胡說八道的最佳研究利器。
+                </div>
+            </div>
+
+            <!-- 情境三：團隊寫作與企劃 -->
+            <div class="scenario-card team">
+                <div class="scenario-title">
+                    <span class="scenario-icon">📝</span>
+                    <span>團隊協作企劃與跨文件的知識寫作</span>
+                </div>
+                <div class="recommended-tools">
+                    <span class="tool-badge">Claude Cowork / Plugin</span>
+                </div>
+                <div class="scenario-desc">
+                    面對需要同時參考數十份 PDF 或文件檔，並與同事一起完成的專案報告。Claude 驚人的長文本記憶力與流暢的文字生成能力，能讓團隊的腦力激盪與彙整工作事半功倍。
+                </div>
+            </div>
+
+            <!-- 情境四：輕量網頁除錯 -->
+            <div class="scenario-card browser">
+                <div class="scenario-title">
+                    <span class="scenario-icon">⚡</span>
+                    <span>快速在瀏覽器中生成程式碼與除錯</span>
+                </div>
+                <div class="recommended-tools">
+                    <span class="tool-badge">CodeX Chrome Plugin</span>
+                </div>
+                <div class="scenario-desc">
+                    不想安裝肥大的軟體，只想在刷 LeetCode 或是看 GitHub 原始碼時，有個 AI 隨時幫你解釋某段 Code 或找出語法錯誤？輕量級的 CodeX 外掛能無縫融入你的網頁瀏覽體驗。
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 頁尾 -->
+    <footer style="margin-top: 4rem; text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--text-tertiary);">
+        <p>&copy; 2026 AI Plugin Hub — <a href="../index.html" style="color: var(--text-secondary);">教學資源總覽入口網</a></p>
+    </footer>
+
+    <!-- 全站導覽列 -->
+    <script src="../nav-global.js"></script>
+</body>
+
+</html>
