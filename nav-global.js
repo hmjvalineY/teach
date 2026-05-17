@@ -65,8 +65,10 @@
         { label: 'GitHub', icon: '🐙', href: basePath + 'github/HowToUseGithub.html', id: 'github' },
         { label: '新聞', icon: '📰', href: basePath + 'news/news.html', id: 'news' },
         { label: 'AI 工具', icon: '🤖', href: basePath + 'StitchAndJules/index.html', id: 'ai' },
+        { label: '外掛', icon: '🧩', href: basePath + 'AIPlugin/index.html', id: 'plugin' },
         { label: '路徑', icon: '🗺️', href: basePath + 'learning-paths.html', id: 'paths' },
         { label: '工具', icon: '🧰', href: basePath + 'teacher-tools.html', id: 'teacher' },
+        { label: '進度', icon: '📊', href: basePath + 'progress.html', id: 'progress' },
         { label: '社群', icon: '💬', href: basePath + 'discussions.html', id: 'community' },
     ];
 

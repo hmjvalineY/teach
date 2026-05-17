@@ -34,8 +34,11 @@ def generate_html(news_items):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>楊梅高中 相關新聞自動更新</title>
+        <!-- 全站樣式 -->
+        <link rel="stylesheet" href="../tokens.css">
+        <link rel="stylesheet" href="../nav-global.css">
         <style>
-            body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }}
+            body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; padding-top: 80px; line-height: 1.6; }}
             h1 {{ color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }}
             .update-time {{ color: #7f8c8d; font-size: 0.9em; }}
             .news-item {{ margin-bottom: 15px; padding: 10px; background-color: #f9f9f9; border-radius: 5px; }}
@@ -60,6 +63,8 @@ def generate_html(news_items):
         
     html += """
         </div>
+        <!-- 全站導覽列 -->
+        <script src="../nav-global.js"></script>
     </body>
     </html>
     """
