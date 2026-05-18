@@ -600,7 +600,11 @@
             <p>在 PowerShell 中輸入以下指令（Windows 10 build 19041+ 和 Windows 11 皆適用）：</p>
             <span class="code-label">PowerShell（系統管理員）</span>
             <div class="code-block"><code><span class="cmd">wsl</span> <span class="flag">--install</span></code></div>
-            <p>此指令會自動啟用必要的 Windows 功能、下載並安裝最新的 Linux 核心，以及預設安裝 Ubuntu 發行版。安裝完成後需要<strong>重新啟動電腦</strong>。</p>
+            <p>此指令會自動啟用必要的 Windows 功能、下載並安裝最新的 Linux 核心，以及預設安裝 Ubuntu 發行版。安裝完成後，可先確認發行版狀態並將 Ubuntu 設為預設：</p>
+            <span class="code-label">PowerShell（系統管理員）</span>
+            <div class="code-block"><code><span class="cmd">wsl</span> <span class="flag">-l</span> <span class="flag">-v</span>
+<span class="cmd">wsl</span> <span class="flag">-s</span> Ubuntu</code></div>
+            <p>確認完成後再<strong>重新啟動電腦</strong>，讓後續 Ubuntu 初始化流程順利執行。</p>
 
             <h4>步驟四：設定 Linux 使用者帳號</h4>
             <p>重新開機後，Ubuntu 會自動啟動並要求你建立使用者帳號和密碼。這個密碼用於 Linux 環境中的管理員操作（sudo）。</p>
