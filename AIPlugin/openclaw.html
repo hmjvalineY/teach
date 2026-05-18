@@ -87,57 +87,83 @@
         </section>
 
         <section class="content-section">
-            <h2><span class="icon">🚀</span> Windows 一鍵安裝</h2>
-            <p>在 Windows 上，您可以透過 PowerShell 輕鬆進行一鍵安裝。請開啟 PowerShell（建議以系統管理員身分執行），然後輸入以下指令：</p>
-            <div class="code-block">powershell -c "irm https://openclaw.ai/install.ps1 | iex"</div>
-            <p>這個指令會自動下載並執行安裝腳本，為您配置好基本環境。</p>
-        </section>
-
-        <section class="content-section">
-            <h2><span class="icon">📦</span> 依賴項目 (Dependencies)</h2>
-            <p>在安裝與運行 OpenClaw 之前，您的系統需要具備以下軟體依賴：</p>
-            <ul class="dependency-list">
-                <li><strong>Node.js:</strong> 必須安裝版本 22 或以上（建議 24）。若版本過舊會導致功能無法正常執行或出錯。</li>
-                <li><strong>Git:</strong> 用於管理核心檔案與後續的版本更新。</li>
-                <li><strong>命令列工具:</strong> 需要 PowerShell 或 Windows Terminal 來執行指令及操作介面。</li>
-            </ul>
-        </section>
-
-        <section class="content-section">
-            <h2><span class="icon">⚙️</span> 系統運行方式</h2>
-            <p>OpenClaw 在 Windows 上的運行方式主要分為兩種：</p>
+            <h2><span class="icon">💻</span> 準備 WSL 環境</h2>
+            <p>為了獲得最佳的相容性與開發體驗，我們強烈建議在 Windows Subsystem for Linux (WSL) 環境中安裝 OpenClaw。請開啟 PowerShell（以系統管理員身分執行），依序輸入以下指令：</p>
             <ol>
-                <li><strong>Windows 原生 PowerShell 運行：</strong> 透過上述的一鍵安裝指令，OpenClaw 會直接在 Windows 的環境中透過 Node.js 執行。這是最直接的方法，但依賴 Windows 的檔案系統與權限機制。</li>
-                <li><strong>WSL2 運行（推薦）：</strong> 開發者社群通常更推薦在 Windows Subsystem for Linux (WSL2) 中運行。它提供更穩定的 Linux 環境，對於許多開發工具、檔案權限和相依套件的相容性更好。</li>
+                <li><strong>安裝 WSL：</strong>
+                    <div class="code-block">wsl --install</div>
+                </li>
+                <li><strong>更新 WSL 核心：</strong>
+                    <div class="code-block">wsl --update</div>
+                </li>
+                <li><strong>確認安裝狀態：</strong>
+                    <div class="code-block">wsl -l -v</div>
+                </li>
+                <li><strong>設定 Ubuntu 為預設啟動：</strong>若您有安裝多個發行版，請確保 Ubuntu 是預設的。
+                    <div class="code-block">wsl --set-default Ubuntu</div>
+                </li>
+            </ol>
+            <p>完成後，請重新啟動電腦並開啟 <strong>Ubuntu</strong> 終端機進行後續操作。</p>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">🚀</span> WSL (Linux) 一鍵安裝</h2>
+            <p>在您的 Ubuntu 終端機中，直接執行以下指令即可進行一鍵安裝，腳本會自動為您配置好 Node.js 等必要環境：</p>
+            <div class="code-block">curl -fsSL https://openclaw.ai/install.sh | bash</div>
+            <p>安裝完成後，輸入 <code>openclaw</code> 即可啟動並進入初始設定。</p>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">🔑</span> 取得與設定 API 金鑰</h2>
+            <p>OpenClaw 需要 AI 模型 API 才能運作。本指南推薦使用 Google 的 <strong>Gemini 3.1 Flash Lite</strong>，它具有極快的反應速度與優異的成本效益：</p>
+            <ol>
+                <li>前往 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--primary-color);">Google AI Studio</a> 並登入您的 Google 帳號。</li>
+                <li>點擊左側選單的 <strong>"Get API key"</strong>。</li>
+                <li>點選 <strong>"Create API key"</strong>，並將生成的字串複製下來。</li>
+                <li>在 OpenClaw 初始設定或其 <code>.env</code> 設定檔中，選擇 Gemini 作為提供者，並貼上此 API 金鑰。</li>
             </ol>
         </section>
 
         <section class="content-section">
-            <h2><span class="icon">🔧</span> 初始化設定</h2>
-            <p>安裝完成後，您需要進行初始化設定才能開始使用。最重要的是配置 AI 模型的 API 金鑰：</p>
+            <h2><span class="icon">▶️</span> 啟動與進行對話</h2>
+            <p>設定完畢後，您只需在終端機輸入啟動指令即可開始與您的 AI 助理對話：</p>
             <ol>
-                <li>OpenClaw 本身不包含內建模型，您需要提供支援的 API 金鑰，例如 <strong>Anthropic Claude</strong> 或 <strong>OpenAI GPT</strong>。</li>
-                <li>如果您想使用本地端免費運行的模型，可以搭配 <strong>Ollama</strong> 使用，只需在設定時指定本地伺服器位址 (例如 <code>http://localhost:11434</code>) 即可。</li>
-                <li>首次在終端機啟動 OpenClaw 時，系統會透過互動式選單引導您填入這些資訊，您也可以在生成的設定檔中手動修改環境變數。</li>
+                <li><strong>啟動 OpenClaw：</strong>在 Ubuntu 終端機中輸入 <code>openclaw</code> 並按下 Enter，即可進入互動對話模式。</li>
+                <li><strong>與 AI 溝通：</strong>您可以直接輸入自然語言（繁體中文）指令。例如：<code>幫我建立一個名為 project 的資料夾，並在裡面建立 index.html</code>，AI 會自動分析並在取得您的同意後執行相應的系統指令。</li>
+                <li><strong>結束對話：</strong>輸入 <code>exit</code> 或按下 <code>Ctrl + C</code> 即可退出。</li>
+            </ol>
+            <p><strong>提示：</strong>若遇到終端機錯誤，您可以將錯誤訊息直接貼給 OpenClaw，請它為您分析並自動修復。</p>
+        </section>
+
+        <section class="content-section">
+            <h2><span class="icon">💬</span> LINE 遠端連線設定</h2>
+            <p>您可以將 OpenClaw 與 LINE Bot 結合，實現出門在外也能遠端指揮家裡或學校電腦的操作：</p>
+            <ol>
+                <li>至 <strong>LINE Developers Console</strong> 建立一個新的 Provider 與 Messaging API Channel。</li>
+                <li>在 Channel 設定中取得 <strong>Channel Secret</strong> 與 <strong>Channel Access Token</strong>。</li>
+                <li>在 OpenClaw 的設定檔（通常在 <code>~/.openclaw/config.json</code> 或透過終端機設定介面）中，啟用 LINE 整合，填入上述兩個金鑰。</li>
+                <li>使用 <strong>ngrok</strong> 或其他反向代理工具，將您本機的 OpenClaw webhook port 暴露到網際網路。</li>
+                <li>將生成的 HTTPS 網址填回 LINE Developers 的 Webhook URL 欄位並驗證。</li>
+                <li>完成後，您就可以在 LINE 官方帳號上傳送文字指令，OpenClaw 將在您的電腦上遠端執行任務並回報結果！</li>
             </ol>
         </section>
 
         <section class="content-section">
-            <h2><span class="icon">💡</span> 如何使用與應用範例</h2>
-            <p>設定完畢後，只需在終端機中輸入 <code>openclaw</code> 即可啟動您的 AI 助理並開始對話。</p>
+            <h2><span class="icon">💡</span> 教師與學生應用情境</h2>
             
-            <h3>應用範例 1：建立專案結構</h3>
-            <p>您可以直接用語音或文字命令它：</p>
-            <div class="code-block">"請幫我建立一個名為 my-react-app 的 React 專案，並安裝 tailwindcss。"</div>
-            <p>OpenClaw 會自動分析指令，並在終端機中為您產生並執行 <code>npx create-react-app</code> 及相關設定指令。</p>
+            <h3>👨‍🏫 教師應用情境</h3>
+            <ul>
+                <li><strong>自動化批改與檔案整理：</strong>「幫我把目前資料夾所有學生的作業壓縮檔解壓縮，並依照學號建立獨立資料夾分類。」</li>
+                <li><strong>教材快速生成：</strong>「建立一個 Python 基礎教學的 Markdown 檔案大綱，包含變數、迴圈與函式的範例程式碼。」</li>
+                <li><strong>遠端管理設備（搭配 LINE）：</strong>離開教室時，透過手機 LINE 傳送指令：「關閉電腦所有的瀏覽器視窗，並讓電腦在 5 分鐘後休眠。」</li>
+            </ul>
 
-            <h3>應用範例 2：檔案管理與整理</h3>
-            <div class="code-block">"把目前資料夾中所有的 .jpg 圖片移動到名為 Images 的新資料夾中。"</div>
-            <p>它會讀取當前目錄的檔案列表，自動建立資料夾並執行搬移操作，免去手動輸入複雜 PowerShell 指令的麻煩。</p>
-
-            <h3>應用範例 3：系統疑難排解</h3>
-            <div class="code-block">"我的 8080 port 被哪個處理程序佔用了？請幫我找出來並關閉它。"</div>
-            <p>它會自動執行系統網路指令（如 <code>netstat</code> 或 <code>Get-Process</code>），找出佔用該 port 的程式並在取得您的確認後終止該程序。</p>
+            <h3>👩‍🎓 學生應用情境</h3>
+            <ul>
+                <li><strong>程式除錯小幫手：</strong>「我的 Node.js 專案一直報錯說 port 3000 被佔用，幫我找出佔用的程式並關閉它。」</li>
+                <li><strong>專案環境快速建立：</strong>「幫我建立一個包含 HTML, CSS, JavaScript 檔案的基本網頁專案結構，並幫我寫好簡單的導覽列樣板。」</li>
+                <li><strong>Git 版本控制輔助：</strong>「幫我把現在的修改建立一個 commit，訊息寫『完成登入頁面排版』，並推送到 GitHub 上。」</li>
+            </ul>
         </section>
 
     </div>
