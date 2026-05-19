@@ -453,6 +453,7 @@
                 <li><a href="#install">安裝 Hermes Agent</a></li>
                 <li><a href="#api">免費 API 金鑰申請</a></li>
                 <li><a href="#demo">使用示範過程</a></li>
+                <li><a href="#line-bot">設定 LINE 機器人 (Webhook & Gateway)</a></li>
                 <li><a href="#edu">教師與學生應用指南</a></li>
             </ol>
         </div>
@@ -933,7 +934,69 @@ EOF</code></div>
             </table>
         </div>
 
-        <!-- ===== 第 6 節：教師與學生應用 ===== -->
+        <!-- ===== 第 6 節：LINE 機器人設定 ===== -->
+        <h2 class="section-title" id="line-bot"><span class="icon">💬</span> 設定 LINE 機器人 (Webhook & Gateway)</h2>
+
+        <div class="tutorial-section">
+            <h3>第一步：安裝 ngrok</h3>
+            <p>加入 ngrok 的官方金鑰與軟體源：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">curl</span> -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | <span class="cmd">sudo tee</span> /etc/apt/keyrings/ngrok.asc >/dev/null
+<span class="cmd">echo</span> <span class="string">"deb [signed-by=/etc/apt/keyrings/ngrok.asc] https://ngrok-agent.s3.amazonaws.com buster main"</span> | <span class="cmd">sudo tee</span> /etc/apt/sources.list.d/ngrok.list</code></div>
+
+            <p>更新並安裝 ngrok，接著綁定你的帳號 Token。<br>你需要先到 <a href="https://ngrok.com/" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:underline;">ngrok 官網</a> 註冊一個免費帳號，登入後在後台找到你的 Authtoken。然後在 WSL 執行：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">sudo apt</span> update && <span class="cmd">sudo apt</span> install ngrok
+<span class="cmd">ngrok</span> config add-authtoken <span class="string">你的_AUTH_TOKEN_貼在這裡</span></code></div>
+
+            <h3>第二步：建立 LINE 訊息 API 通道</h3>
+            <ol>
+                <li>前往 <a href="https://developers.line.biz/" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:underline;">LINE 開發者控制台</a>。</li>
+                <li>建立一個提供程序 (Provider)，然後在該提供者下建立一個訊息傳遞 API (Messaging API) 通道。</li>
+                <li>從頻道的基本設定標籤中，複製頻道金鑰 (Channel Secret)。</li>
+                <li>在「訊息傳遞 API」標籤中，捲動至「頻道存取權杖（長期有效）」(Channel access token)，然後按一下「頒發」並複製令牌。</li>
+                <li>在「訊息 API」標籤中，同時停用「自動回覆訊息」和「問候訊息」，以免它們干擾機器人的回覆。</li>
+            </ol>
+
+            <h3>第三步：設定 Hermes 環境變數</h3>
+            <p>將取得的 LINE 金鑰加入設定檔中。請在 WSL 終端機編輯或添加 <code>~/.hermes/.env</code> 檔案內容：</p>
+            <span class="code-label">環境變數 (.env)</span>
+            <div class="code-block"><code><span class="comment"># =============================================================================</span>
+<span class="comment"># LINE Messaging API setup</span>
+<span class="comment"># =============================================================================</span>
+
+LINE_CHANNEL_ID=<span class="string">你的_LINE_CHANNEL_ID</span>
+LINE_CHANNEL_SECRET=<span class="string">你的_LINE_CHANNEL_SECRET</span>
+LINE_CHANNEL_ACCESS_TOKEN=<span class="string">你的_LINE_CHANNEL_ACCESS_TOKEN</span>
+LINE_ALLOW_ALL_USERS=true</code></div>
+
+            <h3>第四步：設定 Gateway 並設為系統服務</h3>
+            <p>執行 Hermes setup gateway 進行 LINE 設定，並把 gateway 設為系統服務啟動：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">sudo</span> $(which hermes) gateway install <span class="flag">--system</span> <span class="flag">--run-as-user</span> <span class="string">hmjvaline</span>
+<span class="cmd">sudo</span> $(which hermes) gateway start <span class="flag">--system</span></code></div>
+            <div class="tip-box">
+                <span class="tip-icon">💡</span>
+                <p>如果你在 WSL 中的使用者名稱不是 <code>hmjvaline</code>，請記得替換為你實際的帳號名稱。</p>
+            </div>
+
+            <h3>第五步：執行 ngrok 暴露 Webhook 端口</h3>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="cmd">ngrok</span> http 8646</code></div>
+            <p>執行後會看到一個轉發網址（如 <code>https://&lt;your-tunnel&gt;.ngrok.app</code>），請複製該網址，下一步會用到。<strong>注意：使用免費版 ngrok 時，每次重新啟動該網址都會改變。</strong></p>
+
+            <h3>第六步：設定 Webhook URL</h3>
+            <p>返回 LINE 控制台：</p>
+            <ol>
+                <li>開啟您的頻道 &rarr; <strong>訊息傳遞 API</strong> 標籤。</li>
+                <li>在 Webhook 設定 &rarr; Webhook URL 下，貼上 <code>https://&lt;your-tunnel&gt;.ngrok.app/line/webhook</code>（將 <code>&lt;your-tunnel&gt;.ngrok.app</code> 替換為第五步取得的網址，注意 <strong>/line/webhook</strong> 路徑 — 適配器會監聽該路徑）。</li>
+                <li>點選「驗證」。LINE 會向該 URL 發送請求；您應該會看到 200 回傳值。</li>
+                <li>將「使用 webhook」選項切換為「開啟」。</li>
+            </ol>
+            <p>完成以上步驟後，你就可以在 LINE 裡面和 Hermes Agent 聊天了！</p>
+        </div>
+
+        <!-- ===== 第 7 節：教師與學生應用 ===== -->
         <h2 class="section-title" id="edu"><span class="icon">🎓</span> 教師與學生應用指南</h2>
 
         <div class="tutorial-section">
