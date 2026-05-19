@@ -600,6 +600,21 @@
             <p>在 PowerShell 中輸入以下指令（Windows 10 build 19041+ 和 Windows 11 皆適用）：</p>
             <span class="code-label">PowerShell（系統管理員）</span>
             <div class="code-block"><code><span class="cmd">wsl</span> <span class="flag">--install</span></code></div>
+
+            <div class="tip-box warn">
+                <span class="tip-icon">⚠️</span>
+                <p><strong>首次安裝注意事項（電腦從未啟用虛擬化平台的情況）：</strong><br>
+                如果你的電腦<strong>從未安裝過 WSL 或虛擬化平台</strong>，第一次執行 <code>wsl --install</code> 時，系統會先啟用「虛擬機器平台」和「Windows 子系統 Linux 版」等 Windows 功能，但<strong>尚未下載 Ubuntu</strong>。此時你<strong>必須先重新開機</strong>，讓 Windows 完成這些底層功能的套用。<br><br>
+                <strong>完整流程如下：</strong></p>
+            </div>
+
+            <ol style="margin: 0.8rem 0 1.2rem; padding-left: 1.5rem;">
+                <li>以系統管理員身分執行 <code>wsl --install</code>（第一次：啟用虛擬平台功能）</li>
+                <li>安裝完成後系統不會主動提示重開機，請<strong>自行手動重新啟動電腦</strong>以套用變更</li>
+                <li>開機完成後，再次以系統管理員開啟 PowerShell</li>
+                <li>再次執行 <code>wsl --install</code>（第二次：下載並安裝 Ubuntu 發行版）</li>
+            </ol>
+
             <p>此指令會自動啟用必要的 Windows 功能、下載並安裝最新的 Linux 核心，以及預設安裝 Ubuntu 發行版。安裝完成後，可先確認發行版狀態並將 Ubuntu 設為預設：</p>
             <span class="code-label">PowerShell（系統管理員）</span>
             <div class="code-block"><code><span class="cmd">wsl</span> <span class="flag">-l</span> <span class="flag">-v</span>
@@ -701,10 +716,18 @@ New password: <span class="string">********</span></code></div>
             </div>
 
             <h4>（選用）安裝 Web UI 圖形介面</h4>
-            <p>如果你不習慣使用終端機，可以安裝 Hermes Web UI 來獲得類似 ChatGPT 的圖形化網頁對話介面。請在 WSL2 終端機中執行以下指令：</p>
+            <p>如果你不習慣使用終端機，可以安裝 Hermes Web UI 來獲得類似 ChatGPT 的圖形化網頁對話介面。</p>
+
+            <div class="tip-box warn">
+                <span class="tip-icon">⚠️</span>
+                <p><strong>重要：請安裝在 WSL 原生目錄中！</strong><br>
+                hermes-webui 必須安裝在 WSL2 的原生 Linux 檔案系統中（例如 <code>~/</code> 家目錄），<strong>不要</strong>安裝在 <code>/mnt/c/</code> 或 <code>/mnt/d/</code> 等 Windows 掛載目錄下。使用 <code>/mnt/</code> 路徑會導致檔案系統效能低落、權限問題以及 Node.js 套件安裝失敗等問題。</p>
+            </div>
+
+            <p>請在 WSL2 終端機中執行以下指令：</p>
             <span class="code-label">WSL2 Ubuntu 終端機</span>
-            <div class="code-block"><code><span class="comment"># 先切換到 C 槽根目錄（避免在預設的 System32 系統目錄下執行）</span>
-<span class="cmd">cd</span> /mnt/c
+            <div class="code-block"><code><span class="comment"># 切換到 WSL 家目錄（重要：不要使用 /mnt/ 下的 Windows 目錄）</span>
+<span class="cmd">cd</span> ~
 <span class="cmd">git clone</span> https://github.com/nesquena/hermes-webui.git hermes-webui
 <span class="cmd">cd</span> hermes-webui
 <span class="cmd">./start.sh</span></code></div>
@@ -717,6 +740,28 @@ New password: <span class="string">********</span></code></div>
                 請務必將網址改為 <a href="http://localhost:8787" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:underline;">http://localhost:8787</a> 進入，才能正確送出招呼用語並讓 AI 正常回應與儲存設定。<br><br>
                 <strong>連線中斷處理：</strong><br>
                 如果網頁頂端出現 <code>Hermes is unreachable from this browser right now</code> 的警告，請回到 WSL2 終端機的 <code>hermes-webui</code> 目錄下，再次執行 <code>./start.sh</code> 即可重新建立連線。</p>
+            </div>
+
+            <h4>設定 WSL 啟動時自動執行 Hermes Web UI</h4>
+            <p>每次開啟 WSL Ubuntu 時手動啟動 Web UI 較為麻煩，你可以將啟動指令加入 Shell 設定檔中，讓 WSL 開啟時自動在背景啟動 Hermes Web UI：</p>
+            <span class="code-label">WSL2 Ubuntu 終端機</span>
+            <div class="code-block"><code><span class="comment"># 將自動啟動指令寫入 .bashrc（每次開啟 WSL 終端機時自動執行）</span>
+<span class="cmd">cat</span> <span class="flag">&lt;&lt;'EOF'</span> >> ~/.bashrc
+
+<span class="comment"># === 自動啟動 Hermes Web UI ===</span>
+<span class="cmd">if</span> ! pgrep -f "hermes-webui/start.sh" > /dev/null 2>&1; <span class="cmd">then</span>
+    <span class="cmd">if</span> [ -d "$HOME/hermes-webui" ]; <span class="cmd">then</span>
+        <span class="cmd">echo</span> <span class="string">"🚀 正在背景啟動 Hermes Web UI..."</span>
+        <span class="cmd">cd</span> ~/hermes-webui && <span class="cmd">nohup</span> ./start.sh > /tmp/hermes-webui.log 2>&1 &
+        <span class="cmd">cd</span> ~
+        <span class="cmd">echo</span> <span class="string">"✅ Hermes Web UI 已在背景啟動，請開啟 http://localhost:8787 使用"</span>
+    <span class="cmd">fi</span>
+<span class="cmd">fi</span>
+EOF</code></div>
+
+            <div class="tip-box">
+                <span class="tip-icon">💡</span>
+                <p><strong>自動啟動說明：</strong>上述腳本會在每次開啟 WSL Ubuntu 終端機時，先檢查 Hermes Web UI 是否已在執行中（避免重複啟動），若尚未啟動且 <code>~/hermes-webui</code> 目錄存在，就會在背景自動啟動。啟動日誌會存放在 <code>/tmp/hermes-webui.log</code>，可用 <code>cat /tmp/hermes-webui.log</code> 查看。若需要停用自動啟動，只要編輯 <code>~/.bashrc</code> 將該段內容刪除即可。</p>
             </div>
         </div>
 
